@@ -50,10 +50,9 @@ This command will place a new `CheckAge` class within your `app/Http/Middleware`
 
             return $next($request);
         }
-
     }
 
-As you can see, if the given `age` is less than or equal to `200`, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.
+As you can see, if the given `age` is less than or equal to `200`, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), call the `$next` callback with the `$request`.
 
 It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
 
@@ -103,12 +102,12 @@ However, this middleware would perform its task **after** the request is handled
 <a name="global-middleware"></a>
 ### Global Middleware
 
-If you want a middleware to run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class.
+If you want a middleware to run during every HTTP request to your application, list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class.
 
 <a name="assigning-middleware-to-routes"></a>
 ### Assigning Middleware To Routes
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, simply append it to this list and assign it a key of your choosing. For example:
+If you would like to assign middleware to specific routes, you should first assign the middleware a key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, append it to this list and assign it a key of your choosing. For example:
 
     // Within App\Http\Kernel Class...
 
@@ -146,7 +145,7 @@ When assigning middleware, you may also pass the fully qualified class name:
 
 Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may do this using the `$middlewareGroups` property of your HTTP kernel.
 
-Out of the box, Laravel comes with `web` and `api` middleware groups that contains common middleware you may want to apply to your web UI and API routes:
+Out of the box, Laravel comes with `web` and `api` middleware groups that contain common middleware you may want to apply to your web UI and API routes:
 
     /**
      * The application's route middleware groups.
@@ -169,7 +168,7 @@ Out of the box, Laravel comes with `web` and `api` middleware groups that contai
         ],
     ];
 
-Middleware groups may be assigned to routes and controller actions using the same syntax as individual middleware. Again, middleware groups simply make it more convenient to assign many middleware to a route at once:
+Middleware groups may be assigned to routes and controller actions using the same syntax as individual middleware. Again, middleware groups make it more convenient to assign many middleware to a route at once:
 
     Route::get('/', function () {
         //
@@ -224,7 +223,7 @@ Middleware parameters may be specified when defining the route by separating the
 <a name="terminable-middleware"></a>
 ## Terminable Middleware
 
-Sometimes a middleware may need to do some work after the HTTP response has been sent to the browser. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been sent to the browser. If you define a `terminate` method on your middleware, it will automatically be called after the response is sent to the browser.
+Sometimes a middleware may need to do some work after the HTTP response has been prepared. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been fully prepared. If you define a `terminate` method on your middleware, it will automatically be called after the response is ready to be sent to the browser.
 
     <?php
 

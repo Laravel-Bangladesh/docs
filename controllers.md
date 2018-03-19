@@ -62,7 +62,7 @@ Now, when a request matches the specified route URI, the `show` method on the `U
 
 It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
 
-If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, simply use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
+If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
 
     Route::get('foo', 'Photos\AdminController@method');
 
@@ -147,6 +147,13 @@ Next, you may register a resourceful route to the controller:
 
 This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
 
+You may register many resource controllers at once by passing an array to the `resources` method:
+
+    Route::resources([
+        'photos' => 'PhotoController',
+        'posts' => 'PostController'
+    ]);
+
 #### Actions Handled By Resource Controller
 
 Verb      | URI                  | Action       | Route Name
@@ -167,30 +174,49 @@ If you are using route model binding and would like the resource controller's me
 
 #### Spoofing Form Methods
 
-Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need to add a hidden `_method` field to spoof these HTTP verbs. The `method_field` helper can create this field for you:
+Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need to add a hidden `_method` field to spoof these HTTP verbs. The `@method` Blade directive can create this field for you:
 
-    {{ method_field('PUT') }}
+    <form action="/foo/bar" method="POST">
+        @method('PUT')
+    </form>
 
 <a name="restful-partial-resource-routes"></a>
 ### Partial Resource Routes
 
 When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:
 
-    Route::resource('photo', 'PhotoController', ['only' => [
+    Route::resource('photos', 'PhotoController', ['only' => [
         'index', 'show'
     ]]);
 
-    Route::resource('photo', 'PhotoController', ['except' => [
+    Route::resource('photos', 'PhotoController', ['except' => [
         'create', 'store', 'update', 'destroy'
     ]]);
+
+#### API Resource Routes
+
+When declaring resource routes that will be consumed by APIs, you will commonly want to exclude routes that present HTML templates such as `create` and `edit`. For convenience, you may use the `apiResource` method to automatically exclude these two routes:
+
+    Route::apiResource('photos', 'PhotoController');
+
+You may register many API resource controllers at once by passing an array to the `apiResources` method:
+
+    Route::apiResources([
+        'photos' => 'PhotoController',
+        'posts' => 'PostController'
+    ]);
+
+To quickly generate an API resource controller that does not include the `create` or `edit` methods, use the `--api` switch when executing the `make:controller` command:
+
+    php artisan make:controller API/PhotoController --api
 
 <a name="restful-naming-resource-routes"></a>
 ### Naming Resource Routes
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 
-    Route::resource('photo', 'PhotoController', ['names' => [
-        'create' => 'photo.build'
+    Route::resource('photos', 'PhotoController', ['names' => [
+        'create' => 'photos.build'
     ]]);
 
 <a name="restful-naming-resource-route-parameters"></a>
@@ -303,7 +329,7 @@ In addition to constructor injection, you may also type-hint dependencies on you
         }
     }
 
-If your controller method is also expecting input from a route parameter, simply list your route arguments after your other dependencies. For example, if your route is defined like so:
+If your controller method is also expecting input from a route parameter, list your route arguments after your other dependencies. For example, if your route is defined like so:
 
     Route::put('user/{id}', 'UserController@update');
 

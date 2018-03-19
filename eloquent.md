@@ -60,7 +60,6 @@ Now, let's look at an example `Flight` model, which we will use to retrieve and 
         //
     }
 
-
 #### Table Names
 
 Note that we did not tell Eloquent which table to use for our `Flight` model. By convention, the "snake case", plural name of the class will be used as the table name unless another name is explicitly specified. So, in this case, Eloquent will assume the `Flight` model stores records in the `flights` table. You may specify a custom table by defining a `table` property on your model:
@@ -83,9 +82,9 @@ Note that we did not tell Eloquent which table to use for our `Flight` model. By
 
 #### Primary Keys
 
-Eloquent will also assume that each table has a primary key column named `id`. You may define a `$primaryKey` property to override this convention.
+Eloquent will also assume that each table has a primary key column named `id`. You may define a protected `$primaryKey` property to override this convention.
 
-In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`.
+In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`. If your primary key is not an integer, you should set the protected `$keyType` property on your model to `string`.
 
 #### Timestamps
 
@@ -190,7 +189,7 @@ For Eloquent methods like `all` and `get` which retrieve multiple results, an in
         return $flight->cancelled;
     });
 
-Of course, you may also simply loop over the collection like an array:
+Of course, you may also loop over the collection like an array:
 
     foreach ($flights as $flight) {
         echo $flight->name;
@@ -261,7 +260,7 @@ You may also use the `count`, `sum`, `max`, and other [aggregate methods](/docs/
 <a name="inserts"></a>
 ### Inserts
 
-To create a new record in the database, simply create a new model instance, set attributes on the model, then call the `save` method:
+To create a new record in the database, create a new model instance, set attributes on the model, then call the `save` method:
 
     <?php
 
@@ -291,7 +290,7 @@ To create a new record in the database, simply create a new model instance, set 
         }
     }
 
-In this example, we simply assign the `name` parameter from the incoming HTTP request to the `name` attribute of the `App\Flight` model instance. When we call the `save` method, a record will be inserted into the database. The `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
+In this example, we assign the `name` parameter from the incoming HTTP request to the `name` attribute of the `App\Flight` model instance. When we call the `save` method, a record will be inserted into the database. The `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
 
 <a name="updates"></a>
 ### Updates
@@ -383,7 +382,7 @@ If you would like to make all attributes mass assignable, you may define the `$g
 
 #### `firstOrCreate`/ `firstOrNew`
 
-There are two other methods you may use to create models by mass assigning attributes: `firstOrCreate` and `firstOrNew`. The `firstOrCreate` method will attempt to locate a database record using the given column / value pairs. If the model can not be found in the database, a record will be inserted with the given attributes.
+There are two other methods you may use to create models by mass assigning attributes: `firstOrCreate` and `firstOrNew`. The `firstOrCreate` method will attempt to locate a database record using the given column / value pairs. If the model can not be found in the database, a record will be inserted with the attributes from the first parameter, along with those in the optional second parameter.
 
 The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in the database matching the given attributes. However, if a model is not found, a new model instance will be returned. Note that the model returned by `firstOrNew` has not yet been persisted to the database. You will need to call `save` manually to persist it:
 
@@ -628,6 +627,10 @@ Eloquent also allows you to define global scopes using Closures, which is partic
 If you would like to remove a global scope for a given query, you may use the `withoutGlobalScope` method. The method accepts the class name of the global scope as its only argument:
 
     User::withoutGlobalScope(AgeScope::class)->get();
+    
+Or, if you defined the global scope using a Closure:
+
+    User::withoutGlobalScope('age')->get();
 
 If you would like to remove several or even all of the global scopes, you may use the `withoutGlobalScopes` method:
 
@@ -642,7 +645,7 @@ If you would like to remove several or even all of the global scopes, you may us
 <a name="local-scopes"></a>
 ### Local Scopes
 
-Local scopes allow you to define common sets of constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, simply prefix an Eloquent model method with `scope`.
+Local scopes allow you to define common sets of constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, prefix an Eloquent model method with `scope`.
 
 Scopes should always return a query builder instance:
 
@@ -679,7 +682,7 @@ Scopes should always return a query builder instance:
 
 #### Utilizing A Local Scope
 
-Once the scope has been defined, you may call the scope methods when querying the model. However, you do not need to include the `scope` prefix when calling the method. You can even chain calls to various scopes, for example:
+Once the scope has been defined, you may call the scope methods when querying the model. However, you should not include the `scope` prefix when calling the method. You can even chain calls to various scopes, for example:
 
     $users = App\User::popular()->active()->orderBy('created_at')->get();
 
@@ -715,11 +718,11 @@ Now, you may pass the parameters when calling the scope:
 <a name="events"></a>
 ## Events
 
-Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
+Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
 
-Whenever a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
+The `retrieved` event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
 
-To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
+To get started, define a `$dispatchesEvents` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
 
     <?php
 
@@ -739,7 +742,7 @@ To get started, define an `$events` property on your Eloquent model that maps va
          *
          * @var array
          */
-        protected $events = [
+        protected $dispatchesEvents = [
             'saved' => UserSaved::class,
             'deleted' => UserDeleted::class,
         ];
@@ -761,7 +764,7 @@ If you are listening for many events on a given model, you may use observers to 
         /**
          * Listen to the User created event.
          *
-         * @param  User  $user
+         * @param  \App\User  $user
          * @return void
          */
         public function created(User $user)
@@ -772,7 +775,7 @@ If you are listening for many events on a given model, you may use observers to 
         /**
          * Listen to the User deleting event.
          *
-         * @param  User  $user
+         * @param  \App\User  $user
          * @return void
          */
         public function deleting(User $user)

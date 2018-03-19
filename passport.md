@@ -44,10 +44,6 @@ To get started, install Passport via the Composer package manager:
 
     composer require laravel/passport
 
-Next, register the Passport service provider in the `providers` array of your `config/app.php` configuration file:
-
-    Laravel\Passport\PassportServiceProvider::class,
-
 The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
 
     php artisan migrate
@@ -168,9 +164,7 @@ When deploying Passport to your production servers for the first time, you will 
 <a name="token-lifetimes"></a>
 ### Token Lifetimes
 
-By default, Passport issues long-lived access tokens that never need to be refreshed. If you would like to configure a shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
-
-    use Carbon\Carbon;
+By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
 
     /**
      * Register any authentication / authorization services.
@@ -183,9 +177,9 @@ By default, Passport issues long-lived access tokens that never need to be refre
 
         Passport::routes();
 
-        Passport::tokensExpireIn(Carbon::now()->addDays(15));
+        Passport::tokensExpireIn(now()->addDays(15));
 
-        Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
     }
 
 <a name="issuing-access-tokens"></a>
@@ -428,7 +422,7 @@ Once a grant has been enabled, developers may use their client ID to request an 
 
 The client credentials grant is suitable for machine-to-machine authentication. For example, you might use this grant in a scheduled job which is performing maintenance tasks over an API. To use this method you first need to add new middleware to your `$routeMiddleware` in `app/Http/Kernel.php`:
 
-    use Laravel\Passport\Http\Middleware\CheckClientCredentials::class;
+    use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
     protected $routeMiddleware = [
         'client' => CheckClientCredentials::class,
@@ -453,7 +447,7 @@ To retrieve a token, make a request to the `oauth/token` endpoint:
         ],
     ]);
 
-    echo json_decode((string) $response->getBody(), true);
+    return json_decode((string) $response->getBody(), true)['access_token'];
 
 <a name="personal-access-tokens"></a>
 ## Personal Access Tokens
@@ -556,7 +550,6 @@ When calling routes that are protected by Passport, your application's API consu
 <a name="token-scopes"></a>
 ## Token Scopes
 
-
 <a name="defining-scopes"></a>
 ### Defining Scopes
 
@@ -636,7 +629,7 @@ Once an access token authenticated request has entered your application, you may
 
 When building an API, it can be extremely useful to be able to consume your own API from your JavaScript application. This approach to API development allows your own application to consume the same API that you are sharing with the world. The same API may be consumed by your web application, mobile applications, third-party applications, and any SDKs that you may publish on various package managers.
 
-Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group:
+Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group in your `app/Http/Kernel.php` file:
 
     'web' => [
         // Other middleware...
@@ -650,14 +643,13 @@ This Passport middleware will attach a `laravel_token` cookie to your outgoing r
             console.log(response.data);
         });
 
-When using this method of authentication, Axios will automatically send the `X-CSRF-TOKEN` header. In addition, the default Laravel JavaScript scaffolding instructs Axios to send the `X-Requested-With` header:
+When using this method of authentication, the default Laravel JavaScript scaffolding instructs Axios to always send the `X-CSRF-TOKEN` and `X-Requested-With` headers. However, you should be sure to include your CSRF token in a [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token):
 
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
     };
 
 > {note} If you are using a different JavaScript framework, you should make sure it is configured to send the `X-CSRF-TOKEN` and `X-Requested-With` headers with every outgoing request.
-
 
 <a name="events"></a>
 ## Events

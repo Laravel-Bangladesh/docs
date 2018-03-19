@@ -24,7 +24,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
+> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
@@ -67,13 +67,15 @@ The `make:auth` command will also create a `resources/views/layouts` directory c
 <a name="included-authenticating"></a>
 ### Authenticating
 
-Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may simply access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
+Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
 
 #### Path Customization
 
 When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect location by defining a `redirectTo` property on the `LoginController`, `RegisterController`, and `ResetPasswordController`:
 
     protected $redirectTo = '/';
+
+Next, you should modify the `RedirectIfAuthenticated` middleware's `handle` method to use your new URI when redirecting the user.
 
 If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
 
@@ -175,6 +177,21 @@ Of course, if you are using [controllers](/docs/{{version}}/controllers), you ma
         $this->middleware('auth');
     }
 
+#### Redirecting Unauthenticated Users
+
+When the `auth` middleware detects an unauthorized user, it will either return a JSON `401` response, or, if the request was not an AJAX request, redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes).
+
+You may modify this behavior by defining an `unauthenticated` function in your `app/Exceptions/Handler.php` file:
+
+    use Illuminate\Auth\AuthenticationException;
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $request->expectsJson()
+                    ? response()->json(['message' => $exception->getMessage()], 401)
+                    : redirect()->guest(route('login'));
+    }
+
 #### Specifying A Guard
 
 When attaching the `auth` middleware to a route, you may also specify which guard should be used to authenticate the user. The guard specified should correspond to one of the keys in the `guards` array of your `auth.php` configuration file:
@@ -218,7 +235,7 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
         }
     }
 
-The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the hashed `password` value passed to the method via the array. If the two hashed passwords match an authenticated session will be started for the user.
+The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the `password` value passed to the method via the array. You should not hash the password specified as the `password` value, since the framework will automatically hash the value before comparing it to the hashed password in the database. If the two hashed passwords match an authenticated session will be started for the user.
 
 The `attempt` method will return `true` if authentication was successful. Otherwise, `false` will be returned.
 
@@ -285,7 +302,7 @@ Of course, you may specify the guard instance you would like to use:
 
 #### Authenticate A User By ID
 
-To log a user into the application by their ID, you may use the `loginUsingId` method. This method simply accepts the primary key of the user you wish to authenticate:
+To log a user into the application by their ID, you may use the `loginUsingId` method. This method accepts the primary key of the user you wish to authenticate:
 
     Auth::loginUsingId(1);
 
@@ -325,7 +342,7 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
     <?php
 
-    namespace Illuminate\Auth\Middleware;
+    namespace App\Http\Middleware;
 
     use Illuminate\Support\Facades\Auth;
 
@@ -354,7 +371,7 @@ Next, [register the route middleware](/docs/{{version}}/middleware#registering-m
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards
 
-You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place this call to `provider` within a [service provider](/docs/{{version}}/providers). Since Laravel already ships with an `AuthServiceProvider`, we can place the code in that provider:
+You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place this call to `extend` within a [service provider](/docs/{{version}}/providers). Since Laravel already ships with an `AuthServiceProvider`, we can place the code in that provider:
 
     <?php
 
@@ -531,5 +548,9 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
 
         'Illuminate\Auth\Events\Lockout' => [
             'App\Listeners\LogLockout',
+        ],
+
+        'Illuminate\Auth\Events\PasswordReset' => [
+            'App\Listeners\LogPasswordReset',
         ],
     ];

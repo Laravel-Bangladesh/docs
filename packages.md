@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
     - [A Note On Facades](#a-note-on-facades)
+- [Package Discovery](#package-discovery)
 - [Service Providers](#service-providers)
 - [Resources](#resources)
     - [Configuration](#configuration)
@@ -18,14 +19,54 @@
 
 Packages are the primary way of adding functionality to Laravel. Packages might be anything from a great way to work with dates like [Carbon](https://github.com/briannesbitt/Carbon), or an entire BDD testing framework like [Behat](https://github.com/Behat/Behat).
 
-Of course, there are different types of packages. Some packages are stand-alone, meaning they work with any PHP framework. Carbon and Behat are examples of stand-alone packages. Any of these packages may be used with Laravel by simply requesting them in your `composer.json` file.
+Of course, there are different types of packages. Some packages are stand-alone, meaning they work with any PHP framework. Carbon and Behat are examples of stand-alone packages. Any of these packages may be used with Laravel by requesting them in your `composer.json` file.
 
 On the other hand, other packages are specifically intended for use with Laravel. These packages may have routes, controllers, views, and configuration specifically intended to enhance a Laravel application. This guide primarily covers the development of those packages that are Laravel specific.
 
 <a name="a-note-on-facades"></a>
 ### A Note On Facades
 
-When writing a Laravel application, it generally does not matter if you use contracts or facades since both provide essentially equal levels of testability. However, when writing packages, it is best to use [contracts](/docs/{{version}}/contracts) instead of [facades](/docs/{{version}}/facades). Since your package will not have access to all of Laravel's testing helpers, it will be easier to mock or stub a contract than to mock a facade.
+When writing a Laravel application, it generally does not matter if you use contracts or facades since both provide essentially equal levels of testability. However, when writing packages, your package will not typically have access to all of Laravel's testing helpers. If you would like to be able to write your package tests as if they existed inside a typical Laravel application, you may use the [Orchestral Testbench](https://github.com/orchestral/testbench) package.
+
+<a name="package-discovery"></a>
+## Package Discovery
+
+In a Laravel application's `config/app.php` configuration file, the `providers` option defines a list of service providers that should be loaded by Laravel. When someone installs your package, you will typically want your service provider to be included in this list. Instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file. In addition to service providers, you may also list any [facades](/docs/{{version}}/facades) you would like to be registered:
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Barryvdh\\Debugbar\\ServiceProvider"
+            ],
+            "aliases": {
+                "Debugbar": "Barryvdh\\Debugbar\\Facade"
+            }
+        }
+    },
+
+Once your package has been configured for discovery, Laravel will automatically register its service providers and facades when it is installed, creating a convenient installation experience for your package's users.
+
+### Opting Out Of Package Discovery
+
+If you are the consumer of a package and would like to disable package discovery for a package, you may list the package name in the `extra` section of your application's `composer.json` file:
+
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "barryvdh/laravel-debugbar"
+            ]
+        }
+    },
+
+You may disable package discovery for all packages using the `*` character inside of your application's `dont-discover` directive:
+
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "*"
+            ]
+        }
+    },
 
 <a name="service-providers"></a>
 ## Service Providers

@@ -20,7 +20,7 @@
 <a name="configuration"></a>
 ## Configuration
 
-Laravel provides an expressive, unified API for various caching backends. The cache configuration is located at `config/cache.php`. In this file you may specify which cache driver you would like used by default throughout your application. Laravel supports popular caching backends like [Memcached](https://memcached.org) and [Redis](http://redis.io) out of the box.
+Laravel provides an expressive, unified API for various caching backends. The cache configuration is located at `config/cache.php`. In this file you may specify which cache driver you would like to be used by default throughout your application. Laravel supports popular caching backends like [Memcached](https://memcached.org) and [Redis](https://redis.io) out of the box.
 
 The cache configuration file also contains various other options, which are documented within the file, so make sure to read over these options. By default, Laravel is configured to use the `file` cache driver, which stores the serialized, cached objects in the filesystem. For larger applications, it is recommended that you use a more robust driver such as Memcached or Redis. You may even configure multiple cache configurations for the same driver.
 
@@ -148,6 +148,12 @@ Sometimes you may wish to retrieve an item from the cache, but also store a defa
 
 If the item does not exist in the cache, the `Closure` passed to the `remember` method will be executed and its result will be placed in the cache.
 
+You may use the `rememberForever` method to retrieve an item from the cache or store it forever:
+
+    $value = Cache::rememberForever('users', function() {
+        return DB::table('users')->get();
+    });
+
 #### Retrieve & Delete
 
 If you need to retrieve an item from the cache and then delete the item, you may use the `pull` method. Like the `get` method, `null` will be returned if the item does not exist in the cache:
@@ -163,7 +169,7 @@ You may use the `put` method on the `Cache` facade to store items in the cache. 
 
 Instead of passing the number of minutes as an integer, you may also pass a `DateTime` instance representing the expiration time of the cached item:
 
-    $expiresAt = Carbon::now()->addMinutes(10);
+    $expiresAt = now()->addMinutes(10);
 
     Cache::put('key', 'value', $expiresAt);
 
@@ -205,7 +211,7 @@ If you provide an array of key / value pairs and an expiration time to the funct
 
     cache(['key' => 'value'], $minutes);
 
-    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
+    cache(['key' => 'value'], now()->addSeconds(10));
 
 > {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
 
@@ -249,7 +255,7 @@ In contrast, this statement would remove only caches tagged with `authors`, so `
 <a name="writing-the-driver"></a>
 ### Writing The Driver
 
-To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) contract. So, a MongoDB cache implementation would look something like this:
+To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts). So, a MongoDB cache implementation would look something like this:
 
     <?php
 
@@ -319,7 +325,7 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
 
 The first argument passed to the `extend` method is the name of the driver. This will correspond to your `driver` option in the `config/cache.php` configuration file. The second argument is a Closure that should return an `Illuminate\Cache\Repository` instance. The Closure will be passed an `$app` instance, which is an instance of the [service container](/docs/{{version}}/container).
 
-Once your extension is registered, simply update your `config/cache.php` configuration file's `driver` option to the name of your extension.
+Once your extension is registered, update your `config/cache.php` configuration file's `driver` option to the name of your extension.
 
 <a name="events"></a>
 ## Events

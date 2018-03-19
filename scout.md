@@ -7,15 +7,18 @@
 - [Configuration](#configuration)
     - [Configuring Model Indexes](#configuring-model-indexes)
     - [Configuring Searchable Data](#configuring-searchable-data)
+    - [Configuring The Model ID](#configuring-the-model-id)
 - [Indexing](#indexing)
     - [Batch Import](#batch-import)
     - [Adding Records](#adding-records)
     - [Updating Records](#updating-records)
     - [Removing Records](#removing-records)
     - [Pausing Indexing](#pausing-indexing)
+    - [Conditionally Searchable Model Instances](#conditionally-searchable-model-instances)
 - [Searching](#searching)
     - [Where Clauses](#where-clauses)
     - [Pagination](#pagination)
+    - [Soft Deleting](#soft-deleting)
 - [Custom Engines](#custom-engines)
 
 <a name="introduction"></a>
@@ -28,15 +31,11 @@ Currently, Scout ships with an [Algolia](https://www.algolia.com/) driver; howev
 <a name="installation"></a>
 ## Installation
 
-First, install the Scout via the Composer package manager:
+First, install Scout via the Composer package manager:
 
     composer require laravel/scout
 
-Next, you should add the `ScoutServiceProvider` to the `providers` array of your `config/app.php` configuration file:
-
-    Laravel\Scout\ScoutServiceProvider::class,
-
-After registering the Scout service provider, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
+After installing Scout, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
 
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 
@@ -133,6 +132,33 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
+<a name="configuring-the-model-id"></a>
+### Configuring The Model ID
+
+By default, Scout will use the primary key of the model as the unique ID stored in the search index. If you need to customize this behavior, you may override the `getScoutKey` method on the model:
+
+    <?php
+
+    namespace App;
+
+    use Laravel\Scout\Searchable;
+    use Illuminate\Database\Eloquent\Model;
+
+    class User extends Model
+    {
+        use Searchable;
+
+        /**
+         * Get the value used to index the model.
+         *
+         * @return mixed
+         */
+        public function getScoutKey()
+        {
+            return $this->email;
+        }
+    }
+
 <a name="indexing"></a>
 ## Indexing
 
@@ -194,7 +220,7 @@ You may also use the `searchable` method on an Eloquent query to update a collec
 <a name="removing-records"></a>
 ### Removing Records
 
-To remove a record from your index, simply `delete` the model from the database. This form of removal is even compatible with [soft deleted](/docs/{{version}}/eloquent#soft-deleting) models:
+To remove a record from your index, `delete` the model from the database. This form of removal is even compatible with [soft deleted](/docs/{{version}}/eloquent#soft-deleting) models:
 
     $order = App\Order::find(1);
 
@@ -219,6 +245,16 @@ Sometimes you may need to perform a batch of Eloquent operations on a model with
     App\Order::withoutSyncingToSearch(function () {
         // Perform model actions...
     });
+
+<a name="conditionally-searchable-model-instances"></a>
+### Conditionally Searchable Model Instances
+
+Sometimes you may need to only make a model searchable under certain conditions. For example, imagine you have `App\Post` model that may be in one of two states: "draft" and "published". You may only want to allow "published" posts to be searchable. To accomplish this, you may define a `shouldBeSearchable` method on your model:
+
+    public function shouldBeSearchable()
+    {
+        return $this->isPublished();
+    }
 
 <a name="searching"></a>
 ## Searching
@@ -273,12 +309,29 @@ Once you have retrieved the results, you may display the results and render the 
 
     {{ $orders->links() }}
 
+<a name="soft-deleting"></a>
+### Soft Deleting
+
+If your indexed models are [soft deleting](/docs/{{version}}/eloquent#soft-deleting) and you need to search your soft deleted models, set the `soft_delete` option of the `config/scout.php` configuration file to `true`:
+
+    'soft_delete' => true,
+
+When this configuration option is `true`, Scout will not remove soft deleted models from the search index. Instead, it will set a hidden `__soft_deleted` attribute on the indexed record. Then, you may use the `withTrashed` or `onlyTrashed` methods to retrieve the soft deleted records when searching:
+
+    // Include trashed records when retrieving results...
+    $orders = App\Order::withTrashed()->search('Star Trek')->get();
+
+    // Only include trashed records when retrieving results...
+    $orders = App\Order::onlyTrashed()->search('Star Trek')->get();
+
+> {tip} When a soft deleted model is permanently deleted using `forceDelete`, Scout will remove it from the search index automatically.
+
 <a name="custom-engines"></a>
 ## Custom Engines
 
 #### Writing The Engine
 
-If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains five methods your custom engine must implement:
+If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains seven methods your custom engine must implement:
 
     use Laravel\Scout\Builder;
 
@@ -286,7 +339,9 @@ If one of the built-in Scout search engines doesn't fit your needs, you may writ
     abstract public function delete($models);
     abstract public function search(Builder $builder);
     abstract public function paginate(Builder $builder, $perPage, $page);
+    abstract public function mapIds($results);
     abstract public function map($results, $model);
+    abstract public function getTotalCount($results);
 
 You may find it helpful to review the implementations of these methods on the `Laravel\Scout\Engines\AlgoliaEngine` class. This class will provide you with a good starting point for learning how to implement each of these methods in your own engine.
 

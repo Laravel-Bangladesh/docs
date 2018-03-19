@@ -75,11 +75,11 @@ This is identical to manually defining the following Gate definitions:
     Gate::define('posts.update', 'PostPolicy@update');
     Gate::define('posts.delete', 'PostPolicy@delete');
 
-By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You can override the default abilities by passing an array as third argument to the `resource` method. The key of the array defines the name of the ability while the value defines the method name:
+By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You may override or add to the default abilities by passing an array as a third argument to the `resource` method. The keys of the array define the names of the abilities while the values define the method names. For example, the following code will create two new Gate definitions - `posts.image` and `posts.photo`:
 
     Gate::resource('posts', 'PostPolicy', [
-        'photo' => 'updatePhoto',
         'image' => 'updateImage',
+        'photo' => 'updatePhoto',
     ]);
 
 <a name="authorizing-actions-via-gates"></a>
@@ -229,6 +229,8 @@ For certain users, you may wish to authorize all actions within a given policy. 
 
 If you would like to deny all authorizations for a user you should return `false` from the `before` method. If `null` is returned, the authorization will fall through to the policy method.
 
+> {note} The `before` method of a policy class will not be called if the class doesn't contain a method with a name matching the name of the ability being checked.
+
 <a name="authorizing-actions-using-policies"></a>
 ## Authorizing Actions Using Policies
 
@@ -328,13 +330,13 @@ When writing Blade templates, you may wish to display a portion of the page only
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
-    @elsecan('create', $post)
+    @elsecan('create', App\Post::class)
         <!-- The Current User Can Create New Post -->
     @endcan
 
     @cannot('update', $post)
         <!-- The Current User Can't Update The Post -->
-    @elsecannot('create', $post)
+    @elsecannot('create', App\Post::class)
         <!-- The Current User Can't Create New Post -->
     @endcannot
 

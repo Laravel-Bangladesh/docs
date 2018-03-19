@@ -43,11 +43,23 @@ To define an accessor, create a `getFooAttribute` method on your model where `Fo
         }
     }
 
-As you can see, the original value of the column is passed to the accessor, allowing you to manipulate and return the value. To access the value of the accessor, you may simply access the `first_name` attribute on a model instance:
+As you can see, the original value of the column is passed to the accessor, allowing you to manipulate and return the value. To access the value of the accessor, you may access the `first_name` attribute on a model instance:
 
     $user = App\User::find(1);
 
     $firstName = $user->first_name;
+
+Of course, you may also use accessors to return new, computed values from existing attributes:
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 
 <a name="defining-a-mutator"></a>
 ### Defining A Mutator
@@ -111,7 +123,7 @@ When a column is considered a date, you may set its value to a UNIX timestamp, d
 
     $user = App\User::find(1);
 
-    $user->deleted_at = Carbon::now();
+    $user->deleted_at = now();
 
     $user->save();
 

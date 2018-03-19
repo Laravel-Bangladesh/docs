@@ -291,7 +291,7 @@ In addition to customizing the name of the joining table, you may also customize
 
 #### Defining The Inverse Of The Relationship
 
-To define the inverse of a many-to-many relationship, you simply place another call to `belongsToMany` on your related model. To continue our user roles example, let's define the `users` method on the `Role` model:
+To define the inverse of a many-to-many relationship, you place another call to `belongsToMany` on your related model. To continue our user roles example, let's define the `users` method on the `Role` model:
 
     <?php
 
@@ -310,7 +310,7 @@ To define the inverse of a many-to-many relationship, you simply place another c
         }
     }
 
-As you can see, the relationship is defined exactly the same as its `User` counterpart, with the exception of simply referencing the `App\User` model. Since we're reusing the `belongsToMany` method, all of the usual table and key customization options are available when defining the inverse of many-to-many relationships.
+As you can see, the relationship is defined exactly the same as its `User` counterpart, with the exception of referencing the `App\User` model. Since we're reusing the `belongsToMany` method, all of the usual table and key customization options are available when defining the inverse of many-to-many relationships.
 
 #### Retrieving Intermediate Table Columns
 
@@ -331,6 +331,24 @@ By default, only the model keys will be present on the `pivot` object. If your p
 If you want your pivot table to have automatically maintained `created_at` and `updated_at` timestamps, use the `withTimestamps` method on the relationship definition:
 
     return $this->belongsToMany('App\Role')->withTimestamps();
+
+#### Customizing The `pivot` Attribute Name
+
+As noted earlier, attributes from the intermediate table may be accessed on models using the `pivot` attribute. However, you are free to customize the name of this attribute to better reflect its purpose within your application.
+
+For example, if your application contains users that may subscribe to podcasts, you probably have a many-to-many relationship between users and podcasts. If this is the case, you may wish to rename your intermediate table accessor to `subscription` instead of `pivot`. This can be done using the `as` method when defining the relationship:
+
+    return $this->belongsToMany('App\Podcast')
+                    ->as('subscription')
+                    ->withTimestamps();
+
+Once this is done, you may access the intermediate table data using the customized name:
+
+    $users = User::with('podcasts')->get();
+
+    foreach ($users->flatMap->podcasts as $podcast) {
+        echo $podcast->subscription->created_at;
+    }
 
 #### Filtering Relationships Via Intermediate Table Columns
 
@@ -416,15 +434,19 @@ Now that we have examined the table structure for the relationship, let's define
 
 The first argument passed to the `hasManyThrough` method is the name of the final model we wish to access, while the second argument is the name of the intermediate model.
 
-Typical Eloquent foreign key conventions will be used when performing the relationship's queries. If you would like to customize the keys of the relationship, you may pass them as the third and fourth arguments to the `hasManyThrough` method. The third argument is the name of the foreign key on the intermediate model, the fourth argument is the name of the foreign key on the final model, and the fifth argument is the local key:
+Typical Eloquent foreign key conventions will be used when performing the relationship's queries. If you would like to customize the keys of the relationship, you may pass them as the third and fourth arguments to the `hasManyThrough` method. The third argument is the name of the foreign key on the intermediate model. The fourth argument is the name of the foreign key on the final model. The fifth argument is the local key, while the sixth argument is the local key of the intermediate model:
 
     class Country extends Model
     {
         public function posts()
         {
             return $this->hasManyThrough(
-                'App\Post', 'App\User',
-                'country_id', 'user_id', 'id'
+                'App\Post',
+                'App\User',
+                'country_id', // Foreign key on users table...
+                'user_id', // Foreign key on posts table...
+                'id', // Local key on countries table...
+                'id' // Local key on users table...
             );
         }
     }
@@ -499,7 +521,7 @@ Next, let's examine the model definitions needed to build this relationship:
 
 #### Retrieving Polymorphic Relations
 
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can simply use the `comments` dynamic property:
+Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can use the `comments` dynamic property:
 
     $post = App\Post::find(1);
 
@@ -604,7 +626,7 @@ Next, on the `Tag` model, you should define a method for each of its related mod
 
 #### Retrieving The Relationship
 
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the tags for a post, you can simply use the `tags` dynamic property:
+Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the tags for a post, you can use the `tags` dynamic property:
 
     $post = App\Post::find(1);
 
@@ -655,7 +677,7 @@ You are able to use any of the [query builder](/docs/{{version}}/queries) method
 <a name="relationship-methods-vs-dynamic-properties"></a>
 ### Relationship Methods Vs. Dynamic Properties
 
-If you do not need to add additional constraints to an Eloquent relationship query, you may simply access the relationship as if it were a property. For example, continuing to use our `User` and `Post` example models, we may access all of a user's posts like so:
+If you do not need to add additional constraints to an Eloquent relationship query, you may access the relationship as if it were a property. For example, continuing to use our `User` and `Post` example models, we may access all of a user's posts like so:
 
     $user = App\User::find(1);
 
@@ -668,7 +690,7 @@ Dynamic properties are "lazy loading", meaning they will only load their relatio
 <a name="querying-relationship-existence"></a>
 ### Querying Relationship Existence
 
-When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all blog posts that have at least one comment. To do so, you may pass the name of the relationship to the `has` method:
+When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all blog posts that have at least one comment. To do so, you may pass the name of the relationship to the `has` and `orHas` methods:
 
     // Retrieve all posts that have at least one comment...
     $posts = App\Post::has('comments')->get();
@@ -676,30 +698,30 @@ When accessing the records for a model, you may wish to limit your results based
 You may also specify an operator and count to further customize the query:
 
     // Retrieve all posts that have three or more comments...
-    $posts = Post::has('comments', '>=', 3)->get();
+    $posts = App\Post::has('comments', '>=', 3)->get();
 
 Nested `has` statements may also be constructed using "dot" notation. For example, you may retrieve all posts that have at least one comment and vote:
 
     // Retrieve all posts that have at least one comment with votes...
-    $posts = Post::has('comments.votes')->get();
+    $posts = App\Post::has('comments.votes')->get();
 
 If you need even more power, you may use the `whereHas` and `orWhereHas` methods to put "where" conditions on your `has` queries. These methods allow you to add customized constraints to a relationship constraint, such as checking the content of a comment:
 
     // Retrieve all posts with at least one comment containing words like foo%
-    $posts = Post::whereHas('comments', function ($query) {
+    $posts = App\Post::whereHas('comments', function ($query) {
         $query->where('content', 'like', 'foo%');
     })->get();
 
 <a name="querying-relationship-absence"></a>
 ### Querying Relationship Absence
 
-When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that **don't** have any comments. To do so, you may pass the name of the relationship to the `doesntHave` method:
+When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that **don't** have any comments. To do so, you may pass the name of the relationship to the `doesntHave` and `orDoesntHave` methods:
 
     $posts = App\Post::doesntHave('comments')->get();
 
-If you need even more power, you may use the `whereDoesntHave` method to put "where" conditions on your `doesntHave` queries. This method allows you to add customized constraints to a relationship constraint, such as checking the content of a comment:
+If you need even more power, you may use the `whereDoesntHave` and `orWhereDoesntHave` methods to put "where" conditions on your `doesntHave` queries. These methods allows you to add customized constraints to a relationship constraint, such as checking the content of a comment:
 
-    $posts = Post::whereDoesntHave('comments', function ($query) {
+    $posts = App\Post::whereDoesntHave('comments', function ($query) {
         $query->where('content', 'like', 'foo%');
     })->get();
 
@@ -716,7 +738,7 @@ If you want to count the number of results from a relationship without actually 
 
 You may add the "counts" for multiple relations as well as add constraints to the queries:
 
-    $posts = Post::withCount(['votes', 'comments' => function ($query) {
+    $posts = App\Post::withCount(['votes', 'comments' => function ($query) {
         $query->where('content', 'like', 'foo%');
     }])->get();
 
@@ -725,9 +747,9 @@ You may add the "counts" for multiple relations as well as add constraints to th
 
 You may also alias the relationship count result, allowing multiple counts on the same relationship:
 
-    $posts = Post::withCount([
+    $posts = App\Post::withCount([
         'comments',
-        'comments AS pending_comments' => function ($query) {
+        'comments as pending_comments_count' => function ($query) {
             $query->where('approved', false);
         }
     ])->get();
@@ -794,6 +816,14 @@ To eager load nested relationships, you may use "dot" syntax. For example, let's
 
     $books = App\Book::with('author.contacts')->get();
 
+#### Eager Loading Specific Columns
+
+You may not always need every column from the relationships you are retrieving. For this reason, Eloquent allows you to specify which columns of the relationship you would like to retrieve:
+
+    $users = App\Book::with('author:id,name')->get();
+
+> {note} When using this feature, you should always include the `id` column in the list of columns you wish to retrieve.
+
 <a name="constraining-eager-loads"></a>
 ### Constraining Eager Loads
 
@@ -825,6 +855,18 @@ If you need to set additional query constraints on the eager loading query, you 
     $books->load(['author' => function ($query) {
         $query->orderBy('published_date', 'asc');
     }]);
+
+To load a relationship only when it has not already been loaded, use the `loadMissing` method:
+
+    public function format(Book $book)
+    {
+        $book->loadMissing('author');
+
+        return [
+            'name' => $book->name,
+            'author' => $book->author->name
+        ];
+    }
 
 <a name="inserting-and-updating-related-models"></a>
 ## Inserting & Updating Related Models

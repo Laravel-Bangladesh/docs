@@ -6,10 +6,12 @@
     - [Binding Interfaces To Implementations](#binding-interfaces-to-implementations)
     - [Contextual Binding](#contextual-binding)
     - [Tagging](#tagging)
+    - [Extending Bindings](#extending-bindings)
 - [Resolving](#resolving)
     - [The Make Method](#the-make-method)
     - [Automatic Injection](#automatic-injection)
 - [Container Events](#container-events)
+- [PSR-11](#psr-11)
 
 <a name="introduction"></a>
 ## Introduction
@@ -176,6 +178,15 @@ Once the services have been tagged, you may easily resolve them all via the `tag
         return new ReportAggregator($app->tagged('reports'));
     });
 
+<a name="extending-bindings"></a>
+### Extending Bindings
+
+The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts a Closure, which should return the modified service, as its only argument:
+
+    $this->app->extend(Service::class, function($service) {
+        return new DecoratedService($service);
+    });
+
 <a name="resolving"></a>
 ## Resolving
 
@@ -197,7 +208,7 @@ If some of your class' dependencies are not resolvable via the container, you ma
 <a name="automatic-injection"></a>
 #### Automatic Injection
 
-Alternatively, and importantly, you may simply "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
+Alternatively, and importantly, you may "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
 
 For example, you may type-hint a repository defined by your application in a controller's constructor. The repository will automatically be resolved and injected into the class:
 
@@ -251,3 +262,18 @@ The service container fires an event each time it resolves an object. You may li
     });
 
 As you can see, the object being resolved will be passed to the callback, allowing you to set any additional properties on the object before it is given to its consumer.
+
+<a name="psr-11"></a>
+## PSR-11
+
+Laravel's service container implements the [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) interface. Therefore, you may type-hint the PSR-11 container interface to obtain an instance of the Laravel container:
+
+    use Psr\Container\ContainerInterface;
+
+    Route::get('/', function (ContainerInterface $container) {
+        $service = $container->get('Service');
+
+        //
+    });
+
+> {note} Calling the `get` method will throw an exception if the identifier has not been explicitly bound into the container.
