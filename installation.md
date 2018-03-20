@@ -1,19 +1,19 @@
-# Installation
+# ইনস্টলেশন
 
-- [Installation](#installation)
-    - [Server Requirements](#server-requirements)
+- [ইনস্টলেশন](#installation)
+    - [সার্ভার আবশ্যকতা](#server-requirements)
     - [Installing Laravel](#installing-laravel)
     - [Configuration](#configuration)
 - [Web Server Configuration](#web-server-configuration)
     - [Pretty URLs](#pretty-urls)
 
 <a name="installation"></a>
-## Installation
+## ইনস্টলেশন
 
 > {video} Are you a visual learner? Laracasts provides a [free, thorough introduction to Laravel](http://laravelfromscratch.com) for newcomers to the framework. It's a great place to start your journey.
 
 <a name="server-requirements"></a>
-### Server Requirements
+### সার্ভার আবশ্যকতা
 
 The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
 
