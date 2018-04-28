@@ -14,10 +14,11 @@
 
 <a name="server-requirements"></a>
 ### সার্ভার আবশ্যকতা
-
+সমস্ত প্রয়োজনীয়তা পূরণ করা হয় যদি Laravel ইনস্টল করা উচিত। আপনার জ্যাকল শুরু করার আগে নিশ্চিত করুন যে আপনার সিস্টেমে নিম্নোক্ত সফটওয়্যার/প্যাকেজ/লাইব্রেরি রয়েছে কিনা
 The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
 
 However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
+যাইহোক, যদি আপনি হোমস্টেড ব্যবহার না করেন, তবে আপনার সার্ভার নিম্নলিখিত প্রয়োজনীয়তাগুলি নিশ্চিত করতে হবে:
 
 <div class="content-list" markdown="1">
 - PHP >= 7.1.3
@@ -32,16 +33,20 @@ However, if you are not using Homestead, you will need to make sure your server 
 
 <a name="installing-laravel"></a>
 ### Installing Laravel
-
-Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.
-
+### লারাভেল ইন্সটল
+লারাভেল প্যাকেজ dependencie  ম্যানেজার হিসাবে [কম্পোজার](https://getcomposer.org) ব্যবহার করে। 
+Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. সুতরাং, Laravel ব্যবহার করার আগে নিশ্চিত করুন যে আপনি আপনার মেশিনে কম্পোজার ইনস্টল করা আছে কিনা ।
 #### Via Laravel Installer
+#### লারেজ ইনস্টলারের মাধ্যমে
 
 First, download the Laravel installer using Composer:
+প্রথমে, কম্পোজার ব্যবহার করে Laravel ইনস্টলার ডাউনলোড করুন:
 
     composer global require "laravel/installer"
 
 Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
+
+আপনার অপারেটিং সিস্টেমের উপর ভিত্তি করে এটি বিভিন্ন স্থানে বিদ্যমান; তবে, কিছু সাধারণ অবস্থানে রয়েছে:
 
 <div class="content-list" markdown="1">
 - macOS: `$HOME/.composer/vendor/bin`
@@ -52,7 +57,8 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
 
     laravel new blog
 
-#### Via Composer Create-Project
+#### Via Composer 
+#### কম্পোজারের মাধ্যমে Create-Project
 
 Alternatively, you may also install Laravel by issuing the Composer `create-project` command in your terminal:
 
@@ -68,8 +74,10 @@ Of course, more robust local development options are available via [Homestead](/
 
 <a name="configuration"></a>
 ### Configuration
+### কনফিগারেশন
 
 #### Public Directory
+#### পাবলিক ডিরেক্টরি
 
 After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
 
