@@ -1,20 +1,20 @@
 # Routing
 
-- [Basic Routing](#basic-routing)
-    - [Redirect Routes](#redirect-routes)
-    - [View Routes](#view-routes)
-- [Route Parameters](#route-parameters)
-    - [Required Parameters](#required-parameters)
-    - [Optional Parameters](#parameters-optional-parameters)
+- [সাধারণ রাউটিং](#basic-routing)
+    - [Redirect রাউটিং](#redirect-routes)
+    - [View রাউটিং](#view-routes)
+- [রাউট প্যারামিটারস](#route-parameters)
+    - [Required প্যারামিটারস](#required-parameters)
+    - [Optional প্যারামিটারস](#parameters-optional-parameters)
     - [Regular Expression Constraints](#parameters-regular-expression-constraints)
-- [Named Routes](#named-routes)
-- [Route Groups](#route-groups)
+- [Named রাউটস](#named-routes)
+- [রাউট Groups](#route-groups)
     - [Middleware](#route-group-middleware)
     - [Namespaces](#route-group-namespaces)
     - [Sub-Domain Routing](#route-group-sub-domain-routing)
-    - [Route Prefixes](#route-group-prefixes)
-    - [Route Name Prefixes](#route-group-name-prefixes)
-- [Route Model Binding](#route-model-binding)
+    - [রাউট Prefixes](#route-group-prefixes)
+    - [রাউট Name Prefixes](#route-group-name-prefixes)
+- [রাউট Model Binding](#route-model-binding)
     - [Implicit Binding](#implicit-binding)
     - [Explicit Binding](#explicit-binding)
 - [Rate Limiting](#rate-limiting)
@@ -22,7 +22,7 @@
 - [Accessing The Current Route](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
-## Basic Routing
+## সাধারণ রাউটিং
 
 The most basic Laravel routes accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
 
