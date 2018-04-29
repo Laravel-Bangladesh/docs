@@ -24,8 +24,7 @@
 <a name="basic-routing"></a>
 ## সাধারণ রাউটিং
 
-The most basic Laravel routes accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
-সবচেয়ে সাধারণ লারাভেল রাউট URI স্বীকার কর হয় এবং একটি Closure, প্রধান করে রাউট ডিফাইন করার জন্য খুব সাধারণ এবং অর্থপূর্ণ মেথড নাম ব্যবহার করা হয়:
+সবচেয়ে সাধারণ লারাভেল রাউট URI হিসাবে ব্যবহার কর হয় এবং একটি Closure, প্রধান করে রাউট ডিফাইন করার জন্য খুব সাধারণ এবং অর্থপূর্ণ মেথড নাম ব্যবহার করা হয়:
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -33,8 +32,7 @@ The most basic Laravel routes accept a URI and a `Closure`, providing a very sim
 
 #### ডিফল্ট রাউট ফাইলগুলি
 
-সমস্ত লরেল রাউটস সংজ্ঞায়িত রাউট ফাইল হিসাবে, যা `route` ডিরেক্টরির মধ্যে অবস্থিত। এই ফাইলগুলি স্বয়ংক্রিয়ভাবে ফ্রেমওয়ার্ক দ্বারা লোড হয়। `routes/web.php` ফাইল আপনার ওয়েব ইন্টারফেস জন্য যে রাউটস সংজ্ঞায়িত। এই রাউটস `web` middleware group আরোপিত করা হয়, যা session stat এবং CSRF সুরক্ষা মত বৈশিষ্ট্য প্রদান করে।
- The routes in `routes/api.php` are stateless and are assigned the `api` middleware group.
+সমস্ত লরেল রাউটস সংজ্ঞায়িত রাউট ফাইল হিসাবে, যা `route` ডিরেক্টরির মধ্যে অবস্থিত। এই ফাইলগুলি স্বয়ংক্রিয়ভাবে ফ্রেমওয়ার্ক দ্বারা লোড হয়। `routes/web.php` ফাইল আপনার ওয়েব ইন্টারফেস জন্য যে রাউটস সংজ্ঞায়িত। এই রাউটস `web` middleware group আরোপিত করা হয়, যা session stat এবং CSRF সুরক্ষা মত বৈশিষ্ট্য প্রদান করে। `routes/api.php` রাউট `api` middleware group এ অন্তর্ভুক্ত। 
 
 অধিকাংশ অ্যাপ্লিকেশনের জন্য, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://your-app.test/user` in your browser:
 
