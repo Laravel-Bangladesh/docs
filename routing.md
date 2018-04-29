@@ -34,15 +34,14 @@
 
 সমস্ত লরেল রাউটস সংজ্ঞায়িত রাউট ফাইল হিসাবে, যা `route` ডিরেক্টরির মধ্যে অবস্থিত। এই ফাইলগুলি স্বয়ংক্রিয়ভাবে ফ্রেমওয়ার্ক দ্বারা লোড হয়। `routes/web.php` ফাইল আপনার ওয়েব ইন্টারফেস জন্য যে রাউটস সংজ্ঞায়িত। এই রাউটস `web` middleware group আরোপিত করা হয়, যা session stat এবং CSRF সুরক্ষা মত বৈশিষ্ট্য প্রদান করে। `routes/api.php` রাউট `api` middleware group এ অন্তর্ভুক্ত। 
 
-অধিকাংশ অ্যাপ্লিকেশনের জন্য, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://your-app.test/user` in your browser:
+অধিকাংশ অ্যাপ্লিকেশনের জন্য, আপনি  'route/ web.php'  ফাইলের রুটগুলি সংজ্ঞায়িত করে শুরু করতে পারবেন। `routes/web.php` এ সংজ্ঞায়িত রুটগুলি আপনার ব্রাউজারে নির্ধারিত রাউটের URL টি প্রবেশ করে অ্যাক্সেস করা যেতে পারে। উদাহরণস্বরূপ, আপনি  ব্রাউজারে  `http://your-app.test/user` এ নেভিগেট করার মাধ্যমে নিম্নোক্ত রুটটি ব্যবহার করা যায়:
 
     Route::get('/user', 'UserController@index');
 
-Routes defined in the `routes/api.php` file are nested within a route group by the `RouteServiceProvider`. Within this group, the `/api` URI prefix is automatically applied so you do not need to manually apply it to every route in the file. You may modify the prefix and other route group options by modifying your `RouteServiceProvider` class.
+ `routes/api.php`  ফাইলের রেফারেন্সগুলি রাউট গ্রুপ মধ্যে `RouteServiceProvider` দ্বারা নিথর করা হয়। এই গোষ্ঠীর মধ্যে, `/ api` URI প্রিফিক্স স্বয়ংক্রিয়ভাবে প্রয়োগ করা হয় তাই আপনাকে এটি ফাইলটির প্রতিটি রাউট ম্যানুয়ালি প্রয়োগ করতে হবে না। আপনি  `RouteServiceProvider` class এ  প্রিফিক্স  এবং অন্যান্য route group  বিকল্পগুলি পরিবর্তন করতে পারেন।
 
-#### Available Router Methods
-
-The router allows you to register routes that respond to any HTTP verb:
+#### সচারাচর রাউট মেথড গুলো
+রাউটার অনুমতিদেয় আপনার   register রাউটস এ যা যেকোনো HTTP verb এ respond করে: 
 
     Route::get($uri, $callback);
     Route::post($uri, $callback);
