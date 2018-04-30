@@ -77,7 +77,7 @@ If you are defining a route that redirects to another URI, you may use the `Rout
     Route::redirect('/here', '/there', 301);
 
 <a name="view-routes"></a>
-### View Routes
+### ভিউ রুটস
 
 If your route only needs to return a view, you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
 
