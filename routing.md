@@ -50,7 +50,7 @@
     Route::delete($uri, $callback);
     Route::options($uri, $callback);
 
-Sometimes you may need to register a route that responds to multiple HTTP verbs. You may do so using the `match` method. Or, you may even register a route that responds to all HTTP verbs using the `any` method:
+কিছু কিছু সময় রেজিস্টার করা রাউট multiple HTTP verbs এ responds করানোর প্রয়োজন হয়। আপনি `match` মেথড  ব্যবহার করতে পারেন অথবা, আপনি এমন কোনো রাউট রেজিস্টার করতে পারেন যা সমস্ত HTTP verbs  responds   'any' মেথড ব্যবহার করে:
 
     Route::match(['get', 'post'], '/', function () {
         //
