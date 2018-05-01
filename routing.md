@@ -107,12 +107,15 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
         //
     });
 
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`). Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
+Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`).
+
+
+রাউট প্যারামিটার সর্বদা `{}` বন্ধনীগুলির মধ্যে আবদ্ধ থাকে এবং এতে alphabetic অক্ষর থাকা উচিত এবং এতে একটি `-` অক্ষর থাকতে পারে না। `-` অক্ষর ব্যবহার করার পরিবর্তে, একটি আন্ডারস্কোর  (`_`) ব্যবহার করুন। রাউট প্যারামিটারগুলি তাদের অর্ডারের ভিত্তিতে রাউট callbacks / controllers ইনজেক্ট করা হয় - callback / controller আর্গুমেন্টগুলির নামগুলি কোন ব্যাপার না।
 
 <a name="parameters-optional-parameters"></a>
-### Optional Parameters
-
-Occasionally you may need to specify a route parameter, but make the presence of that route parameter optional. You may do so by placing a `?` mark after the parameter name. Make sure to give the route's corresponding variable a default value:
+### ঐচ্ছিক প্যারামিটার
+	
+কখনত্ত কখনত্ত আপনি একটি রুট প্যারামিটার নির্দিষ্ট করার প্রয়োজন হতে পারে, তবে ঐ রাউট প্যারামিটারের ঐচ্ছিক বিকল্পটি হিসাবে তৈরি করুন। আপনি প্যারামিটার নামের পরে `?` চিহ্নটি স্থাপন করুন। রাউট এর সংশ্লিষ্ট ভেরিয়েবল একটি ডিফল্ট মান দিতে নিশ্চিত করুন:
 
     Route::get('user/{name?}', function ($name = null) {
         return $name;
@@ -125,7 +128,8 @@ Occasionally you may need to specify a route parameter, but make the presence of
 <a name="parameters-regular-expression-constraints"></a>
 ### Regular Expression Constraints
 
-You may constrain the format of your route parameters using the `where` method on a route instance. The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+আপনি একটি রাউট  এ `where` মেথড  ব্যবহার করে আপনার রাউট প্যারামিটারগুলির বিন্যাস সীমাবদ্ধ হতে পারে।`where` মেথড প্যারামিটারের name এবং একটি regular expression  ডিফাইন করে যা প্যারামিটারকে  সীমাবদ্ধ করা উচিত:
+
 
     Route::get('user/{name}', function ($name) {
         //
@@ -142,7 +146,8 @@ You may constrain the format of your route parameters using the `where` method o
 <a name="parameters-global-constraints"></a>
 #### Global Constraints
 
-If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your `RouteServiceProvider`:
+
+আপনি একটি  regular expression দ্বারা সবসময় সীমাবদ্ধ একটি রাউট প্যারামিটার চান, আপনি `pattern` মেথড ব্যবহার করতে পারেন। আপনার `RouteServiceProvider` এর `boot` মেথড এ   এই patterns ডিফাইন করতে হবে:
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -156,7 +161,7 @@ If you would like a route parameter to always be constrained by a given regular 
         parent::boot();
     }
 
-Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
+একবার pattern ডিফাইন করা হয়ে গেলে, এটি যে parameter name মাধ্যমে স্বয়ংক্রিয়ভাবে সব রাউট এ প্রয়োগ হয়:
 
     Route::get('user/{id}', function ($id) {
         // Only executed if {id} is numeric...
