@@ -62,7 +62,10 @@
 
 #### CSRF Protection
 
-Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in the `web` routes file should include a CSRF token field. Otherwise, the request will be rejected. You can read more about CSRF protection in the [CSRF documentation](/docs/{{version}}/csrf):
+
+যেকোনো HTML  ফর্ম `POST`, `PUT`, or `DELETE` `web`  রাউট এর মধ্যে  ব্যাবহার করা হলে অবশ্যই CSRF token field অন্তর ভুক্ত করতে হবে। 
+
+Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in the `web` routes file should include a CSRF token field. অন্যথায়, request বাতিল করা হবে। CSRF protection সম্পর্কে বিস্তারিত জানার জন্য: [CSRF ডকুমেন্টেশন](/docs/{{version}}/csrf):
 
     <form method="POST" action="/profile">
         @csrf
@@ -72,14 +75,15 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
 <a name="redirect-routes"></a>
 ### Redirect Routes
 
-If you are defining a route that redirects to another URI, you may use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
+অন্য URI তে  redirects করার জন্য `Route::redirect` মেথড ব্যবহার করতে পারেন। এটি  সুবিধাজনক shortcut  মেথড প্রধান করে, তাই আপনি পুরো রাউট define করতে পারেনা অথবা controller সহজে redirect করতে পারে:
+
 
     Route::redirect('/here', '/there', 301);
 
 <a name="view-routes"></a>
 ### ভিউ রুটস
 
-If your route only needs to return a view, you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+যদি view তে return  রাউট এর প্রয়োজন হয় , আপনি  `Route::view` মেথড ব্যবহার করতে পারেন। `redirect` মেথড এর মতো, এই মেথড একটি সহজ শর্টকাট প্রদান করে ,যাতে আপনি একটি পূর্ণ রাউট বা controller  ডিফাইন  না করতে হয়।`view` মেথড একটি URI হিসাবে তার প্রথম argument এবং name দ্বিতীয় argument  হিসাবে  গ্রহণ করে। এছাড়াও, আপনি data  array  তৃতীয় অপশনাল argument হিসাবে view  পাঠাতে পারেন। 
 
     Route::view('/welcome', 'welcome');
 
