@@ -1,4 +1,4 @@
-# Routing
+# রাউটিং
 
 - [সাধারণ রাউটিং](#basic-routing)
     - [Redirect রাউটিং](#redirect-routes)
@@ -95,13 +95,13 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
 <a name="required-parameters"></a>
 ### Required Parameters
 
-Of course, sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
+অবশ্যই, কখনও কখনও আপনাকে আপনার রাউট মধ্যে URI এর অংশগুলিকে ক্যাপচার করতে হবে। উদাহরণস্বরূপ, আপনাকে URL থেকে একটি ব্যবহারকারীর আইডি ক্যাপচার করতে হতে পারে। আপনি রাউট প্যারামিটার ডিফাইন করে তা করতে পারেন:
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
     });
 
-You may define as many route parameters as required by your route:
+আপনি আপনার রাউট দ্বারা প্রয়োজনীয় অনেক রাউট প্যারামিটার সংজ্ঞায়িত করতে পারেন:
 
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
