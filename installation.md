@@ -16,9 +16,9 @@
 ### সার্ভার আবশ্যকতা
 সমস্ত প্রয়োজনীয়তা পূরণ করা হয় যদি Laravel ইনস্টল করা উচিত। আপনার জ্যাকল শুরু করার আগে নিশ্চিত করুন যে আপনার সিস্টেমে নিম্নোক্ত সফটওয়্যার/প্যাকেজ/লাইব্রেরি রয়েছে কিনা 
 
-লারাভেল ফ্রেমওয়ার্ক কিছু সিস্টেম অবশকতা রয়েছে। অবশ্যই,  all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
+লারাভেল ফ্রেমওয়ার্ক কিছু সিস্টেম অবশকতা রয়েছে। অবশ্যই, 
+এই সব অবশকতা  [Laravel Homestead](/docs/{{version}}/homestead) দ্বারা ভার্চুয়াল মেশিন দ্বারা সন্তুষ্ট হয়, তাই এটি আপনার লোকাল  লারাভেল ডেভেলপমেন্ট পরিবেশের হিসাবে হোমসাইট্ড ব্যবহার করার জন্য অত্যন্ত উপযোগী।
 
-However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
 যাইহোক, যদি আপনি হোমস্টেড ব্যবহার না করেন, তবে আপনার সার্ভার নিম্নলিখিত প্রয়োজনীয়তাগুলি নিশ্চিত করতে হবে:
 
 <div class="content-list" markdown="1">
@@ -34,8 +34,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 
 <a name="installing-laravel"></a>
 ### লারাভেল ইন্সটল
-লারাভেল প্যাকেজ dependencie  ম্যানেজার হিসাবে [কম্পোজার](https://getcomposer.org) ব্যবহার করে। 
-Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. সুতরাং, Laravel ব্যবহার করার আগে নিশ্চিত করুন যে আপনি আপনার মেশিনে কম্পোজার ইনস্টল করা আছে কিনা ।
+লারাভেল প্যাকেজ dependencie  ম্যানেজার হিসাবে [কম্পোজার](https://getcomposer.org) ব্যবহার করে। সুতরাং, লারাভেল ব্যবহার করার আগে নিশ্চিত করুন যে আপনি আপনার মেশিনে কম্পোজার ইনস্টল করা আছে কিনা ।
 
 #### লারেজ ইনস্টলারের মাধ্যমে
 
@@ -43,16 +42,14 @@ Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies.
 
     composer global require "laravel/installer"
 
-Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
-
-আপনার অপারেটিং সিস্টেমের উপর ভিত্তি করে এটি বিভিন্ন স্থানে বিদ্যমান; তবে, কিছু সাধারণ অবস্থানে রয়েছে:
+আপনার `$ PATH`তে সুরকারের system-wide vendor bin ডিরেক্টরি স্থাপন করা নিশ্চিত করুন যাতে আপনার সিস্টেমের দ্বারা লরেভেল এক্সিকিউটেবলটি সনাক্ত করা যায়। আপনার অপারেটিং সিস্টেমের উপর ভিত্তি করে এটি বিভিন্ন স্থানে বিদ্যমান; তবে, কিছু সাধারণ অবস্থানে রয়েছে:
 
 <div class="content-list" markdown="1">
 - macOS: `$HOME/.composer/vendor/bin`
 - GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin`
 </div>
 
-Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
+একবার ইনস্টল করা হলে, `laravel new` কমান্ডটি আপনার নির্দিষ্ট করা ডিরেক্টরীতে একটি নতুন ল্যারেজ ইনস্টলেশন প্রজেক্ট  তৈরি করবে। উদাহরণস্বরূপ, `laravel new blog` command `blog` নামের একটি ডিরেক্টরি তৈরি করে,  যা লরেলেসের সমস্ত নির্ভরযোগ্যতাগুলি ইতিমধ্যে ইনস্টল করা হয়েছে তা দিয়ে একটি নতুন ল্যারেজ ইনস্টল করা হয়েছে:
 
     laravel new blog
 
@@ -84,19 +81,19 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
 
 #### ডিরেক্টরি permissions
 
-লারাভেল ইনস্টল করার পর,আপনি কিছু permissions কনফিগার করতে হতে পারে।  Directories within the `storage` and the `bootstrap/cache` directories should be writable by your web server or Laravel will not run. If you are using the [Homestead](/docs/{{version}}/homestead) virtual machine, these permissions should already be set.
+লারাভেল ইনস্টল করার পর,আপনি কিছু permissions কনফিগার করতে হতে পারে। storage এবং bootstrap/cache ডিরেক্টরীগুলির মধ্যে থাকা ডিরেক্টরীগুলি আপনার ওয়েব সার্ভারের মাধ্যমে writable হওয়া উচিত অন্যথায় লারাভেল চলবে না। If আপনি ভার্চুয়াল মেশিন [Homestead](/docs/{{version}}/homestead)  ব্যবহার  করেন, এই অনুমতিগুলি ইতিমধ্যে দেয়া আছে ।
 
-#### Application Key
+#### এপ্লিকেশন কী
 
-The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `php artisan key:generate` command.
+লারাভেল ইনস্টল করার পর আপনি যা করতে হবে তা আপনার অ্যাপ্লিকেশন কী হিসাবে একটি random string এ সেট করা হয়। যদি আপনি কম্পোজার বা লারাভেল ইনস্টলার মাধ্যমে লারাভেল  ইনস্টল করেন, এই কীটি ইতিমধ্যে আপনার জন্য সেট করা হয়েছে  `php artisan key:generate` কমান্ড দ্বারা।
 
-Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not renamed the `.env.example` file to `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
+সাধারণত, এই স্ট্রিংটি 32 অক্ষর দীর্ঘ হয় । কী   `.env`  environment ফাইলের মধ্যে সেট করা হয়। যদি  `.env.example` ফাইলটি `.env` তে নামকরণ না করে হয় তবে আপনাকে এখন এটি করতে হবে। ** যদি অ্যাপ্লিকেশন কী সেট না করা হয়, তাহলে আপনার ব্যবহারকারীর সেশনগুলি এবং অন্যান্য এনক্রিপ্ট হওয়া ডেটা সুরক্ষিত হবে না! **
 
 #### Additional Configuration
 
-Laravel needs almost no other configuration out of the box. You are free to get started developing! However, you may wish to review the `config/app.php` file and its documentation. It contains several options such as `timezone` and `locale` that you may wish to change according to your application.
+লারাভেল প্রায় প্রয়োজন বাক্সের বাইরে অন্য কোন কনফিগারেশন। আপনি ডেভেলপিং শুরু বিনামূল্যে করতে পারবেন! যাহোক, আপনি `config/app.php` ফাইল এবং এর ডকুমেন্টেশন পর্যালোচনা করতে পারেন। এটা যেমন `timezone` এবং` locale` যে আপনি আপনার প্রয়োজন অনুযায়ী পরিবর্তন করতে চান তাহলে,  বেশ কয়েকটি বিকল্প রয়েছে।
 
-You may also want to configure a few additional components of Laravel, such as:
+আপনি লারাভেল এর কয়েকটি অতিরিক্ত উপাদান কনফিগার করতে পারেন, যেমন:
 
 <div class="content-list" markdown="1">
 - [Cache](/docs/{{version}}/cache#configuration)
@@ -105,16 +102,17 @@ You may also want to configure a few additional components of Laravel, such as:
 </div>
 
 <a name="web-server-configuration"></a>
-## Web Server Configuration
+## ওয়েব সার্ভার কনফিগারেশন
 
 <a name="pretty-urls"></a>
 ### Pretty URLs
 
 #### Apache
 
-Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
 
-If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
+লারাভেল - এ একটি  `public/.htaccess`  ফাইল অন্তর্ভুক্ত রয়েছে যা `index.php` path সামনে কন্ট্রোলার ছাড়া URL সরবরাহ করতে ব্যবহৃত হয়। অ্যাপাচি- র সাথে লারাভেল পরিসেবা ব্যবহার করার জন্য, `mod_rewrite` মডিউলটি সক্ষম করতে ভুলবেন না, তাই` .htaccess` ফাইলটি সার্ভার দ্বারা সম্মানিত হবে।
+
+`.htaccess` যে ফাইলটি লারাভেল সঙ্গে প্রকল্প আপনার এ্যাপাচি ইনস্টলেশন এ কাজ করে না, এই বিকল্প চেষ্টা করুন:
 
     Options +FollowSymLinks
     RewriteEngine On
@@ -125,7 +123,7 @@ If the `.htaccess` file that ships with Laravel does not work with your Apache i
 
 #### Nginx
 
-If you are using Nginx, the following directive in your site configuration will direct all requests to the `index.php` front controller:
+আপনি যদি Nginx ব্যবহার করেন ,আপনার সাইট কনফিগারেশনে নিম্নোক্ত নির্দেশিকা `index.php` ফ্রন্ট কনট্রোলারের সমস্ত অনুরোধকে নির্দেশ করে:
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
