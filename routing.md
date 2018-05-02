@@ -63,9 +63,7 @@
 #### CSRF Protection
 
 
-যেকোনো HTML  ফর্ম `POST`, `PUT`, or `DELETE` `web`  রাউট এর মধ্যে  ব্যাবহার করা হলে অবশ্যই CSRF token field অন্তর ভুক্ত করতে হবে। 
-
-Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in the `web` routes file should include a CSRF token field. অন্যথায়, request বাতিল করা হবে। CSRF protection সম্পর্কে বিস্তারিত জানার জন্য: [CSRF ডকুমেন্টেশন](/docs/{{version}}/csrf):
+যেকোনো HTML  ফর্ম `POST`, `PUT`, or `DELETE` `web`  রাউট এর মধ্যে  ব্যাবহার করা হলে অবশ্যই CSRF token field অন্তর ভুক্ত করতে হবে। অন্যথায়, request বাতিল করা হবে। CSRF protection সম্পর্কে বিস্তারিত জানার জন্য: [CSRF ডকুমেন্টেশন](/docs/{{version}}/csrf):
 
     <form method="POST" action="/profile">
         @csrf
@@ -106,9 +104,6 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
     });
-
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`).
-
 
 রাউট প্যারামিটার সর্বদা `{}` বন্ধনীগুলির মধ্যে আবদ্ধ থাকে এবং এতে alphabetic অক্ষর থাকা উচিত এবং এতে একটি `-` অক্ষর থাকতে পারে না। `-` অক্ষর ব্যবহার করার পরিবর্তে, একটি আন্ডারস্কোর  (`_`) ব্যবহার করুন। রাউট প্যারামিটারগুলি তাদের অর্ডারের ভিত্তিতে রাউট callbacks / controllers ইনজেক্ট করা হয় - callback / controller আর্গুমেন্টগুলির নামগুলি কোন ব্যাপার না।
 
@@ -175,8 +170,8 @@ Named routes allow the convenient generation of URLs or redirects for specific r
     Route::get('user/profile', function () {
         //
     })->name('profile');
-
-You may also specify route names for controller actions:
+    
+এছাড়াও আপনি controller  জন্য route name উল্লেখ করতে পারেন:
 
     Route::get('user/profile', 'UserController@showProfile')->name('profile');
 
