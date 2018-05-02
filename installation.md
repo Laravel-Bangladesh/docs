@@ -131,4 +131,4 @@ If you are using Nginx, the following directive in your site configuration will 
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-Of course, when using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
+অবশ্যই, [Homestead](/docs/{{version}}/homestead) বা [Valet](/docs/{{version}}/valet) ব্যবহার করার সময়, সুন্দর ইউআরএল স্বয়ংক্রিয়ভাবে কনফিগার করা যায়।
