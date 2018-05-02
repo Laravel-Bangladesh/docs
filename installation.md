@@ -2,9 +2,9 @@
 
 - [ইনস্টলেশন](#installation)
     - [সার্ভার আবশ্যকতা](#server-requirements)
-    - [Installing Laravel](#installing-laravel)
-    - [Configuration](#configuration)
-- [Web Server Configuration](#web-server-configuration)
+    - [লারাভেল ইন্সটল](#installing-laravel)
+    - [কনফিগারেশন](#configuration)
+- [ওয়েব সার্ভার কনফিগারেশন](#web-server-configuration)
     - [Pretty URLs](#pretty-urls)
 
 <a name="installation"></a>
