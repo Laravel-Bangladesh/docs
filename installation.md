@@ -33,7 +33,6 @@ However, if you are not using Homestead, you will need to make sure your server 
 </div>
 
 <a name="installing-laravel"></a>
-### Installing Laravel
 ### লারাভেল ইন্সটল
 লারাভেল প্যাকেজ dependencie  ম্যানেজার হিসাবে [কম্পোজার](https://getcomposer.org) ব্যবহার করে। 
 Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. সুতরাং, Laravel ব্যবহার করার আগে নিশ্চিত করুন যে আপনি আপনার মেশিনে কম্পোজার ইনস্টল করা আছে কিনা ।
@@ -65,26 +64,27 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
 
 #### Local Development Server
 
-If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the `serve` Artisan command. This command will start a development server at `http://localhost:8000`:
+যদি আপনার পিএইচপি লোকাল মিশন এ ইনস্টল থাকেন এবং আপনি পিএইচপি এর বিল্ট ইন ডেভেলপমেন্ট সার্ভার ব্যবহার করতে চান আপনার অ্যাপ্লিকেশন এ, আপনি Artisan এর `serve` কমান্ট ব্যবহার করুন। এই কমান্ডটি একটি ডেভেলপমেন্ট সার্ভার শুরু করবে যা `http://localhost:8000`:
 
     php artisan serve
 
-Of course, more robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
+
+অবশ্যই, আরও শক্তিশালী স্থানীয় উন্নয়ন বিকল্পগুলি পাওয়া যাবে  [Homestead](/docs/{{version}}/homestead) এবং [Valet](/docs/{{version}}/valet) তে। 
 
 <a name="configuration"></a>
 ### কনফিগারেশন
 
 #### পাবলিক ডিরেক্টরি
 
-After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
+লারাভেল ইনস্টল করার পর, আপনার ওয়েব সার্ভারের document / web root হিসাবে `public`  ডিরেক্টরি কে কনফিগার করা উচিত। এই ডিরেক্টরিতে `index.php` আপনার অ্যাপ্লিকেশনে প্রবেশের জন্য সমস্ত HTTP requests এর জন্য ফ্রন্ট কন্ট্রোলার হিসাবে কাজ করে।
 
-#### Configuration Files
+#### কনফিগারেশন ফাইলগুলি
 
-All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
+লারাভেল ফ্রেমওয়ার্কের জন্য সমস্ত কনফিগারেশন ফাইল `config` ডিরেক্টরির মধ্যে সংরক্ষণ করা হয়। প্রতিটি বিকল্প নথিভুক্ত করা হয়, তাই ফাইলগুলি দেখুন আপনার কাছে উপলব্ধ বিকল্পগুলির সাথে পরিচিত হন।
 
-#### Directory Permissions
+#### ডিরেক্টরি permissions
 
-After installing Laravel, you may need to configure some permissions. Directories within the `storage` and the `bootstrap/cache` directories should be writable by your web server or Laravel will not run. If you are using the [Homestead](/docs/{{version}}/homestead) virtual machine, these permissions should already be set.
+লারাভেল ইনস্টল করার পর,আপনি কিছু permissions কনফিগার করতে হতে পারে।  Directories within the `storage` and the `bootstrap/cache` directories should be writable by your web server or Laravel will not run. If you are using the [Homestead](/docs/{{version}}/homestead) virtual machine, these permissions should already be set.
 
 #### Application Key
 
