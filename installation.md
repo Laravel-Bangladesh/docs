@@ -10,12 +10,13 @@
 <a name="installation"></a>
 ## ইনস্টলেশন
 
-> {video} Are you a visual learner? Laracasts provides a [free, thorough introduction to Laravel](http://laravelfromscratch.com) for newcomers to the framework. It's a great place to start your journey.
+> {video}  লারাভেল  শিক্ষার্থী এর জন্য? Laracasts একটি প্রদান করে [বিনামূল্যে, লারাভেল এর সূচনা ](http://laravelfromscratch.com) ফ্রেমওয়ার্ক নতুনদের জন্য । এটি আপনার যাত্রা শুরু করার জন্য একটি ভালো জায়গা।
 
 <a name="server-requirements"></a>
 ### সার্ভার আবশ্যকতা
-সমস্ত প্রয়োজনীয়তা পূরণ করা হয় যদি Laravel ইনস্টল করা উচিত। আপনার জ্যাকল শুরু করার আগে নিশ্চিত করুন যে আপনার সিস্টেমে নিম্নোক্ত সফটওয়্যার/প্যাকেজ/লাইব্রেরি রয়েছে কিনা
-The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
+সমস্ত প্রয়োজনীয়তা পূরণ করা হয় যদি Laravel ইনস্টল করা উচিত। আপনার জ্যাকল শুরু করার আগে নিশ্চিত করুন যে আপনার সিস্টেমে নিম্নোক্ত সফটওয়্যার/প্যাকেজ/লাইব্রেরি রয়েছে কিনা 
+
+লারাভেল ফ্রেমওয়ার্ক কিছু সিস্টেম অবশকতা রয়েছে। অবশ্যই,  all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
 
 However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
 যাইহোক, যদি আপনি হোমস্টেড ব্যবহার না করেন, তবে আপনার সার্ভার নিম্নলিখিত প্রয়োজনীয়তাগুলি নিশ্চিত করতে হবে:
@@ -36,10 +37,9 @@ However, if you are not using Homestead, you will need to make sure your server 
 ### লারাভেল ইন্সটল
 লারাভেল প্যাকেজ dependencie  ম্যানেজার হিসাবে [কম্পোজার](https://getcomposer.org) ব্যবহার করে। 
 Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. সুতরাং, Laravel ব্যবহার করার আগে নিশ্চিত করুন যে আপনি আপনার মেশিনে কম্পোজার ইনস্টল করা আছে কিনা ।
-#### Via Laravel Installer
+
 #### লারেজ ইনস্টলারের মাধ্যমে
 
-First, download the Laravel installer using Composer:
 প্রথমে, কম্পোজার ব্যবহার করে Laravel ইনস্টলার ডাউনলোড করুন:
 
     composer global require "laravel/installer"
@@ -57,10 +57,9 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
 
     laravel new blog
 
-#### Via Composer 
 #### কম্পোজারের মাধ্যমে Create-Project
 
-Alternatively, you may also install Laravel by issuing the Composer `create-project` command in your terminal:
+অন্যথা, আপনি কম্পোজারের `create-project` আপনার টার্মিনালে কমান্ড মাধ্যমে ল্যারেজ ইনস্টল করতে পারেন:
 
     composer create-project --prefer-dist laravel/laravel blog
 
@@ -73,10 +72,8 @@ If you have PHP installed locally and you would like to use PHP's built-in devel
 Of course, more robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
 
 <a name="configuration"></a>
-### Configuration
 ### কনফিগারেশন
 
-#### Public Directory
 #### পাবলিক ডিরেক্টরি
 
 After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
