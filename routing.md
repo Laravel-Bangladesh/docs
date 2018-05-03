@@ -165,7 +165,7 @@
 <a name="named-routes"></a>
 ## Named Routes
 
-Named routes নির্দিষ্ট রাউট জন্য ইউআরএল বা redirects সুবিধাজনক প্রজন্মের অনুমতি দেয়। You may specify a name for a route by chaining the `name` method onto the route definition:
+Named routes নির্দিষ্ট রাউট জন্য ইউআরএল বা redirects সুবিধাজনক প্রজন্মের অনুমতি দেয়। রাউট ডিফাইন এর সময় `name` মেথড এর মাধ্যমে রাউটকে সহজে নির্দিষ্ট করতে পারেন:
 
     Route::get('user/profile', function () {
         //
@@ -177,7 +177,7 @@ Named routes নির্দিষ্ট রাউট জন্য ইউআর�
 
 #### Generating URLs To Named Routes
 
-Once you have assigned a name to a given route, you may use the route's name when generating URLs or redirects via the global `route` function:
+একবার একটি রাউট একটি নাম নির্ধারিত হলে, আপনি global `route` ফাংশনের মাধ্যমে URL বা redirects তৈরি করার সময় রাউটটির নাম ব্যবহার করতে পারেন:
 
     // Generating URLs...
     $url = route('profile');
@@ -185,7 +185,7 @@ Once you have assigned a name to a given route, you may use the route's name whe
     // Generating Redirects...
     return redirect()->route('profile');
 
-If the named route defines parameters, you may pass the parameters as the second argument to the `route` function. The given parameters will automatically be inserted into the URL in their correct positions:
+যদি named route প্যারামিটার ডিফাইন করা হয়, আপনি  `route` ফাংশনে দ্বিতীয় argument হিসাবে পরামিতিগুলি পাস করতে পারেন। প্রদত্ত প্যারামিটারগুলি স্বয়ংক্রিয়ভাবে তাদের সঠিক অবস্থানে URL- এ সন্নিবেশ করা হবে:
 
     Route::get('user/{id}/profile', function ($id) {
         //
@@ -195,7 +195,7 @@ If the named route defines parameters, you may pass the parameters as the second
 
 #### Inspecting The Current Route
 
-If you would like to determine if the current request was routed to a given named route, you may use the `named` method on a Route instance. For example, you may check the current route name from a route middleware:
+আপনি যদি নির্ধারণ করতে চান if the current request was routed to a given named route, you may use the `named` method on a Route instance. For example, you may check the current route name from a route middleware:
 
     /**
      * Handle an incoming request.
