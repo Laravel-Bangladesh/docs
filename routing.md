@@ -165,7 +165,7 @@
 <a name="named-routes"></a>
 ## Named Routes
 
-Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the `name` method onto the route definition:
+Named routes নির্দিষ্ট রাউট জন্য ইউআরএল বা redirects সুবিধাজনক প্রজন্মের অনুমতি দেয়। You may specify a name for a route by chaining the `name` method onto the route definition:
 
     Route::get('user/profile', function () {
         //
