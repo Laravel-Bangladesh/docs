@@ -1,6 +1,6 @@
 # লারাভেল বাংলা ডকুমেন্টেশন
 
-আপনি বাংলায় অনুবাদ করে অবদান রাখতে পারেন [https://github.com/jubayed/laravel-docs](https://github.com/jubayed/laravel-docs)
+আপনি বাংলায় অনুবাদ করে অবদান রাখতে পারেন [https://github.com/laravel-bangladesh/docs](https://github.com/laravel-bangladesh/docs)
 
 ## কান্ট্রিবিউশন গাইডলাইনস
 
