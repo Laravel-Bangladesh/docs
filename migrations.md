@@ -20,6 +20,7 @@
 
 <a name="introduction"></a>
 ## Introduction
+মাইগ্রেশন আপনার ডাটাবেসের জন্য সংস্করণ নিয়ন্ত্রণের মত,আপনার টিমকে অ্যাপ্লিকেশন এর ডাটাবেস স্কিমা সহজেই সংশোধন এবং ভাগ করার অনুমতি দেয়। মাইগ্রেশন সাধারণত laravel এর স্কিম বিল্ডার সঙ্গে যুক্ত থাকে যা সহজেই আপনার অ্যাপ্লিকেশন এর ডাটাবেস স্কিমা তৈরী করা যায় ।
 
 Migrations are like version control for your database, allowing your team to easily modify and share the application's database schema. Migrations are typically paired with Laravel's schema builder to easily build your application's database schema. If you have ever had to tell a teammate to manually add a column to their local database schema, you've faced the problem that database migrations solve.
 
