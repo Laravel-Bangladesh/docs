@@ -1,6 +1,6 @@
 # Middleware
 
-- [Introduction](#introduction)
+- [সূচনা](#introduction)
 - [Defining Middleware](#defining-middleware)
 - [Registering Middleware](#registering-middleware)
     - [Global Middleware](#global-middleware)
@@ -10,9 +10,9 @@
 - [Terminable Middleware](#terminable-middleware)
 
 <a name="introduction"></a>
-## Introduction
+## সূচনা
 
-Middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+মিডলওয়্যার আপনার request প্রবেশ HTTP অনুরোধ ফিল্টার করার জন্য একটি সুবিধাজনক প্রক্রিয়া প্রদান। উদাহরণস্বরূপ, লারাভেল একটি মিডলওয়্যার যাচাই করে যে আপনার আবেদনের ব্যবহারকারী অনুমোদন যাচাই করা হয় অন্তর্ভুক্ত করা হয়েছে। ব্যবহারকারী প্রামাণ না থাকে, মিডলওয়্যার লগইন  পিঠা  ব্যবহারকারীর redirect করবে। যাইহোক, যদি ব্যবহারকারী অনুমোদন যাচাই করা হয় মিডলওয়্যার অনুরোধ আবেদন মধ্যে আরও এগিয়ে যেতে পারবে
 
 Of course, additional middleware can be written to perform a variety of tasks besides authentication. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. A logging middleware might log all incoming requests to your application.
 
