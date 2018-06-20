@@ -1,27 +1,27 @@
-# Database: Getting Started
+# ডাটাবেজ: শুরু
 
-- [Introduction](#introduction)
-    - [Configuration](#configuration)
+- [ভূমিকা](#introduction)
+    - [কনফিগারেশন](#configuration)
     - [Read & Write Connections](#read-and-write-connections)
-    - [Using Multiple Database Connections](#using-multiple-database-connections)
+    - [একাধিক ডাটাবেস সংযোগের ব্যবহার](#using-multiple-database-connections)
 - [Running Raw SQL Queries](#running-queries)
     - [Listening For Query Events](#listening-for-query-events)
 - [Database Transactions](#database-transactions)
 
 <a name="introduction"></a>
-## Introduction
+## ভূমিকা
 
 Laravel makes interacting with databases extremely simple across a variety of database backends using either raw SQL, the [fluent query builder](/docs/{{version}}/queries), and the [Eloquent ORM](/docs/{{version}}/eloquent). Currently, Laravel supports four databases:
 
 <div class="content-list" markdown="1">
-- MySQL
-- PostgreSQL
+- মাইএসকিউএল
+- পোস্ট গারসক্লিল
 - SQLite
-- SQL Server
+- SQL সার্ভার
 </div>
 
 <a name="configuration"></a>
-### Configuration
+### কনফিগারেশন
 
 The database configuration for your application is located at `config/database.php`. In this file you may define all of your database connections, as well as specify which connection should be used by default. Examples for most of the supported database systems are provided in this file.
 
