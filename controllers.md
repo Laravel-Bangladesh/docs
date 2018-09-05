@@ -1,7 +1,7 @@
 # Controllers
 
-- [Introduction](#introduction)
-- [Basic Controllers](#basic-controllers)
+- [সূচনা](#introduction)
+- [সাধারণ কন্ট্রোলার](#basic-controllers)
     - [Defining Controllers](#defining-controllers)
     - [Controllers & Namespaces](#controllers-and-namespaces)
     - [Single Action Controllers](#single-action-controllers)
@@ -16,17 +16,21 @@
 - [Route Caching](#route-caching)
 
 <a name="introduction"></a>
-## Introduction
+## সূচনা
 
-Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes. Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
+Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes.
+
+রাউট ফাইলগুলিতে Closures হিসাবে আপনার অনুরোধ পরিচালনার সমস্ত লক্ষণকে সংজ্ঞায়িত করার পরিবর্তে, আপনি কন্ট্রোলার ক্লাস ব্যবহার করে এই আচরণ সংগঠিত করতে পারেন।s
+
+ Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
 
 <a name="basic-controllers"></a>
-## Basic Controllers
+## সাধারণ Controllers
 
 <a name="defining-controllers"></a>
 ### Defining Controllers
 
-Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the `middleware` method, which may be used to attach middleware to controller actions:
+নিচে একটি সাধারণ controller class এর উদাহরণ দেখানো হল। মনে রাখবেন যে, controller extends করে base controller class কে  Laravel সঙ্গে অন্তর্ভুক্ত হয়। base class কয়েক সুবিধাজনক মেথড প্রদান করে  যেমন `middleware` মেথড। যা controller actions এর  মিড্লায়ার সংযুক্ত করতে ব্যবহার করা যেতে পারে:
 
     <?php
 
@@ -49,13 +53,13 @@ Below is an example of a basic controller class. Note that the controller extend
         }
     }
 
-You can define a route to this controller action like so:
+আপনে এই controller action এর জন্য route ডিফাইন করেতে পারেন এ রকমঃ
 
     Route::get('user/{id}', 'UserController@show');
 
-Now, when a request matches the specified route URI, the `show` method on the `UserController` class will be executed. Of course, the route parameters will also be passed to the method.
+এখন, একটি অনুরোধ নির্দিষ্ট রাউট URI সাথে মিলে যায়, `UserController` ক্লাস এর `show` মেধড execute করে। অবশ্যই,মেথডে রাউট প্যারামিটার সহ পাস করতে হবে।
 
-> {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
+> {মনে রাখুন} Controller গুলো কে একটি বেস ক্লাসকে extend করার **আবশ্যক** নেই । যাইহোক, সুবিধাজনক বৈশিষ্ট্যগুলিতে আপনার অ্যাক্সেস থাকবে না যেমন- `middleware`, `validate`, এবং `dispatch` মেথডে।
 
 <a name="controllers-and-namespaces"></a>
 ### Controllers & Namespaces
@@ -133,19 +137,29 @@ Controllers also allow you to register middleware using a Closure. This provides
 > {tip} You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.
 
 <a name="resource-controllers"></a>
-## Resource Controllers
+## রিসোর্স কন্ট্রোলার
 
-Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
+লারাভেল রিসোর্স রুটিং মুলত "CRUD" রাউট যা একটি কন্ট্রোলারেতে এক লাইনের কোড মাধমে সনযুক্ত করে।
+
+উদাহরনসরুপ, আপনি একটি কন্ট্রোলার তৈরি করতে পারেন যা আপনার অ্যাপ্লিকেশন দ্বারা সংরক্ষিত "photos" এর জন্য সমস্ত HTTP অনুরোধগুলি পরিচালনা করে।
+
+আর্টিসান কম্যান্ড  `make:controller` ব্যবহার করে, আমরা দ্রুত এই ধরনের একটি কন্ট্রোলার তৈরি করতে পারি:
 
     php artisan make:controller PhotoController --resource
 
-This command will generate a controller at `app/Http/Controllers/PhotoController.php`. The controller will contain a method for each of the available resource operations.
+এই কমান্ডটি  `app/Http/Controllers/PhotoController.php` তে একটি কন্ট্রোলার তৈরি করবে।
+
+ এই কন্ট্রোলারে কাঙ্ক্ষিত রিসোর্সে অপারেশন এর জন্য একটি করে মেথড থাকবে।
 
 Next, you may register a resourceful route to the controller:
 
+পরবর্তী, আপনি কন্ট্রোলারেতে একটি রিসৌর্সফুল রাউট  নিবন্ধিত করতে হবে।
+
     Route::resource('photos', 'PhotoController');
 
-This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
+This single route declaration creates multiple routes to handle a variety of actions on the resource.
+
+ The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
 
 You may register many resource controllers at once by passing an array to the `resources` method:
 
@@ -154,7 +168,8 @@ You may register many resource controllers at once by passing an array to the `r
         'posts' => 'PostController'
     ]);
 
-#### Actions Handled By Resource Controller
+#### রিসোর্স কন্ট্রোলারটি এই অ্যাকশনগুলো হ্যান্ডেল করবে।
+
 
 Verb      | URI                  | Action       | Route Name
 ----------|-----------------------|--------------|---------------------
