@@ -1,9 +1,9 @@
-# Blade Templates
+# ব্লেড টেমপ্লেট
 
-- [Introduction](#introduction)
-- [Template Inheritance](#template-inheritance)
-    - [Defining A Layout](#defining-a-layout)
-    - [Extending A Layout](#extending-a-layout)
+- [ভূমিকা](#introduction)
+- [টেমপ্লেট ইনহেরিটেন্স](#template-inheritance)
+    - [লেআউট  ডিফাইনিং](#defining-a-layout)
+    - [একটি লেআউট এক্সটেন্ডিং](#extending-a-layout)
 - [Components & Slots](#components-and-slots)
 - [Displaying Data](#displaying-data)
     - [Blade & JavaScript Frameworks](#blade-and-javascript-frameworks)
@@ -22,17 +22,18 @@
     - [Custom If Statements](#custom-if-statements)
 
 <a name="introduction"></a>
-## Introduction
+## ভূমিকা
 
-Blade is the simple, yet powerful templating engine provided with Laravel. Unlike other popular PHP templating engines, Blade does not restrict you from using plain PHP code in your views. In fact, all Blade views are compiled into plain PHP code and cached until they are modified, meaning Blade adds essentially zero overhead to your application. Blade view files use the `.blade.php` file extension and are typically stored in the `resources/views` directory.
+ব্লেড একটি সরল শক্তিশালী টেমপ্লেট ইঞ্জিন যা লারাভেল এর সাথে থাকে । অন্যান্য জনপ্রিয় পিএইচপি templating ইঞ্জিনের বিপরীতে, ব্লেড প্লেইন পিএইচপি কোড ব্যবহার থেকে সীমাবদ্ধ করে না। প্রকৃতপক্ষে, সমস্ত ব্লিড ভিউগুলি প্লেইন পিএইচপি কোডে সংকলিত এবং সংশোধিত না হওয়া পর্যন্ত ক্যাশে করা হয়,  meaning Blade adds essentially zero overhead to your application.  ব্ল্লেড ভিউ ফাইলগুলি  `blade.php` ফাইল এক্সটেনশন ব্যবহার করে এবং সাধারণত  `resources/views` ডিরেক্টরির মধ্যে সংরক্ষিত হয়।
 
 <a name="template-inheritance"></a>
-## Template Inheritance
+## টেমপ্লেট ইনহেরিটেন্স
 
 <a name="defining-a-layout"></a>
-### Defining A Layout
+### একটি লেআউট  ডিফাইনিং
 
-Two of the primary benefits of using Blade are _template inheritance_ and _sections_. To get started, let's take a look at a simple example. First, we will examine a "master" page layout. Since most web applications maintain the same general layout across various pages, it's convenient to define this layout as a single Blade view:
+ব্ল্যাড ব্যবহার করার প্রাথমিক সুবিধাগুলির মধ্যে দুটি হল   _template inheritance_   এবং _sections_।
+শুরু করার জন্য, একটি সহজ উদাহরণ তাকান যাক। প্রথম, আমরা একটি "master" পেজ লেআউট (page layout) নিয়ে আলোচনা করব। যেহেতু অধিকাংশ ওয়েব অ্যাপ্লিকেশন বিভিন্ন পেজগুলো একই  লেআউট বজায় রাখে, একক ব্ল্লেড ভিউ হিসাবে এই লেআউটটিকে সংজ্ঞায়িত করা সুবিধাজনক:
 
     <!-- Stored in resources/views/layouts/app.blade.php -->
 
@@ -51,12 +52,14 @@ Two of the primary benefits of using Blade are _template inheritance_ and _secti
         </body>
     </html>
 
-As you can see, this file contains typical HTML mark-up. However, take note of the `@section` and `@yield` directives. The `@section` directive, as the name implies, defines a section of content, while the `@yield` directive is used to display the contents of a given section.
 
-Now that we have defined a layout for our application, let's define a child page that inherits the layout.
+এখন ধরুন আপনাকে বিশেষ ক্ষেত্রে কনটেন্ট সেকশন অথবা অন্য কোন সেকশনের জন্য ডিফল্ট কনটেন্ট/ডাটা রাখতে হচ্ছে তাহলে আপনাকে **yield** মেথডটিতে দ্বিতীয় প্যারামিটার পাস করে এটা করতে হবে।
+
+
+আপনি দেখতে পারেন, এই ফাইলটি সাধারণত এইচটিএমএল মার্ক-আপ রয়েছে। যাইহোক, `@section` এবং `@yield` নির্দেশাবলী নোট করুন। `@section`  নির্দেশিকা,  যেমন পরোক্ষভাবে নাম বোঝায়, বিষয়বস্তু একটি সেকশন সংজ্ঞায়িত করে, যখন `@yield` নির্দেশিকা একটি প্রদত্ত সেকশন এর সব কিছু প্রদর্শন করতে ব্যবহৃত হয়। এখন আমরা আমাদের অ্যাপ্লিকেশনের জন্য একটি লেআউট সংজ্ঞায়িত কব, একটি চাইল্ড পেজ সংজ্ঞায়িত করব যা লেআউট কে ইনহেরিট করবে। 
 
 <a name="extending-a-layout"></a>
-### Extending A Layout
+### একটি লেআউট এক্সটেন্ডিং
 
 When defining a child view, use the Blade `@extends` directive to specify which layout the child view should "inherit". Views which extend a Blade layout may inject content into the layout's sections using `@section` directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using `@yield`:
 
