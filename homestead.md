@@ -1,6 +1,6 @@
-# Laravel Homestead
+# লারাভেল হোমস্টেড
 
-- [Introduction](#introduction)
+- [ভূমিকা](#introduction)
 - [Installation & Setup](#installation-and-setup)
     - [First Steps](#first-steps)
     - [Configuring Homestead](#configuring-homestead)
