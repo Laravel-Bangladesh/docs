@@ -18,14 +18,18 @@ Of course, additional middleware can be written to perform a variety of tasks be
 
 There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the `app/Http/Middleware` directory.
 
-<a name="defining-middleware"></a>
-## Defining Middleware
 
-To create a new middleware, use the `make:middleware` Artisan command:
+<a name="defining-middleware"></a>
+##  মিডলওয়্যার তৈরিঃ 
+
+একটি নতুন মিডলওয়্যার তৈরি করতে, `make: middleware` আর্টিজান কমান্ডটি ব্যবহার করুনঃ 
 
     php artisan make:middleware CheckAge
 
-This command will place a new `CheckAge` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the `home` URI.
+এই কমান্ডটি আপনার `app/Http/Middleware` ডিরেক্টরিতে একটি নতুন `CheckAge` ক্লাস তরী করবে। এই মিডলওয়্যার মধ্যে, যদি সরবরাহকৃত আগে `age` ২০০  এর চেয়ে বেশি হয় তা হলে আমরা শুধুমাত্র রাউট অ্যাক্সেস অনুমতি দেবে। অন্যথা, আমরা ব্যবহারকারীদের `home` URI এ পুনঃনির্দেশিত বা পাঠিয়ে দিব করব। 
+
+
+
 
     <?php
 
