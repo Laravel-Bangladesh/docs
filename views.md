@@ -1,16 +1,17 @@
 # Views
 
-- [Creating Views](#creating-views)
-- [Passing Data To Views](#passing-data-to-views)
+- [ভিউস তৈরি](#creating-views)
+- [যদি একটি ভিউ থাকে তা নির্ধারণ](#passing-data-to-views)
     - [Sharing Data With All Views](#sharing-data-with-all-views)
 - [View Composers](#view-composers)
 
 <a name="creating-views"></a>
-## Creating Views
+## ভিউস তৈরি
 
-> {tip} Looking for more information on how to write Blade templates? Check out the full [Blade documentation](/docs/{{version}}/blade) to get started.
+> {tip} Blade1 টেমপ্লেট লিখতে আরো তথ্যের জন্য খুঁজছেন? শুরু করতে সম্পূর্ণ [ব্লাডে ডকুমেন্টেশন](/docs/{{version}}/blade) দেখুন ।
 
-Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory. A simple view might look something like this:
+ভিউস(Views) এর মধ্যে আপনার অ্যাপ্লিকেশন এর HTML ফাইল থাকেে এবং  আপনার উপস্থাপনা যুক্তি থেকে আপনার কন্ট্রোলার / অ্যাপ্লিকেশন যুক্তিটি আলাদা করে। ভিউস ফাইল গুলো `resources/views` ডিরেক্টরিতে থাকে।  নিচে একটা খুব সাধারণ উধাহরন দেয়া হল:
+
 
     <!-- View stored in resources/views/greeting.blade.php -->
 
@@ -20,21 +21,21 @@ Views contain the HTML served by your application and separate your controller /
         </body>
     </html>
 
-Since this view is stored at `resources/views/greeting.blade.php`, we may return it using the global `view` helper like so:
+যেহেতু এই ভিউ `resources/views/greeting.blade.php` এ সংরক্ষিত আছে, গ্লোবাল `ভিউ` হেলপার(helper) ব্যবহার করে আমরা এটি রিটার্ন(return) করতে পারি:
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
 
-As you can see, the first argument passed to the `view` helper corresponds to the name of the view file in the `resources/views` directory. The second argument is an array of data that should be made available to the view. In this case, we are passing the `name` variable, which is displayed in the view using [Blade syntax](/docs/{{version}}/blade).
-
-Of course, views may also be nested within sub-directories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may reference it like so:
+আপনি দেখতে পারেন, `ভিউ` হেলপারা প্রেরিত প্রথম আর্গুমেন্ট টি `resources/views` ডিরেক্টরিতে  ভিউ  ফাইলটির নামের সাথে সম্পর্কিত। দ্বিতীয় আর্গুমেন্ট তথ্য একটি অ্যারের যা ভিউ উপলব্ধ করা উচিত। এই ক্ষেত্রে, আমরা `name` ভ্যারিয়েবল পাস করছি, যা ভিউ ব্যবহার করে প্রদর্শিত হয় [ব্লাডে সিনটেক্স](/docs/{{version}}/blade)। অবশ্যই, ভিউস  উপ-ডিরেক্টরি(sub-directories) `resources/views` এর মধ্যে নেস্টেড ভাবে থাকতে পারে। "ডট" নোটেশন নেস্টেড ভিউস উল্লেখ করতে ব্যবহার করা যেতে পারে।
+উদাহরণ স্বরূপ, যদি আপনার ভিউ `resources/views/admin/profile.blade.php` এ সংরক্ষিত থাকে, তবে আপনি এটির মত উল্লেখ করতে পারেন:
 
     return view('admin.profile', $data);
 
-#### Determining If A View Exists
+#### যদি একটি ভিউ থাকে তা নির্ধারণ 
 
-If you need to determine if a view exists, you may use the `View` facade. The `exists` method will return `true` if the view exists:
+যদি আপনাকে যাচাই করার প্রয়োজন হলে যদি একটি ভিউ বিদ্যমান,আপনি   ভিউ` ফ্যাকাড ব্যবহার করতে পারেন। যদি ভিউ থাকে তাহলে `exists` মেথড `true` রিটার্ন করবে। 
+
 
     use Illuminate\Support\Facades\View;
 
@@ -42,22 +43,22 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
         //
     }
 
-#### Creating The First Available View
+#### তৈরি করুন প্রথম উপলব্ধ ভিউ
 
-Using the `first` method, you may create the first view that exists in a given array of views. This is useful if your application or package allows views to be customized or overwritten:
+`first` মেথড টি ব্যবহার করে, আপনি আপনার প্রথম একটি ভিউ  তৈরি করতে পারেন যা একটি প্রদত্ত ভিউস অ্যারে উপস্থিত রয়েছে। আপনার অ্যাপ্লিকেশন বা প্যাকেজ যদি ভিউএস কাস্টমাইজ বা ওভাররাইট করার অনুমতি দেয় তবে এটি উপযোগী হবে। 
 
     return view()->first(['custom.admin', 'admin'], $data);
 
-Of course, you may also call this method via the `View` [facade](/docs/{{version}}/facades):
+অবশ্যই, আপনি এই মেথড গুলিকে `ভিউ` এর মাধ্যমে কল করতে পারেন  [facade](/docs/{{version}}/facades):
 
     use Illuminate\Support\Facades\View;
 
     return View::first(['custom.admin', 'admin'], $data);
 
 <a name="passing-data-to-views"></a>
-## Passing Data To Views
+## ভিউস তে ডাটা পাস
 
-As you saw in the previous examples, you may pass an array of data to views:
+যেমন আপনি পূর্ববর্তী উদাহরনে দেখেছেন, আপনি ভিউস তে একটি ডাটা অ্যারে পাঠাতে পারেন:
 
     return view('greetings', ['name' => 'Victoria']);
 
