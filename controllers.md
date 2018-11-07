@@ -64,9 +64,17 @@ Instead of defining all of your request handling logic as Closures in route file
 <a name="controllers-and-namespaces"></a>
 ### Controllers & Namespaces
 
-It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
+অ্যাপ্লিকেশন ডেভেলপ করার সময় কিছু কন্ট্রোলারকে পৃথক কোন ফোল্ডার কিংবা ডিরেক্টরিতে রাখতে হয়। আর এইক্ষেত্রে আমরা কাস্টম নেমস্পেস ব্যাবহার করে তা করতে পারি। ধরুন লারাভেলের কন্ট্রোলার ডিরেক্টরিতে Photos নামে একটি সাব-ডিরেক্টরি তৈরি করব আর ওই সাব-ডিরেক্টরিতে AdminController রাখব তাহলে কন্ট্রোলার ফাইলটি নিচের মত হবে। এটা মনে রাখা খুব গুরুত্বপূর্ণ যে কন্ট্রোলার রাউট সংজ্ঞায়িত করার সময় আমাদের সম্পূর্ণ কন্ট্রোলার নেমস্পেস নির্দিষ্ট করার প্রয়োজন নেই। যেহেতু `RouteServiceProvider` আপনার রাউট ফাইলগুলিকে একটি রাউট গ্রুপ মধ্যে লোড করে যা নেমস্পেস থাকে,
 
-If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
+we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
+
+If you choose to nest your controllers deeper into the `App\Http\Controllers` directory,
+
+use the specific class name relative to the `App\Http\Controllers` root namespace.
+
+So, if your full controller class is `App\Http\Controllers\Photos\AdminController`,
+
+you should register routes to the controller like so:
 
     Route::get('foo', 'Photos\AdminController@method');
 
@@ -101,13 +109,14 @@ When registering routes for single action controllers, you do not need to specif
     Route::get('user/{id}', 'ShowProfile');
 
 <a name="controller-middleware"></a>
-## Controller Middleware
+## কন্ট্রোলার মিডলওয়্যারঃ
 
-[Middleware](/docs/{{version}}/middleware) may be assigned to the controller's routes in your route files:
+[Middleware](/docs/{{version}}/middleware) আপনার রাউট  ফাইলগুলিতে  কন্ট্রোলার এর রুটগুলিতে আরোপিত/বরাদ্দ করা যেতে পারে:
 
     Route::get('profile', 'UserController@show')->middleware('auth');
 
-However, it is more convenient to specify middleware within your controller's constructor. Using the `middleware` method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:
+
+তবে, আপনার  কন্সট্রকটারের এর কন্সটাক্টর মধ্যে মিডলওয়্যার উল্লেখ করা অনেক সুবিধাজনক। আপনার কন্ট্রোলার এর কনস্ট্রাকটর থেকে `মিডলওয়্যার` মেথড ব্যবহার করে, আপনি সহজেই কন্ট্রোলার এর অ্যাকশন এ মিডলওয়্যার নির্ধারণ(assign) করতে পারবেন। আপনি এমনকি কন্ট্রোলার ক্লাস শুধুমাত্র নির্দিষ্ট পদ্ধতিতে মিডলওয়্যারগুলি সীমাবদ্ধ(restrict) করতে পারেন:
 
     class UserController extends Controller
     {
@@ -126,7 +135,8 @@ However, it is more convenient to specify middleware within your controller's co
         }
     }
 
-Controllers also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:
+কন্ট্রোলারগুলি আপনাকে ক্লোজার(Closure) ব্যবহার করে মিডলওয়্যার নিবন্ধন(register) করার অনুমতি দেয়। একটি একক কন্ট্রোলার জন্য একটি মিডলওয়্যার সংজ্ঞায়িত(define) করার  একটি সুবিধাজনক উপায় প্রদান করে একটি সম্পূর্ণ মিডলওয়ার ক্লাস সংজ্ঞায়িত(define) ছাড়া:
+
 
     $this->middleware(function ($request, $next) {
         // ...
@@ -139,21 +149,11 @@ Controllers also allow you to register middleware using a Closure. This provides
 <a name="resource-controllers"></a>
 ## রিসোর্স কন্ট্রোলার
 
-লারাভেল রিসোর্স রুটিং মুলত "CRUD" রাউট যা একটি কন্ট্রোলারেতে এক লাইনের কোড মাধমে সনযুক্ত করে।
-
-উদাহরনসরুপ, আপনি একটি কন্ট্রোলার তৈরি করতে পারেন যা আপনার অ্যাপ্লিকেশন দ্বারা সংরক্ষিত "photos" এর জন্য সমস্ত HTTP অনুরোধগুলি পরিচালনা করে।
-
-আর্টিসান কম্যান্ড  `make:controller` ব্যবহার করে, আমরা দ্রুত এই ধরনের একটি কন্ট্রোলার তৈরি করতে পারি:
+লারাভেল রিসোর্স রুটিং মুলত "CRUD" রাউট যা একটি কন্ট্রোলারেতে এক লাইনের কোড মাধমে সনযুক্ত করে। উদাহরনসরুপ, আপনি একটি কন্ট্রোলার তৈরি করতে পারেন যা আপনার অ্যাপ্লিকেশন দ্বারা সংরক্ষিত "photos" এর জন্য সমস্ত HTTP অনুরোধগুলি পরিচালনা করে। আর্টিসান কম্যান্ড  `make:controller` ব্যবহার করে, আমরা দ্রুত এই ধরনের একটি কন্ট্রোলার তৈরি করতে পারি:
 
     php artisan make:controller PhotoController --resource
 
-এই কমান্ডটি  `app/Http/Controllers/PhotoController.php` তে একটি কন্ট্রোলার তৈরি করবে।
-
- এই কন্ট্রোলারে কাঙ্ক্ষিত রিসোর্সে অপারেশন এর জন্য একটি করে মেথড থাকবে।
-
-Next, you may register a resourceful route to the controller:
-
-পরবর্তী, আপনি কন্ট্রোলারেতে একটি রিসৌর্সফুল রাউট  নিবন্ধিত করতে হবে।
+এই কমান্ডটি  `app/Http/Controllers/PhotoController.php` তে একটি কন্ট্রোলার তৈরি করবে। এই কন্ট্রোলারে কাঙ্ক্ষিত রিসোর্সে অপারেশন এর জন্য একটি করে মেথড থাকবে। পরবর্তী, আপনি কন্ট্রোলারেতে একটি রিসৌর্সফুল রাউট  নিবন্ধিত করতে হবে।
 
     Route::resource('photos', 'PhotoController');
 
