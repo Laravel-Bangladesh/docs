@@ -1,4 +1,4 @@
-# Views
+# ভিউস
 
 - [ভিউস তৈরি](#creating-views)
 - [যদি একটি ভিউ থাকে তা নির্ধারণ](#passing-data-to-views)
