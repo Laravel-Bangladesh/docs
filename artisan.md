@@ -21,29 +21,29 @@
 <a name="introduction"></a>
 ## Introduction
 
-Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
+Artisan কমান্ড লাইন ইন্টারফেস যা Laravel এর সঙ্গে অন্তর্ভুক্ত করা হয়। এটি বেশ কয়েকটি সহায়ক কমান্ড সরবরাহ করে যা আপনার অ্যাপ্লিকেশন তৈরি করার সময় আপনাকে সহায়তা করতে পারে। Artisan এর সমস্ত কমান্ডের একটি তালিকা দেখতে, আপনি `list` কমান্ডটি ব্যবহার করতে পারেন:
 
     php artisan list
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, precede the name of the command with `help`:
+প্রতিটি কমান্ডটিতে একটি "help" পর্দা রয়েছে যা কমান্ডের প্রাপ্য আর্গুমেন্ট এবং বিকল্পগুলি প্রদর্শন করে এবং বর্ণনা করে। একটি হেল্প স্ক্রীন দেখতে, এর সাথে কমান্ডের নাম আগে `help`:
 
     php artisan help migrate
 
 #### Laravel REPL
 
-All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+সমস্ত লারভেল অ্যাপ্লিকেশনগুলিতে Tinker, [PsySH](https://github.com/bobthecow/psysh) প্যাকেজ দ্বারা চালিত একটি REPL অন্তর্ভুক্ত। Tinker আপনাকে এলকোভেন্ট ORM, জব, ইভেন্ট এবং আরও অনেক কিছু সহ কমান্ড লাইনে আপনার সমগ্র Laravel অ্যাপ্লিকেশনটির সাথে ইন্টারঅ্যাক্ট করার অনুমতি দেয়। Tinker পরিবেশ প্রবেশ করতে, চালান `tinker` Artisan কমান্ড:
 
     php artisan tinker
 
 <a name="writing-commands"></a>
 ## Writing Commands
 
-In addition to the commands provided with Artisan, you may also build your own custom commands. Commands are typically stored in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.
+আর্টিসান দ্বারা সরবরাহিত কমান্ড ছাড়াও, আপনি নিজের নিজস্ব কাস্টম কমান্ডগুলিও তৈরি করতে পারেন। কমান্ড সাধারণত সংরক্ষণ করা হয় `app/Console/Commands` ডিরেক্টরিতে; যাইহোক, আপনি যতক্ষণ আপনার কমান্ডগুলি কম্পোজার দ্বারা লোড করা যেতে পারে ততক্ষণ আপনি নিজের সঞ্চয়স্থান নির্বাচন করতে পারবেন।
 
 <a name="generating-commands"></a>
 ### Generating Commands
 
-To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
+নতুন কমান্ড তৈরি করতে, ব্যবহার করুন `make:command` Artisan কমান্ড। এই কমান্ডটি একটি নতুন কমান্ড ক্লাস তৈরি করবে `app/Console/Commands` ডিরেক্টরিতে। এই ডিরেক্টরিটি আপনার অ্যাপ্লিকেশানে উপস্থিত না থাকলে চিন্তা করবেন না, কারণ এটি প্রথমবারে চালানো হবে `make:command` Artisan command. উত্পন্ন কমান্ডটি সমস্ত কমান্ডের উপস্থিত থাকা বৈশিষ্ট্য এবং পদ্ধতিগুলির ডিফল্ট সেট অন্তর্ভুক্ত করবে:
 
     php artisan make:command SendEmails
 
