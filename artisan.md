@@ -114,7 +114,7 @@ Artisan কমান্ড লাইন ইন্টারফেস যা Larav
 <a name="closure-commands"></a>
 ### Closure Commands
 
-Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
+Closure ভিত্তিক কমান্ড শ্রেণী হিসাবে কনসোল কমান্ড সংজ্ঞায়িত করার জন্য একটি বিকল্প প্রদান করে। একই পথে যে রুট Closures কন্ট্রোলার একটি বিকল্প, কমান্ড ক্লাস বিকল্প হিসাবে কমান্ড Closure. আনার `commands` মেথড `app/Console/Kernel.php` ফাইল, Laravel `routes/console.php` file লোড করে:
 
     /**
      * Register the Closure based commands for the application.
@@ -126,17 +126,17 @@ Closure based commands provide an alternative to defining console commands as cl
         require base_path('routes/console.php');
     }
 
-Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your Closure based routes using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
+যদিও এই ফাইল HTTP রুট সংজ্ঞায়িত করে না, এটি আপনার অ্যাপ্লিকেশনে কনসোল ভিত্তিক এন্ট্রি পয়েন্ট (রুট) সংজ্ঞায়িত করে। এই ফাইলের মধ্যে, আপনি  আপনার সমস্ত ক্লোজার ভিত্তিক ব্যবহার করে রুট সংজ্ঞায়িত করতে পারেন `Artisan::command` মেথড গুলো. এই `command` মেথড দুটি আর্গুমেন্ট গ্রহণ করে:  [command signature](#defining-input-expectations) এবং একটি ক্লোজার যা কমান্ড আর্গুমেন্ট এবং বিকল্পগুলি গ্রহণ করে:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
     });
 
-The Closure is bound to the underlying command instance, so you have full access to all of the helper methods you would typically be able to access on a full command class.
+ক্লোজার অন্তর্নিহিত কমান্ড ইনস্ট্যান্সের সাথে আবদ্ধ, তাই আপনি সম্পূর্ণ সহায়তার ক্লাসে আপনি অ্যাক্সেস করতে সক্ষম এবং হেলপারের সমস্ত পদ্ধতিতে সম্পূর্ণ অ্যাক্সেস পাবেন।
 
 #### Type-Hinting Dependencies
-
-In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
+আপনার কমান্ডের আর্গুমেন্ট এবং বিকল্পগুলি পাওয়ার পাশাপাশি কমান্ড ক্লোজারগুলি অতিরিক্ত নির্ভরতাগুলি টাইপ-ইন্টিন্ট করতে পারে যা আপনি সমাধান করতে চান
+[service container](/docs/{{version}}/container):
 
     use App\User;
     use App\DripEmailer;
