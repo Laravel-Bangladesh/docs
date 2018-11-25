@@ -50,11 +50,11 @@ Artisan কমান্ড লাইন ইন্টারফেস যা Larav
 <a name="command-structure"></a>
 ### Command Structure
 
-After generating your command, you should fill in the `signature` and `description` properties of the class, which will be used when displaying your command on the `list` screen. The `handle` method will be called when your command is executed. You may place your command logic in this method.
+আপনার কমান্ড তৈরি করার পরে, আপনি পূরণ করা উচিত `signature` এবং `description`  ক্লাস বৈশিষ্ট্যগুলো, যা আপনার কমান্ড প্রদর্শন করার সময় ব্যবহার করা হবে `list` ্ক্রীন এ. `handle` আপনার কমান্ড কার্যকর করার সময় কল করা হবে। আপনি এই পদ্ধতিতে আপনার কমান্ড লজিক স্থাপন করতে পারেন।
 
-> {tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example below, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
+> {tip} বৃহত্তর কোড পুনঃব্যবহারের জন্য, আপনার কনসোল কমান্ড হালকা রাখা ভাল অনুশীলন এবং তাদের কর্ম সম্পাদন করার জন্য অ্যাপ্লিকেশন সেবা আলাদা করা । নিচের উদাহরনে, উল্লেখ্য যে আমরা একটি সার্ভিস ক্লাস ইনজেকশন করেছি "heavy lifting" ইমেইল পাঠানোর।
 
-Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor:
+চলুন একটি উদাহরণ কমান্ড দেখুন. উল্লেখ্য যে আমরা কমান্ডের কন্সট্রকটারে আমাদের যেকোনো নির্ভরতাগুলি ইনজেক্ট করতে সক্ষম। Laravel এর [service container](/docs/{{version}}/container) স্বয়ংক্রিয়ভাবে নির্মাতার টাইপ-ইঙ্গিত সমস্ত নির্ভরতা ইনজেকশন করবে:
 
     <?php
 
