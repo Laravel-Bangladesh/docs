@@ -9,23 +9,26 @@
 - [Middleware Parameters](#middleware-parameters)
 - [Terminable Middleware](#terminable-middleware)
 
+
 <a name="introduction"></a>
 ## Introduction
 
-Middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+মিডলওয়্যার আপনার request প্রবেশ HTTP অনুরোধ ফিল্টার করার জন্য একটি সুবিধাজনক প্রক্রিয়া প্রদান। উদাহরণস্বরূপ, লারাভেল একটি মিডলওয়্যার যাচাই করে যে আপনার আবেদনের ব্যবহারকারী অনুমোদন যাচাই করা হয় অন্তর্ভুক্ত করা হয়েছে। ব্যবহারকারী প্রামাণ না থাকে, মিডলওয়্যার লগইন  পিঠা  ব্যবহারকারীর redirect করবে। যাইহোক, যদি ব্যবহারকারী অনুমোদন যাচাই করা হয় মিডলওয়্যার অনুরোধ আবেদন মধ্যে আরও এগিয়ে যেতে পারবে
 
 Of course, additional middleware can be written to perform a variety of tasks besides authentication. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. A logging middleware might log all incoming requests to your application.
 
 There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the `app/Http/Middleware` directory.
 
+
 <a name="defining-middleware"></a>
 ## Defining Middleware
 
-To create a new middleware, use the `make:middleware` Artisan command:
+একটি নতুন মিডলওয়্যার তৈরি করতে, `make: middleware` আর্টিজান কমান্ডটি ব্যবহার করুনঃ 
 
     php artisan make:middleware CheckAge
 
-This command will place a new `CheckAge` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the `home` URI:
+এই কমান্ডটি আপনার `app/Http/Middleware` ডিরেক্টরিতে একটি নতুন `CheckAge` ক্লাস তরী করবে। এই মিডলওয়্যার মধ্যে, যদি সরবরাহকৃত আগে `age` ২০০  এর চেয়ে বেশি হয় তা হলে আমরা শুধুমাত্র রাউট অ্যাক্সেস অনুমতি দেবে। অন্যথা, আমরা ব্যবহারকারীদের `home` URI এ পুনঃনির্দেশিত বা পাঠিয়ে দিব করব। 
+
 
     <?php
 
@@ -55,8 +58,6 @@ This command will place a new `CheckAge` class within your `app/Http/Middleware`
 As you can see, if the given `age` is less than or equal to `200`, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), call the `$next` callback with the `$request`.
 
 It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
-
-> {tip} All middleware are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a middleware's constructor.
 
 ### Before & After Middleware
 
@@ -109,7 +110,7 @@ If you want a middleware to run during every HTTP request to your application, l
 <a name="assigning-middleware-to-routes"></a>
 ### Assigning Middleware To Routes
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, append it to this list and assign it a key of your choosing:
+If you would like to assign middleware to specific routes, you should first assign the middleware a key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, append it to this list and assign it a key of your choosing.
 
     // Within App\Http\Kernel Class...
 
@@ -124,6 +125,8 @@ If you would like to assign middleware to specific routes, you should first assi
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
+
+
 
 Once the middleware has been defined in the HTTP kernel, you may use the `middleware` method to assign middleware to a route:
 
