@@ -21,40 +21,40 @@
 <a name="introduction"></a>
 ## Introduction
 
-Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
+Artisan কমান্ড লাইন ইন্টারফেস যা Laravel এর সঙ্গে অন্তর্ভুক্ত করা হয়। এটি বেশ কয়েকটি সহায়ক কমান্ড সরবরাহ করে যা আপনার অ্যাপ্লিকেশন তৈরি করার সময় আপনাকে সহায়তা করতে পারে। Artisan এর সমস্ত কমান্ডের একটি তালিকা দেখতে, আপনি `list` কমান্ডটি ব্যবহার করতে পারেন:
 
     php artisan list
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, precede the name of the command with `help`:
+প্রতিটি কমান্ডটিতে একটি "help" পর্দা রয়েছে যা কমান্ডের প্রাপ্য আর্গুমেন্ট এবং বিকল্পগুলি প্রদর্শন করে এবং বর্ণনা করে। একটি হেল্প স্ক্রীন দেখতে, এর সাথে কমান্ডের নাম আগে `help`:
 
     php artisan help migrate
 
 #### Laravel REPL
 
-All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+সমস্ত লারভেল অ্যাপ্লিকেশনগুলিতে Tinker, [PsySH](https://github.com/bobthecow/psysh) প্যাকেজ দ্বারা চালিত একটি REPL অন্তর্ভুক্ত। Tinker আপনাকে এলকোভেন্ট ORM, জব, ইভেন্ট এবং আরও অনেক কিছু সহ কমান্ড লাইনে আপনার সমগ্র Laravel অ্যাপ্লিকেশনটির সাথে ইন্টারঅ্যাক্ট করার অনুমতি দেয়। Tinker পরিবেশ প্রবেশ করতে, চালান `tinker` Artisan কমান্ড:
 
     php artisan tinker
 
 <a name="writing-commands"></a>
 ## Writing Commands
 
-In addition to the commands provided with Artisan, you may also build your own custom commands. Commands are typically stored in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.
+আর্টিসান দ্বারা সরবরাহিত কমান্ড ছাড়াও, আপনি নিজের নিজস্ব কাস্টম কমান্ডগুলিও তৈরি করতে পারেন। কমান্ড সাধারণত সংরক্ষণ করা হয় `app/Console/Commands` ডিরেক্টরিতে; যাইহোক, আপনি যতক্ষণ আপনার কমান্ডগুলি কম্পোজার দ্বারা লোড করা যেতে পারে ততক্ষণ আপনি নিজের সঞ্চয়স্থান নির্বাচন করতে পারবেন।
 
 <a name="generating-commands"></a>
 ### Generating Commands
 
-To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
+নতুন কমান্ড তৈরি করতে, ব্যবহার করুন `make:command` Artisan কমান্ড। এই কমান্ডটি একটি নতুন কমান্ড ক্লাস তৈরি করবে `app/Console/Commands` ডিরেক্টরিতে। এই ডিরেক্টরিটি আপনার অ্যাপ্লিকেশানে উপস্থিত না থাকলে চিন্তা করবেন না, কারণ এটি প্রথমবারে চালানো হবে `make:command` Artisan command. উত্পন্ন কমান্ডটি সমস্ত কমান্ডের উপস্থিত থাকা বৈশিষ্ট্য এবং পদ্ধতিগুলির ডিফল্ট সেট অন্তর্ভুক্ত করবে:
 
     php artisan make:command SendEmails
 
 <a name="command-structure"></a>
 ### Command Structure
 
-After generating your command, you should fill in the `signature` and `description` properties of the class, which will be used when displaying your command on the `list` screen. The `handle` method will be called when your command is executed. You may place your command logic in this method.
+আপনার কমান্ড তৈরি করার পরে, আপনি পূরণ করা উচিত `signature` এবং `description`  ক্লাস বৈশিষ্ট্যগুলো, যা আপনার কমান্ড প্রদর্শন করার সময় ব্যবহার করা হবে `list` ্ক্রীন এ. `handle` আপনার কমান্ড কার্যকর করার সময় কল করা হবে। আপনি এই পদ্ধতিতে আপনার কমান্ড লজিক স্থাপন করতে পারেন।
 
-> {tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example below, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
+> {tip} বৃহত্তর কোড পুনঃব্যবহারের জন্য, আপনার কনসোল কমান্ড হালকা রাখা ভাল অনুশীলন এবং তাদের কর্ম সম্পাদন করার জন্য অ্যাপ্লিকেশন সেবা আলাদা করা । নিচের উদাহরনে, উল্লেখ্য যে আমরা একটি সার্ভিস ক্লাস ইনজেকশন করেছি "heavy lifting" ইমেইল পাঠানোর।
 
-Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor or `handle` method. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor or `handle` method:
+চলুন একটি উদাহরণ কমান্ড দেখুন. উল্লেখ্য যে আমরা কমান্ডের কন্সট্রকটারে আমাদের যেকোনো নির্ভরতাগুলি ইনজেক্ট করতে সক্ষম। Laravel এর [service container](/docs/{{version}}/container) স্বয়ংক্রিয়ভাবে নির্মাতার টাইপ-ইঙ্গিত সমস্ত নির্ভরতা ইনজেকশন করবে:
 
     <?php
 
@@ -114,7 +114,7 @@ Let's take a look at an example command. Note that we are able to inject any dep
 <a name="closure-commands"></a>
 ### Closure Commands
 
-Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
+Closure ভিত্তিক কমান্ড শ্রেণী হিসাবে কনসোল কমান্ড সংজ্ঞায়িত করার জন্য একটি বিকল্প প্রদান করে। একই পথে যে রুট Closures কন্ট্রোলার একটি বিকল্প, কমান্ড ক্লাস বিকল্প হিসাবে কমান্ড Closure. আনার `commands` মেথড `app/Console/Kernel.php` ফাইল, Laravel `routes/console.php` file লোড করে:
 
     /**
      * Register the Closure based commands for the application.
@@ -126,17 +126,17 @@ Closure based commands provide an alternative to defining console commands as cl
         require base_path('routes/console.php');
     }
 
-Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your Closure based routes using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
+যদিও এই ফাইল HTTP রুট সংজ্ঞায়িত করে না, এটি আপনার অ্যাপ্লিকেশনে কনসোল ভিত্তিক এন্ট্রি পয়েন্ট (রুট) সংজ্ঞায়িত করে। এই ফাইলের মধ্যে, আপনি  আপনার সমস্ত ক্লোজার ভিত্তিক ব্যবহার করে রুট সংজ্ঞায়িত করতে পারেন `Artisan::command` মেথড গুলো. এই `command` মেথড দুটি আর্গুমেন্ট গ্রহণ করে:  [command signature](#defining-input-expectations) এবং একটি ক্লোজার যা কমান্ড আর্গুমেন্ট এবং বিকল্পগুলি গ্রহণ করে:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
     });
 
-The Closure is bound to the underlying command instance, so you have full access to all of the helper methods you would typically be able to access on a full command class.
+ক্লোজার অন্তর্নিহিত কমান্ড ইনস্ট্যান্সের সাথে আবদ্ধ, তাই আপনি সম্পূর্ণ সহায়তার ক্লাসে আপনি অ্যাক্সেস করতে সক্ষম এবং হেলপারের সমস্ত পদ্ধতিতে সম্পূর্ণ অ্যাক্সেস পাবেন।
 
 #### Type-Hinting Dependencies
-
-In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
+আপনার কমান্ডের আর্গুমেন্ট এবং বিকল্পগুলি পাওয়ার পাশাপাশি কমান্ড ক্লোজারগুলি অতিরিক্ত নির্ভরতাগুলি টাইপ-ইন্টিন্ট করতে পারে যা আপনি সমাধান করতে চান
+[service container](/docs/{{version}}/container):
 
     use App\User;
     use App\DripEmailer;
@@ -365,8 +365,8 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
     $users = App\User::all();
 
     $bar = $this->output->createProgressBar(count($users));
-    
-    $bar->start();
+
+    $bar->start(); 
 
     foreach ($users as $user) {
         $this->performTask($user);
@@ -376,7 +376,7 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
 
     $bar->finish();
 
-For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/current/components/console/helpers/progressbar.html).
+For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
 
 <a name="registering-commands"></a>
 ## Registering Commands
@@ -405,7 +405,7 @@ You may also manually register commands by adding its class name to the `$comman
 <a name="programmatically-executing-commands"></a>
 ## Programmatically Executing Commands
 
-Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts either the command's name or class as the first argument, and an array of command parameters as the second argument. The exit code will be returned:
+Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts the name of the command as the first argument, and an array of command parameters as the second argument. The exit code will be returned:
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
