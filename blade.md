@@ -24,29 +24,6 @@
 - [Extending Blade](#extending-blade)
     - [Custom If Statements](#custom-if-statements)
 
-# ব্লেড টেমপ্লেট
-
-- [ভূমিকা](#introduction)
-- [টেমপ্লেট ইনহেরিটেন্স](#template-inheritance)
-    - [লেআউট  ডিফাইনিং](#defining-a-layout)
-    - [একটি লেআউট এক্সটেন্ডিং](#extending-a-layout)
-- [Components & Slots](#components-and-slots)
-- [Displaying Data](#displaying-data)
-    - [Blade & JavaScript Frameworks](#blade-and-javascript-frameworks)
-- [Control Structures](#control-structures)
-    - [If Statements](#if-statements)
-    - [Switch Statements](#switch-statements)
-    - [Loops](#loops)
-    - [The Loop Variable](#the-loop-variable)
-    - [Comments](#comments)
-    - [PHP](#php)
-- [Including Sub-Views](#including-sub-views)
-    - [Rendering Views For Collections](#rendering-views-for-collections)
-- [Stacks](#stacks)
-- [Service Injection](#service-injection)
-- [Extending Blade](#extending-blade)
-    - [Custom If Statements](#custom-if-statements)
-
 <a name="introduction"></a>
 ## ভূমিকা
 
