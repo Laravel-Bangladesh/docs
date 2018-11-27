@@ -8,29 +8,37 @@
 <a name="csrf-introduction"></a>
 ## Introduction
 
-Laravel makes it easy to protect your application from [cross-site request forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) attacks. Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user.
+লারাভেল আপনার অ্যাপ্লিকেশনটিকে ধোঁকাবাজদের  [ক্রস সাইট অনুরোধ জালিয়াতি](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) আক্রমণ থেকে সহজে সুরক্ষা প্রধান করে। ক্রস সাইট অনুরোধ জালিয়াতি একটি ওয়েব সাইট জন্য একধরনের দূষিত, একটি অথেন্টিকেটেড ব্যবহারকারী কমেন্ড এর মতোই।
 
-Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application.
+প্রত্যেক সক্রিয় ব্যবহারকারীর সেশনে লারাভেল অ্যাপ্লিকেশান দ্বারা স্বয়ংক্রিয়ভাবে CSRF "token" তৈরি করে। এই টোকেনটি দ্বারা যাচাই করার হয় সত্যিকার অর্থে অথেন্টিকেটেড ব্যবহারকারী অ্যাপ্লিকেশনের জন্য অনুরোধ(requests) করেছে কিনা।
 
-Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
+যে কোন সময় আপনার অ্যাপ্লিকেশানটিতে HTML ফর্ম ডিফাইন করতে পারেন, আপনাকে অবশ্যই একটি hidden CSRF token field অন্তরবুক্ত করতে হবে। যাতে CSRF protection middleware অনুরোধটি যাচাই করতে পারে। আপনে সম্ভাবত `@csrf` ব্যাবহার করবেন Blade একটি  token field তৈরি করতে নির্দেশিত করবে।
 
     <form method="POST" action="/profile">
         @csrf
         ...
     </form>
 
-The `VerifyCsrfToken` [middleware](/docs/{{version}}/middleware), which is included in the `web` middleware group, will automatically verify that the token in the request input matches the token stored in the session.
+`VerifyCsrfToken` [middleware](/docs/{{version}}/middleware),
+যা `web` middleware group এ অন্তর্ভুক্ত করা রয়েছে, স্বয়ংক্রিয়ভাবে টকেন যাচাই করা হয় যে অনুরোধ(request) করা ইনপুটে টোকেন সেশনে সঞ্চিত টোকেন এর সাথে মিলে কিনা।
+
 
 #### CSRF Tokens & JavaScript
 
-When building JavaScript driven applications, it is convenient to have your JavaScript HTTP library automatically attach the CSRF token to every outgoing request. By default, the `resources/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. If you are not using this library, you will need to manually configure this behavior for your application.
+যখন জাভাস্ক্রিপ্ট চালিত অ্যাপ্লিকেশন তৈরি করবেন, আপনার জাভাস্ক্রিপ্ট `HTTP` লাইব্রেরি স্বয়ংক্রিয়ভাবে প্রতিটি আউটগোয়িং অনুরোধে ( outgoing request ) CSRF টোকেন সংযুক্ত করে। ডিফল্ট ভাবে,  `resources/js/bootstrap.js` ফাইলটি
+`Axios HTTP` লাইব্রেরি সঙ্গে মেটা ট্যাগের `csrf- টোকেন` এর value অন্তর্ভুক্ত করে। আপনি যদি এই লাইব্রেরি ব্যবহার না করেন, আপনাকে অ্যাপ্লিকেশনের জন্য এই আচরণটি ম্যানুয়ালয় কনফিগার করতে হবে।
 
 <a name="csrf-excluding-uris"></a>
-## Excluding URIs From CSRF Protection
+## Excluding URIs From CSRF সুরক্ষা
 
-Sometimes you may wish to exclude a set of URIs from CSRF protection. For example, if you are using [Stripe](https://stripe.com) to process payments and are utilizing their webhook system, you will need to exclude your Stripe webhook handler route from CSRF protection since Stripe will not know what CSRF token to send to your routes.
+কখনও কখনও আপনে আগ্রহী হবেন উল্লিখিত একটি সেট URI গুলিতে CSRF সুরক্ষা প্রক্রিয়া চালাতে। উদাহরণস্বরূপ, যদি আপনি পেমেন্ট প্রক্রিয়া করার জন্য [Stripe](https://stripe.com) ব্যবহার করেন এবং তাদের webhook সিস্টেম কাজে লাগান,
 
-Typically, you should place these kinds of routes outside of the `web` middleware group that the `RouteServiceProvider` applies to all routes in the `routes/web.php` file. However, you may also exclude the routes by adding their URIs to the `$except` property of the `VerifyCsrfToken` middleware:
+আপনার প্রয়োজন হবে CSRF সুরক্ষা webhook handler route এ exclude করতে হবে, যেহেতু Stripe জানতে পারবে যে CSRF টোকেন  আপনার route গুলিতে পাঠানো হয়েছে কিনা।
+
+সাধারণত, আপনাকে `RouteServiceProvider` এর `routes/web.php` ফাইলের  `web` মিডিলওয়্যার গ্রুপের বাইরে এই ধরনের রাউটগুলি স্থাপন করা উচিত।
+
+যাইহোক, আপনি `VerifyCsrfToken` মিডিলারের URI গুলিকে `$except` property কে exclude করতে চাইবেন।
+
 
     <?php
 
@@ -52,16 +60,19 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
         ];
     }
 
-> {tip} The CSRF middleware is automatically disabled when [running tests](/docs/{{version}}/testing).
+> যখন [tests প্রক্রিয়া ](/docs/{{version}}/testing) চলমান, তখন CSRF মিডডওয়াল স্বয়ংক্রিয়ভাবে বন্ধ (disabled) থাকে।
 
 <a name="csrf-x-csrf-token"></a>
 ## X-CSRF-TOKEN
 
-In addition to checking for the CSRF token as a POST parameter, the `VerifyCsrfToken` middleware will also check for the `X-CSRF-TOKEN` request header. You could, for example, store the token in a HTML `meta` tag:
+POST প্যারামিটারের হিসাবে CSRF টোকেন যাচাই করার পাশাপাশি `VerifyCsrfToken` মিডিলওয়্যারে, `X-CSRF-TOKEN` অনুরোধ(request) হেডারের জন্যও যাচাই করবে
+
+
+উদাহরণস্বরূপ, আপনি একটি এইচটিএমএল `meta` ট্যাগে টোকেন সংরক্ষণ করতে পারেন:
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-Then, once you have created the `meta` tag, you can instruct a library like jQuery to automatically add the token to all request headers. This provides simple, convenient CSRF protection for your AJAX based applications:
+তারপর, একবার আপনি মেটা ট্যাগ তৈরি করেছেন, আপনে জকুয়ার‍্য লাইব্রেরি এর মাধ্যমে নির্দেশনা দিয়ে, সমস্ত অনুরোধ (request) হেডারগুলিতে টোকেন যোগ করতে পারেন। এটি AJAX এর ভিত্তিক অ্যাপ্লিকেশন জন্য সহজ, সুবিধাজনক CSRF সুরক্ষা প্রদান করে:
 
     $.ajaxSetup({
         headers: {
@@ -69,11 +80,17 @@ Then, once you have created the `meta` tag, you can instruct a library like jQue
         }
     });
 
-> {tip} By default, the `resources/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. If you are not using this library, you will need to manually configure this behavior for your application.
+> {টিপ} ডিফল্টরূপে, `resources/assets/js/bootstrap.js` ফাইল `Axios HTTP` লাইব্রেরি  `csrf-token` মেটা ট্যাগের সাথে যুক্ত(register) করে । আপনি যদি এই লাইব্রেরিটি ব্যবহার না করেন, তবে আপনাকে অ্যাপ্লিকেশনে এই  আচরণের(behavior) জন্য ম্যানুয়ালয় কনফিগার করতে হবে।
 
 <a name="csrf-x-xsrf-token"></a>
 ## X-XSRF-TOKEN
 
-Laravel stores the current CSRF token in a `XSRF-TOKEN` cookie that is included with each response generated by the framework. You can use the cookie value to set the `X-XSRF-TOKEN` request header.
+লারাভেল বর্তমান CSRF টোকেন  `XSRF-TOKEN` কুকিতে সঞ্চয় করে যা প্রতিটি প্রতিক্রিয়াতে ফ্রেমওয়ার্ক দ্বারা উৎপন্ন হয়।  আপনি কুকি ভ্যালু `X-XSRF-TOKEN` request header এ ব্যবহার করতে পারেন।
 
-This cookie is primarily sent as a convenience since some JavaScript frameworks and libraries, like Angular and Axios, automatically place its value in the `X-XSRF-TOKEN` header.
+এই কুকি মূলত কিছু জাভাস্ক্রিপ্ট ফ্রেমওয়ার্ক এবং লাইব্রেরি সাথে একটি সুবিধা জনক ভাবে [primarily] পাঠানো হয়। যেমন  Angular এবং Axios, স্বয়ংক্রিয়ভাবে  `X-XSRF-TOKEN` header তার মানটি রাখে।
+
+এই কুকি মূলত কিছু জাভাস্ক্রিপ্ট ফ্রেমওয়ার্ক এবং লাইব্রেরি সাথে একটি সুবিধা জনক ভাবে [primarily] পাঠানো হয়,
+
+like Angular and Axios, automatically place its value in the `X-XSRF-TOKEN` header.
+
+যেমন  Angular এবং Axios, স্বয়ংক্রিয়ভাবে  `X-XSRF-TOKEN` header তার মানটি রাখে।
