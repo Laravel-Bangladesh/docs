@@ -22,28 +22,28 @@
 - [Form Method Spoofing](#form-method-spoofing)
 - [Accessing The Current Route](#accessing-the-current-route)
 
+
 <a name="basic-routing"></a>
 ## Basic Routing
 
-The most basic Laravel routes accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
+সবচেয়ে সাধারণ লারাভেল রাউট URI হিসাবে ব্যবহার কর হয় এবং একটি Closure, প্রধান করে রাউট ডিফাইন করার জন্য খুব সাধারণ এবং অর্থপূর্ণ মেথড নাম ব্যবহার করা হয়:
 
     Route::get('foo', function () {
         return 'Hello World';
     });
 
-#### The Default Route Files
+#### ডিফল্ট রাউট ফাইলগুলি
 
-All Laravel routes are defined in your route files, which are located in the `routes` directory. These files are automatically loaded by the framework. The `routes/web.php` file defines routes that are for your web interface. These routes are assigned the `web` middleware group, which provides features like session state and CSRF protection. The routes in `routes/api.php` are stateless and are assigned the `api` middleware group.
+সমস্ত লারাভেল রাউটস সংজ্ঞায়িত রাউট ফাইল হিসাবে, যা `route` ডিরেক্টরির মধ্যে অবস্থিত। এই ফাইলগুলি স্বয়ংক্রিয়ভাবে ফ্রেমওয়ার্ক দ্বারা লোড হয়। `routes/web.php` ফাইল আপনার ওয়েব ইন্টারফেস জন্য যে রাউটস সংজ্ঞায়িত। এই রাউটস `web` middleware group আরোপিত করা হয়, যা session stat এবং CSRF সুরক্ষা মত বৈশিষ্ট্য প্রদান করে। `routes/api.php` রাউট `api` middleware group এ অন্তর্ভুক্ত।
 
-For most applications, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://your-app.test/user` in your browser:
+অধিকাংশ অ্যাপ্লিকেশনের জন্য, আপনি  'route/ web.php'  ফাইলের রুটগুলি সংজ্ঞায়িত করে শুরু করতে পারবেন। `routes/web.php` এ সংজ্ঞায়িত রুটগুলি আপনার ব্রাউজারে নির্ধারিত রাউটের URL টি প্রবেশ করে অ্যাক্সেস করা যেতে পারে। উদাহরণস্বরূপ, আপনি  ব্রাউজারে  `http://your-app.test/user` এ নেভিগেট করার মাধ্যমে নিম্নোক্ত রুটটি ব্যবহার করা যায়:
 
     Route::get('/user', 'UserController@index');
 
-Routes defined in the `routes/api.php` file are nested within a route group by the `RouteServiceProvider`. Within this group, the `/api` URI prefix is automatically applied so you do not need to manually apply it to every route in the file. You may modify the prefix and other route group options by modifying your `RouteServiceProvider` class.
+ `routes/api.php`  ফাইলের রেফারেন্সগুলি রাউট গ্রুপ মধ্যে `RouteServiceProvider` দ্বারা নিথর করা হয়। এই গোষ্ঠীর মধ্যে, `/ api` URI প্রিফিক্স স্বয়ংক্রিয়ভাবে প্রয়োগ করা হয় তাই আপনাকে এটি ফাইলটির প্রতিটি রাউট ম্যানুয়ালি প্রয়োগ করতে হবে না। আপনি  `RouteServiceProvider` class এ  প্রিফিক্স  এবং অন্যান্য route group  বিকল্পগুলি পরিবর্তন করতে পারেন।
 
-#### Available Router Methods
-
-The router allows you to register routes that respond to any HTTP verb:
+#### সচারাচর রাউট মেথড গুলো
+রাউটার অনুমতিদেয় আপনার   register রাউটস এ যা যেকোনো HTTP verb এ respond করে:
 
     Route::get($uri, $callback);
     Route::post($uri, $callback);
@@ -52,7 +52,7 @@ The router allows you to register routes that respond to any HTTP verb:
     Route::delete($uri, $callback);
     Route::options($uri, $callback);
 
-Sometimes you may need to register a route that responds to multiple HTTP verbs. You may do so using the `match` method. Or, you may even register a route that responds to all HTTP verbs using the `any` method:
+কিছু কিছু সময় রেজিস্টার করা রাউট multiple HTTP verbs এ responds করানোর প্রয়োজন হয়। আপনি `match` মেথড  ব্যবহার করতে পারেন অথবা, আপনি এমন কোনো রাউট রেজিস্টার করতে পারেন যা সমস্ত HTTP verbs  responds   'any' মেথড ব্যবহার করে:
 
     Route::match(['get', 'post'], '/', function () {
         //
@@ -64,7 +64,8 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
 
 #### CSRF Protection
 
-Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in the `web` routes file should include a CSRF token field. Otherwise, the request will be rejected. You can read more about CSRF protection in the [CSRF documentation](/docs/{{version}}/csrf):
+
+যেকোনো HTML  ফর্ম `POST`, `PUT`, or `DELETE` `web`  রাউট এর মধ্যে  ব্যাবহার করা হলে অবশ্যই CSRF token field অন্তর ভুক্ত করতে হবে। অন্যথায়, request বাতিল করা হবে। CSRF protection সম্পর্কে বিস্তারিত জানার জন্য: [CSRF ডকুমেন্টেশন](/docs/{{version}}/csrf):
 
     <form method="POST" action="/profile">
         @csrf
@@ -74,14 +75,15 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
 <a name="redirect-routes"></a>
 ### Redirect Routes
 
-If you are defining a route that redirects to another URI, you may use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
+অন্য URI তে  redirects করার জন্য `Route::redirect` মেথড ব্যবহার করতে পারেন। এটি  সুবিধাজনক shortcut  মেথড প্রধান করে, তাই আপনি পুরো রাউট define করতে পারেনা অথবা controller সহজে redirect করতে পারে:
+
 
     Route::redirect('/here', '/there', 301);
 
 <a name="view-routes"></a>
-### View Routes
+### ভিউ রুটস
 
-If your route only needs to return a view, you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+যদি view তে return  রাউট এর প্রয়োজন হয় , আপনি  `Route::view` মেথড ব্যবহার করতে পারেন। `redirect` মেথড এর মতো, এই মেথড একটি সহজ শর্টকাট প্রদান করে ,যাতে আপনি একটি পূর্ণ রাউট বা controller  ডিফাইন  না করতে হয়।`view` মেথড একটি URI হিসাবে তার প্রথম argument এবং name দ্বিতীয় argument  হিসাবে  গ্রহণ করে। এছাড়াও, আপনি data  array  তৃতীয় অপশনাল argument হিসাবে view  পাঠাতে পারেন।
 
     Route::view('/welcome', 'welcome');
 
@@ -93,24 +95,24 @@ If your route only needs to return a view, you may use the `Route::view` method.
 <a name="required-parameters"></a>
 ### Required Parameters
 
-Of course, sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
+অবশ্যই, কখনও কখনও আপনাকে আপনার রাউট মধ্যে URI এর অংশগুলিকে ক্যাপচার করতে হবে। উদাহরণস্বরূপ, আপনাকে URL থেকে একটি ব্যবহারকারীর আইডি ক্যাপচার করতে হতে পারে। আপনি রাউট প্যারামিটার ডিফাইন করে তা করতে পারেন:
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
     });
 
-You may define as many route parameters as required by your route:
+আপনি আপনার রাউট দ্বারা প্রয়োজনীয় অনেক রাউট প্যারামিটার সংজ্ঞায়িত করতে পারেন:
 
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
     });
 
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`). Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
+রাউট প্যারামিটার সর্বদা `{}` বন্ধনীগুলির মধ্যে আবদ্ধ থাকে এবং এতে alphabetic অক্ষর থাকা উচিত এবং এতে একটি `-` অক্ষর থাকতে পারে না। `-` অক্ষর ব্যবহার করার পরিবর্তে, একটি আন্ডারস্কোর  (`_`) ব্যবহার করুন। রাউট প্যারামিটারগুলি তাদের অর্ডারের ভিত্তিতে রাউট callbacks / controllers ইনজেক্ট করা হয় - callback / controller আর্গুমেন্টগুলির নামগুলি কোন ব্যাপার না।
 
 <a name="parameters-optional-parameters"></a>
-### Optional Parameters
+### ঐচ্ছিক প্যারামিটার
 
-Occasionally you may need to specify a route parameter, but make the presence of that route parameter optional. You may do so by placing a `?` mark after the parameter name. Make sure to give the route's corresponding variable a default value:
+কখনত্ত কখনত্ত আপনি একটি রুট প্যারামিটার নির্দিষ্ট করার প্রয়োজন হতে পারে, তবে ঐ রাউট প্যারামিটারের ঐচ্ছিক বিকল্পটি হিসাবে তৈরি করুন। আপনি প্যারামিটার নামের পরে `?` চিহ্নটি স্থাপন করুন। রাউট এর সংশ্লিষ্ট ভেরিয়েবল একটি ডিফল্ট মান দিতে নিশ্চিত করুন:
 
     Route::get('user/{name?}', function ($name = null) {
         return $name;
@@ -123,7 +125,8 @@ Occasionally you may need to specify a route parameter, but make the presence of
 <a name="parameters-regular-expression-constraints"></a>
 ### Regular Expression Constraints
 
-You may constrain the format of your route parameters using the `where` method on a route instance. The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+আপনি একটি রাউট  এ `where` মেথড  ব্যবহার করে আপনার রাউট প্যারামিটারগুলির বিন্যাস সীমাবদ্ধ হতে পারে।`where` মেথড প্যারামিটারের name এবং একটি regular expression  ডিফাইন করে যা প্যারামিটারকে  সীমাবদ্ধ করা উচিত:
+
 
     Route::get('user/{name}', function ($name) {
         //
@@ -140,7 +143,8 @@ You may constrain the format of your route parameters using the `where` method o
 <a name="parameters-global-constraints"></a>
 #### Global Constraints
 
-If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your `RouteServiceProvider`:
+
+আপনি একটি  regular expression দ্বারা সবসময় সীমাবদ্ধ একটি রাউট প্যারামিটার চান, আপনি `pattern` মেথড ব্যবহার করতে পারেন। আপনার `RouteServiceProvider` এর `boot` মেথড এ   এই patterns ডিফাইন করতে হবে:
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -154,28 +158,40 @@ If you would like a route parameter to always be constrained by a given regular 
         parent::boot();
     }
 
-Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
+
+একবার pattern ডিফাইন করা হয়ে গেলে, এটি যে parameter name মাধ্যমে স্বয়ংক্রিয়ভাবে সব রাউট এ প্রয়োগ হয়:
 
     Route::get('user/{id}', function ($id) {
         // Only executed if {id} is numeric...
     });
 
+<a name="parameters-encoded-forward-slashes"></a>
+#### Encoded Forward Slashes
+
+The Laravel routing component allows all characters except `/`. You must explicitly allow `/` to be part of your placeholder using a `where` condition regular expression:
+
+    Route::get('search/{search}', function ($search) {
+        return $search;
+    })->where('search', '.*');
+
+> {note} Encoded forward slashes are only supported within the last route segment.
+
 <a name="named-routes"></a>
 ## Named Routes
 
-Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the `name` method onto the route definition:
+Named routes নির্দিষ্ট রাউট জন্য ইউআরএল বা redirects সুবিধাজনক প্রজন্মের অনুমতি দেয়। রাউট ডিফাইন এর সময় `name` মেথড এর মাধ্যমে রাউটকে সহজে নির্দিষ্ট করতে পারেন:
 
     Route::get('user/profile', function () {
         //
     })->name('profile');
 
-You may also specify route names for controller actions:
+এছাড়াও আপনি controller  জন্য route name উল্লেখ করতে পারেন:
 
-    Route::get('user/profile', 'UserProfileController@show')->name('profile');
+    Route::get('user/profile', 'UserController@showProfile')->name('profile');
 
 #### Generating URLs To Named Routes
 
-Once you have assigned a name to a given route, you may use the route's name when generating URLs or redirects via the global `route` function:
+একবার একটি রাউট একটি নাম নির্ধারিত হলে, আপনি global `route` ফাংশনের মাধ্যমে URL বা redirects তৈরি করার সময় রাউটটির নাম ব্যবহার করতে পারেন:
 
     // Generating URLs...
     $url = route('profile');
@@ -183,7 +199,7 @@ Once you have assigned a name to a given route, you may use the route's name whe
     // Generating Redirects...
     return redirect()->route('profile');
 
-If the named route defines parameters, you may pass the parameters as the second argument to the `route` function. The given parameters will automatically be inserted into the URL in their correct positions:
+যদি named route প্যারামিটার ডিফাইন করা হয়, আপনি  `route` ফাংশনে দ্বিতীয় argument হিসাবে পরামিতিগুলি পাস করতে পারেন। প্রদত্ত প্যারামিটারগুলি স্বয়ংক্রিয়ভাবে তাদের সঠিক অবস্থানে URL- এ সন্নিবেশ করা হবে:
 
     Route::get('user/{id}/profile', function ($id) {
         //
@@ -193,7 +209,7 @@ If the named route defines parameters, you may pass the parameters as the second
 
 #### Inspecting The Current Route
 
-If you would like to determine if the current request was routed to a given named route, you may use the `named` method on a Route instance. For example, you may check the current route name from a route middleware:
+আপনি যদি নির্ধারণ করতে চান if the current request was routed to a given named route, you may use the `named` method on a Route instance. For example, you may check the current route name from a route middleware:
 
     /**
      * Handle an incoming request.
@@ -212,9 +228,9 @@ If you would like to determine if the current request was routed to a given name
     }
 
 <a name="route-groups"></a>
-## Route Groups
+## গ্রুপ রাউট
 
-Route groups allow you to share route attributes, such as middleware or namespaces, across a large number of routes without needing to define those attributes on each individual route. Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
+রাউটে গ্রুপ আপনার রাউটের attributes ভাগাভাগী করতে সহায়তা করে , উদাহরণ সরূপ middleware অথবা namespaces, across a large number of routes without needing to define those attributes on each inividual route. Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
 
 <a name="route-group-middleware"></a>
 ### Middleware
@@ -339,17 +355,6 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
             return App\User::where('name', $value)->first() ?? abort(404);
         });
     }
-
-<a name="fallback-routes"></a>
-## Fallback Routes
-
-Using the `Route::fallback` method, you may define a route that will be executed when no other route matches the incoming request. Typically, unhandled requests will automatically render a "404" page via your application's exception handler. However, since you may define the `fallback` route within your `routes/web.php` file, all middleware in the `web` middleware group will apply to the route. Of course, you are free to add additional middleware to this route as needed:
-
-    Route::fallback(function () {
-        //
-    });
-
-> {note} The fallback route should always be the last route registered by your application.
 
 <a name="rate-limiting"></a>
 ## Rate Limiting
