@@ -1,6 +1,6 @@
 # Laravel Documentation
 
-You can find the online version of the Laravel documentation at [https://laravel.com/docs](https://laravel.com/docs)
+You can find the online version of the Laravel Bengli documentation at [https://laravel.com.bd/docs](https://laravel.com.bd/docs)
 
 ## Contribution Guidelines
 
