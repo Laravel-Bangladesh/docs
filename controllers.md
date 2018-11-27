@@ -18,15 +18,19 @@
 <a name="introduction"></a>
 ## Introduction
 
-Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes. Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
+Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes.
+
+রাউট ফাইলগুলিতে Closures হিসাবে আপনার অনুরোধ পরিচালনার সমস্ত লক্ষণকে সংজ্ঞায়িত করার পরিবর্তে, আপনি কন্ট্রোলার ক্লাস ব্যবহার করে এই আচরণ সংগঠিত করতে পারেন।s
+
+ Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
 
 <a name="basic-controllers"></a>
-## Basic Controllers
+## সাধারণ Controllers
 
 <a name="defining-controllers"></a>
 ### Defining Controllers
 
-Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the `middleware` method, which may be used to attach middleware to controller actions:
+নিচে একটি সাধারণ controller class এর উদাহরণ দেখানো হল। মনে রাখবেন যে, controller extends করে base controller class কে  Laravel সঙ্গে অন্তর্ভুক্ত হয়। base class কয়েক সুবিধাজনক মেথড প্রদান করে  যেমন `middleware` মেথড। যা controller actions এর  মিড্লায়ার সংযুক্ত করতে ব্যবহার করা যেতে পারে:
 
     <?php
 
@@ -41,7 +45,7 @@ Below is an example of a basic controller class. Note that the controller extend
          * Show the profile for the given user.
          *
          * @param  int  $id
-         * @return View
+         * @return Response
          */
         public function show($id)
         {
@@ -49,20 +53,28 @@ Below is an example of a basic controller class. Note that the controller extend
         }
     }
 
-You can define a route to this controller action like so:
+আপনে এই controller action এর জন্য route ডিফাইন করেতে পারেন এ রকমঃ
 
     Route::get('user/{id}', 'UserController@show');
 
-Now, when a request matches the specified route URI, the `show` method on the `UserController` class will be executed. Of course, the route parameters will also be passed to the method.
+এখন, একটি অনুরোধ নির্দিষ্ট রাউট URI সাথে মিলে যায়, `UserController` ক্লাস এর `show` মেধড execute করে। অবশ্যই,মেথডে রাউট প্যারামিটার সহ পাস করতে হবে।
 
-> {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
+> {মনে রাখুন} Controller গুলো কে একটি বেস ক্লাসকে extend করার **আবশ্যক** নেই । যাইহোক, সুবিধাজনক বৈশিষ্ট্যগুলিতে আপনার অ্যাক্সেস থাকবে না যেমন- `middleware`, `validate`, এবং `dispatch` মেথডে।
 
 <a name="controllers-and-namespaces"></a>
 ### Controllers & Namespaces
 
-It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
+অ্যাপ্লিকেশন ডেভেলপ করার সময় কিছু কন্ট্রোলারকে পৃথক কোন ফোল্ডার কিংবা ডিরেক্টরিতে রাখতে হয়। আর এইক্ষেত্রে আমরা কাস্টম নেমস্পেস ব্যাবহার করে তা করতে পারি। ধরুন লারাভেলের কন্ট্রোলার ডিরেক্টরিতে Photos নামে একটি সাব-ডিরেক্টরি তৈরি করব আর ওই সাব-ডিরেক্টরিতে AdminController রাখব তাহলে কন্ট্রোলার ফাইলটি নিচের মত হবে। এটা মনে রাখা খুব গুরুত্বপূর্ণ যে কন্ট্রোলার রাউট সংজ্ঞায়িত করার সময় আমাদের সম্পূর্ণ কন্ট্রোলার নেমস্পেস নির্দিষ্ট করার প্রয়োজন নেই। যেহেতু `RouteServiceProvider` আপনার রাউট ফাইলগুলিকে একটি রাউট গ্রুপ মধ্যে লোড করে যা নেমস্পেস থাকে,
 
-If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
+we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
+
+If you choose to nest your controllers deeper into the `App\Http\Controllers` directory,
+
+use the specific class name relative to the `App\Http\Controllers` root namespace.
+
+So, if your full controller class is `App\Http\Controllers\Photos\AdminController`,
+
+you should register routes to the controller like so:
 
     Route::get('foo', 'Photos\AdminController@method');
 
@@ -84,7 +96,7 @@ If you would like to define a controller that only handles a single action, you 
          * Show the profile for the given user.
          *
          * @param  int  $id
-         * @return View
+         * @return Response
          */
         public function __invoke($id)
         {
@@ -96,18 +108,15 @@ When registering routes for single action controllers, you do not need to specif
 
     Route::get('user/{id}', 'ShowProfile');
 
-You may generate an invokable controller by using the `--invokable` option of the `make:controller` Artisan command:
-
-    php artisan make:controller ShowProfile --invokable
-
 <a name="controller-middleware"></a>
-## Controller Middleware
+## কন্ট্রোলার মিডলওয়্যারঃ
 
-[Middleware](/docs/{{version}}/middleware) may be assigned to the controller's routes in your route files:
+[Middleware](/docs/{{version}}/middleware) আপনার রাউট  ফাইলগুলিতে  কন্ট্রোলার এর রুটগুলিতে আরোপিত/বরাদ্দ করা যেতে পারে:
 
     Route::get('profile', 'UserController@show')->middleware('auth');
 
-However, it is more convenient to specify middleware within your controller's constructor. Using the `middleware` method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:
+
+তবে, আপনার  কন্সট্রকটারের এর কন্সটাক্টর মধ্যে মিডলওয়্যার উল্লেখ করা অনেক সুবিধাজনক। আপনার কন্ট্রোলার এর কনস্ট্রাকটর থেকে `মিডলওয়্যার` মেথড ব্যবহার করে, আপনি সহজেই কন্ট্রোলার এর অ্যাকশন এ মিডলওয়্যার নির্ধারণ(assign) করতে পারবেন। আপনি এমনকি কন্ট্রোলার ক্লাস শুধুমাত্র নির্দিষ্ট পদ্ধতিতে মিডলওয়্যারগুলি সীমাবদ্ধ(restrict) করতে পারেন:
 
     class UserController extends Controller
     {
@@ -126,7 +135,8 @@ However, it is more convenient to specify middleware within your controller's co
         }
     }
 
-Controllers also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:
+কন্ট্রোলারগুলি আপনাকে ক্লোজার(Closure) ব্যবহার করে মিডলওয়্যার নিবন্ধন(register) করার অনুমতি দেয়। একটি একক কন্ট্রোলার জন্য একটি মিডলওয়্যার সংজ্ঞায়িত(define) করার  একটি সুবিধাজনক উপায় প্রদান করে একটি সম্পূর্ণ মিডলওয়ার ক্লাস সংজ্ঞায়িত(define) ছাড়া:
+
 
     $this->middleware(function ($request, $next) {
         // ...
@@ -137,19 +147,19 @@ Controllers also allow you to register middleware using a Closure. This provides
 > {tip} You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.
 
 <a name="resource-controllers"></a>
-## Resource Controllers
+## রিসোর্স কন্ট্রোলার
 
-Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
+লারাভেল রিসোর্স রুটিং মুলত "CRUD" রাউট যা একটি কন্ট্রোলারেতে এক লাইনের কোড মাধমে সনযুক্ত করে। উদাহরনসরুপ, আপনি একটি কন্ট্রোলার তৈরি করতে পারেন যা আপনার অ্যাপ্লিকেশন দ্বারা সংরক্ষিত "photos" এর জন্য সমস্ত HTTP অনুরোধগুলি পরিচালনা করে। আর্টিসান কম্যান্ড  `make:controller` ব্যবহার করে, আমরা দ্রুত এই ধরনের একটি কন্ট্রোলার তৈরি করতে পারি:
 
     php artisan make:controller PhotoController --resource
 
-This command will generate a controller at `app/Http/Controllers/PhotoController.php`. The controller will contain a method for each of the available resource operations.
-
-Next, you may register a resourceful route to the controller:
+এই কমান্ডটি  `app/Http/Controllers/PhotoController.php` তে একটি কন্ট্রোলার তৈরি করবে। এই কন্ট্রোলারে কাঙ্ক্ষিত রিসোর্সে অপারেশন এর জন্য একটি করে মেথড থাকবে। পরবর্তী, আপনি কন্ট্রোলারেতে একটি রিসৌর্সফুল রাউট  নিবন্ধিত করতে হবে।
 
     Route::resource('photos', 'PhotoController');
 
-This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
+This single route declaration creates multiple routes to handle a variety of actions on the resource.
+
+ The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
 
 You may register many resource controllers at once by passing an array to the `resources` method:
 
@@ -158,7 +168,8 @@ You may register many resource controllers at once by passing an array to the `r
         'posts' => 'PostController'
     ]);
 
-#### Actions Handled By Resource Controller
+#### রিসোর্স কন্ট্রোলারটি এই অ্যাকশনগুলো হ্যান্ডেল করবে।
+
 
 Verb      | URI                  | Action       | Route Name
 ----------|-----------------------|--------------|---------------------
@@ -189,13 +200,13 @@ Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need 
 
 When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:
 
-    Route::resource('photos', 'PhotoController')->only([
+    Route::resource('photos', 'PhotoController', ['only' => [
         'index', 'show'
-    ]);
+    ]]);
 
-    Route::resource('photos', 'PhotoController')->except([
+    Route::resource('photos', 'PhotoController', ['except' => [
         'create', 'store', 'update', 'destroy'
-    ]);
+    ]]);
 
 #### API Resource Routes
 
@@ -219,22 +230,22 @@ To quickly generate an API resource controller that does not include the `create
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 
-    Route::resource('photos', 'PhotoController')->names([
+    Route::resource('photos', 'PhotoController', ['names' => [
         'create' => 'photos.build'
-    ]);
+    ]]);
 
 <a name="restful-naming-resource-route-parameters"></a>
 ### Naming Resource Route Parameters
 
-By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by using the `parameters` method. The array passed into the `parameters` method should be an associative array of resource names and parameter names:
+By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by passing `parameters` in the options array. The `parameters` array should be an associative array of resource names and parameter names:
 
-    Route::resource('users', 'AdminUserController')->parameters([
-        'users' => 'admin_user'
-    ]);
+    Route::resource('user', 'AdminUserController', ['parameters' => [
+        'user' => 'admin_user'
+    ]]);
 
  The example above generates the following URIs for the resource's `show` route:
 
-    /users/{admin_user}
+    /user/{admin_user}
 
 <a name="restful-localizing-resource-uris"></a>
 ### Localizing Resource URIs
@@ -374,3 +385,4 @@ After running this command, your cached routes file will be loaded on every requ
 You may use the `route:clear` command to clear the route cache:
 
     php artisan route:clear
+
