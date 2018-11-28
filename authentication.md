@@ -1,48 +1,48 @@
 # Authentication
 
-- [Introduction](#introduction)
-    - [Database Considerations](#introduction-database-considerations)
-- [Authentication Quickstart](#authentication-quickstart)
-    - [Routing](#included-routing)
-    - [Views](#included-views)
-    - [Authenticating](#included-authenticating)
-    - [Retrieving The Authenticated User](#retrieving-the-authenticated-user)
-    - [Protecting Routes](#protecting-routes)
-    - [Login Throttling](#login-throttling)
-- [Manually Authenticating Users](#authenticating-users)
-    - [Remembering Users](#remembering-users)
-    - [Other Authentication Methods](#other-authentication-methods)
-- [HTTP Basic Authentication](#http-basic-authentication)
-    - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
-- [Logging Out](#logging-out)
-    - [Invalidating Sessions On Other Devices](#invalidating-sessions-on-other-devices)
-- [Social Authentication](https://github.com/laravel/socialite)
-- [Adding Custom Guards](#adding-custom-guards)
-    - [Closure Request Guards](#closure-request-guards)
-- [Adding Custom User Providers](#adding-custom-user-providers)
-    - [The User Provider Contract](#the-user-provider-contract)
-    - [The Authenticatable Contract](#the-authenticatable-contract)
-- [Events](#events)
+- [ভূমিকা](#introduction)
+    - [ডাটাবেস সম্পর্কে কথা](#introduction-database-considerations)
+- [অথিন্তিকেশনের শুরুর কথা](#authentication-quickstart)
+    - [রাউটিং](#included-routing)
+    - [ভিউ গুলো](#included-views)
+    - [বিশুদ্ধতা প্রমাণ করা](#included-authenticating)
+    - [লগইন কৃত ব্যবহারকারীর তথ্য বের করা](#retrieving-the-authenticated-user)
+    - [রাউটগুলো কে সুরক্ষা দেওয়া](#protecting-routes)
+    - [লগইন থ্রটলিং সম্পর্কে](#login-throttling)
+- [ম্যানুয়ালি ইউজারকে লগইন করানো](#authenticating-users)
+    - [ইউজারকে মনে রাখার সুবিধা](#remembering-users)
+    - [অন্যন্য ভাবে অথিন্টিকেশোনের উপায়](#other-authentication-methods)
+- [HTTP বেসিক অথিক্টিকেশন](#http-basic-authentication)
+    - [Stateless HTTP বেসিক অথিক্টিকেশন](#stateless-http-basic-authentication)
+- [লগাউট সম্পর্কে](#logging-out)
+    - [অন্যন্য ডিভাইসে সেশন বাতিল করণ](#invalidating-sessions-on-other-devices)
+- [সামাজিক অথিন্টিকেশন](https://github.com/laravel/socialite)
+- [নিজেদের গার্ড তৈরি করা](#adding-custom-guards)
+    - [ক্লোজার রিকোয়েস্ট গার্ড](#closure-request-guards)
+- [নিজেদের ব্যহারকারির প্রভাইডার](#adding-custom-user-providers)
+    - [ব্যহারকারির প্রভাইডার কন্ট্রাক](#the-user-provider-contract)
+    - [অথিক্টিকেটেবল কন্ট্রাক](#the-authenticatable-contract)
+- [ইভেন্ট গুলো](#events)
 
 <a name="introduction"></a>
-## Introduction
+## ভূমিকা
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
+> {tip} **অতি দ্রুত শুরু করতে চান?** শুধু রান করুন `php artisan make:auth` এবং `php artisan migrate` নতুন তৈরি কৃত লারাভেল আপ্লিকেশনে. তারপর, ব্রাউজারে গিয়ে খুলুন `http://your-app.test/register` অথবা যেকোনো ইউ আর এল এ যেটা আপনার এপ্লিকেশনে আসাইন করা আছে। এই দুটো কমান্ডই যথেষ্ট আপনার এপ্লিকেশনের অথিকন্টিকেশন তৈরি করার জন্য! 
 
-Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
+লারাভেল অথিন্টিকেশন খুবই সহজ করেছে। আসলে, প্রায় সব কিছুই কনফিগার করা থাকে আগে থেকেই। অথিক্টিকেশন এর কনফিগারেশন ফাইল এই লোকেশন এ থাকে `config/auth.php`, যেটাতে সুন্দর করে অথিকন্টিকেশন এর তথ্য দেওয়া থাকে ।
 
-At its core, Laravel's authentication facilities are made up of "guards" and "providers". Guards define how users are authenticated for each request. For example, Laravel ships with a `session` guard which maintains state using session storage and cookies.
+এর মুল অংশে, লারাভেল অথিন্টিকেশন সুবিধা তৈরি করে "গার্ড" এবং "প্রভাইডার" এর উপর ভিত্তি করে। গার্ড নির্ধারণ করে কিভাবে ব্যবহারকারী অথিন্টিকেইট হবে প্রতিটি রিকুয়েস্টে। উধাহরনস্বরূপঃ লারাভেল এসেছে `session` গার্ডের সাথে যেটা, স্টেইটকে মেইটেইন করে সেশন এবং কুকির সাহায্যে। 
 
-Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users using Eloquent and the database query builder. However, you are free to define additional providers as needed for your application.
+প্রভাইডার নির্ধারণ করে কিভাবে আপনার নির্ধারিত স্টোরেজ থেকে ডাটা আহরন করবে। লারাভেল এলকয়েন্ট এবং কোয়েরি বিল্ডারের সাথে এসেছে ইউজারের ডাটা আহরন করার জন্য। যাইহোক আপনি চাইলে আপনার তৈরি কৃত প্রভাইডার ও ব্যবহার করতে পারবেন যদি আপনার সেটি দরকার হয় । 
 
-Don't worry if this all sounds confusing now! Many applications will never need to modify the default authentication configuration.
+চিন্তার কোন কারন নেই যদি এই কথা গুলো আপনার মাথার উপর দিয়ে যায় । অনেক আপ্লিকেশন আছে যেখানে কখনই পূর্বনির্ধারিত আপ্লিকেশন কনফিগারেশন পরিবর্তন করার প্রয়োজন ই পরে না। 
 
 <a name="introduction-database-considerations"></a>
-### Database Considerations
+### ডাটাবেস সম্পর্কে কথা
 
-By default, Laravel includes an `App\User` [Eloquent model](/docs/{{version}}/eloquent) in your `app` directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the `database` authentication driver which uses the Laravel query builder.
+পুর নির্ধারিত ভাবে, লারাভেল দিয়ে থেকে একটি `App\User` [ইলুকয়েন্ট মডেল](/docs/{{version}}/eloquent) আপনার এপ্লিকেশনের `app` ফোল্ডারে। এই মডেল ব্যবহ্রত হতে পারে পূর্বনির্ধারিত ইলুকয়েন্ট অথিন্টিকেশন ড্রাইভার দ্বারা। যদি আপনার এপ্লিকেশন ইলুকয়েন্ট ব্যবহার না করে তবে আপনি ড`database` ড্রাইভার ব্যবহার করতে পারেন যেটা লারাভেলের কুয়েরই বিল্ডার ব্যবহার করে।
 
-When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length. Maintaining the default string column length of 255 characters would be a good choice.
+যখন আপনি ডাটাবেইস এর স্কিমা তৈরি করছেন  `App\User` মডেল এর জন্য, এই বিষয় টি নিশ্চিত করবেন যেন সেখান কার password কলাম যেন সর্বনিম্ন ৬০ অক্ষর নিতে পারে। পূর্বনির্ধারিত স্ট্রিং এর কলাম ২৫৫ টি অক্ষর নিতে পারে এই ব্যবহার করাই ভালো ।
 
 Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for users that select the "remember me" option when logging into your application.
 
