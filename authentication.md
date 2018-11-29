@@ -40,35 +40,35 @@
 <a name="introduction-database-considerations"></a>
 ### ডাটাবেস সম্পর্কে কথা
 
-পুর নির্ধারিত ভাবে, লারাভেল দিয়ে থেকে একটি `App\User` [ইলুকয়েন্ট মডেল](/docs/{{version}}/eloquent) আপনার এপ্লিকেশনের `app` ফোল্ডারে। এই মডেল ব্যবহ্রত হতে পারে পূর্বনির্ধারিত ইলুকয়েন্ট অথিন্টিকেশন ড্রাইভার দ্বারা। যদি আপনার এপ্লিকেশন ইলুকয়েন্ট ব্যবহার না করে তবে আপনি ড`database` ড্রাইভার ব্যবহার করতে পারেন যেটা লারাভেলের কুয়েরই বিল্ডার ব্যবহার করে।
+পুর নির্ধারিত ভাবে, লারাভেল দিয়ে থেকে একটি `App\User` [ইলুকয়েন্ট মডেল](/docs/{{version}}/eloquent) আপনার এপ্লিকেশনের `app` ফোল্ডারে। এই মডেল ব্যবহ্রত হতে পারে পূর্বনির্ধারিত ইলুকয়েন্ট অথিন্টিকেশন ড্রাইভার দ্বারা। যদি আপনার এপ্লিকেশন ইলুকয়েন্ট ব্যবহার না করে তবে আপনি `database` ড্রাইভার ব্যবহার করতে পারেন যেটা লারাভেলের কুয়েরই বিল্ডার ব্যবহার করে।
 
 যখন আপনি ডাটাবেইস এর স্কিমা তৈরি করছেন  `App\User` মডেল এর জন্য, এই বিষয় টি নিশ্চিত করবেন যেন সেখান কার password কলাম যেন সর্বনিম্ন ৬০ অক্ষর নিতে পারে। পূর্বনির্ধারিত স্ট্রিং এর কলাম ২৫৫ টি অক্ষর নিতে পারে এই ব্যবহার করাই ভালো ।
 
-Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for users that select the "remember me" option when logging into your application.
+এছাড়াও, আপনি যাচাই করবেন আপনার `users` (অথবা এর মত) টেবিলে যেন নালবল স্ট্রিং  `remember_token` কলাম থাকে যেটি ১০০ অক্ষর পর্যন্ত ধারণ করতে পারে। এই কলাম ব্যবহ্রত হবে টকেন জমা রাখার জন্য যখন ইউজার "remember me" অপশন সিলেক্ট করবে তার আপ্লিকেশনে লগইন করার জন্য ।
 
 <a name="authentication-quickstart"></a>
-## Authentication Quickstart
+## অথিন্তিকেশনের শুরুর কথা
 
-Laravel ships with several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
+লারাভেল এসেছে অনেক গুলো আগে থেকেই তৈরি করা অথেনটিকেশন কন্ট্রোলার নিয়ে, যেগুলো রাখা আছে `App\Http\Controllers\Auth` নেইম স্প্রেইস এর আন্ডারে। `RegisterController` পরিচালনা করে নতুন ইউজার রেজিস্ট্রেশন করতে,  `LoginController` পরিচালনা করে অথেনটিকেশন করতে, `ForgotPasswordController` পরিচালনা করে ইমেইল এ পাসওয়ার্ড রিসেট লিঙ্ক পাঠাতে, এবং `ResetPasswordController` এ থাকে পাসওয়ার্ড রিসেট করার লিজিক। এখানকার প্রতিটি কন্ট্রোলার ব্যবহার করে একটি ট্রেইট যেখানে তাদের প্রয়োজনীয় মেথড গুলো আছে । অনেক আপ্লিকেশনের জন্য আপনাকে এইসব কন্ট্রোলার কে পরিবর্তন করার প্রয়োজনই পরবে না।
 
 <a name="included-routing"></a>
-### Routing
+### রাউটিং
 
-Laravel provides a quick way to scaffold all of the routes and views you need for authentication using one simple command:
+লারাভেল আপনাকে খুবই দ্রত এবং সহজ পদ্ধতি তে অথিন্টিকেশোনের জন্য দরকারি সকল রাউট এবং ভিউ তৈরি করার কমান্ড দিচ্ছেঃ
 
     php artisan make:auth
 
-This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
+এই কমান্ড ব্যবহার করতে হবে একেবারে নতুন লারাভেল আপ্লিকেশনে এবং এরপরে একটি লেয়াউট ভিউ, রেজিস্ট্রেশন ভিউ, এবং লগইন ভিউ ইন্সটল হয়ে যাবে, পাশাপাশি সকল অথেনটিকেশন রাউটও। একটি `HomeController` ও তৈরি হবে লগইন করার পরে রিকোয়েস্ট হ্যন্ড্যাল করে আপ্লিকেশনের ড্যাসবরড এ নিয়ে যাওয়ার জন্য।
 
 <a name="included-views"></a>
-### Views
+### ভিউ গুলো
 
-As mentioned in the previous section, the `php artisan make:auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+পূর্ববর্তী সেকশনে বলা, `php artisan make:auth` কমান্ড আপনাকে তৈরি করে দিবে সকল ভিউ যেগুলো আপনার অথিন্টিকেশনের জন্য লাগবে এবং এগুলো সব রেখে দিবে `resources/views/auth` ফোল্ডারে।
 
-The `make:auth` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
+`make:auth` এই কমান্ডটি এছাড়াও তৈরি করে `resources/views/layouts` ফোল্ডারে আপনার এপ্লিকেশনের জন্য বেইজ লেয়াউট ফাইল। সব ভিউ গুলো ব্যবহার করে Bootstrap CSS framework, কিন্তু আপনি এগুলোকে আপনার ইচ্ছামত পরিবর্তন করে নিতে পারবেন আপনি যেভাবে চান।
 
 <a name="included-authenticating"></a>
-### Authenticating
+### অথিন্টিকেটিং 
 
 Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
 
