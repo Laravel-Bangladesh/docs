@@ -70,37 +70,38 @@
 <a name="included-authenticating"></a>
 ### অথিন্টিকেটিং 
 
-Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
+এখন আপনার কাছে রাউট এবং ভিউ গুলো আছে সাথে দেওয়া অথেনটিকেশন করট্রলার এর জন্য, আপনি এখন তৈরি, আপনার এপ্লিকেশনে নতুন ব্যবহারকারি তৈরি এবং অথেনটিকেশন করার জন্য।
+আপনি এখন ব্রাউজার থেকে আপনার অ্যাপ্লিকেশনটি অ্যাক্সেস করতে পারেন কারণ অথিন্টিকেশনের লজিক গুলি ইতিমধ্যে বিদ্যমান (তাদের traits এর মাধ্যমে) আগে থেকে থাকা ব্যবহারকারীদের লগিন এবং নতুন ব্যবহারকারীদের ডাটাবেস এ সংরক্ষণ করতে।
 
-#### Path Customization
+#### পাথ নিজের মত করে নেওয়া 
 
-When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect location by defining a `redirectTo` property on the `LoginController`, `RegisterController`, `ResetPasswordController`, and `VerificationController`:
+যখন একটি ব্যবহারকারী সঠিক ভাবে লগিন করবে, সে রিডাইরেক্ট হয়ে `/home` URI তে যাবে। আপনি লগিন করার পরের রিডাইরেক্ট লোকেশন পরিবর্তন করতে পারবেন  `redirectTo` প্রোপার্টি নির্ধারণ করে `LoginController`, `RegisterController`, `ResetPasswordController`, এবং `VerificationController` ক্লাসে :
 
     protected $redirectTo = '/';
 
-Next, you should modify the `RedirectIfAuthenticated` middleware's `handle` method to use your new URI when redirecting the user.
+পরবর্তীতে, ব্যবহারকারীকে রিডাইরেক্ট করার সময় আপনার নতুন URI ব্যবহার করার জন্য আপনাকে RedirectIfAuthorified মিডলওয়্যারের `handle` মেথড পরিবর্তন করতে হবে।
 
-If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
+যতি আপনার রিডাইরেক্ট পাথ এর মধ্যে লিজিক ইমপ্লিমেন্ট করতে হয়ে তবে আপনি `redirectTo` প্রোপার্টি এর বদলে `redirectTo` মেথড ডিক্লেয়ার করতে পারেন:
 
     protected function redirectTo()
     {
         return '/path';
     }
 
-> {tip} The `redirectTo` method will take precedence over the `redirectTo` attribute.
+> {tip} এখানে `redirectTo` মেথডের গুরুত্ব  `redirectTo` প্রোপার্টি এর থেকে বেশি দেওয়া হয়। 
 
-#### Username Customization
+#### ইউজারনেম নিজের মত করে নেওয়া
 
-By default, Laravel uses the `email` field for authentication. If you would like to customize this, you may define a `username` method on your `LoginController`:
+সাধারণ ভাবে, লারাভেল অথেন্টিকেইট করার জন্য `email` ফিল্ড ব্যবহার করে। আপনি যদি এটি পরিবর্তন করতে চান তবে আপনি `username` মেথড আপনার `LoginController` কন্ট্রোলারে ব্যবহার করতে পারেন :
 
     public function username()
     {
         return 'username';
     }
 
-#### Guard Customization
+#### গার্ড নিজের মত করে নেওয়া
 
-You may also customize the "guard" that is used to authenticate and register users. To get started, define a `guard` method on your `LoginController`, `RegisterController`, and `ResetPasswordController`. The method should return a guard instance:
+আপনি "guard" কাস্টমাইজ করতে পারেন যা ব্যবহারকারীদের অথেনটিকেশন এবং তৈরি করতে ব্যবহার করা হয়। শুরু করতে, আপনার `LoginController`, `RegisterController`, এবং `ResetPasswordController` এ একটি `guard` মেথড তৈরি করুন। এই মেথড অবশ্যই guard ইন্সটেন্স রিটার্ন করবেঃ 
 
     use Illuminate\Support\Facades\Auth;
 
