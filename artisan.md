@@ -147,16 +147,16 @@ Closure ভিত্তিক কমান্ড শ্রেণী হিসা
 
 #### Closure Command Descriptions
 
-When defining a Closure based command, you may use the `describe` method to add a description to the command. This description will be displayed when you run the `php artisan list` or `php artisan help` commands:
+Closure ভিত্তিক কমান্ড সংজ্ঞায়িত করার সময়, আপনি ব্যবহার করতে পারেন `describe` মেথড, command এর বিবরন লিখতে. `php artisan list` or `php artisan help` command গুলো চালানোর সময় বিবরন গুলো দেখতে পারবেন। 
 
-    Artisan::command('build {project}', function ($project) {
+Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
     })->describe('Build the project');
 
 <a name="defining-input-expectations"></a>
 ## Defining Input Expectations
 
-When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the `signature` property on your commands. The `signature` property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.
+console commands লিখার সময়, arguments অথবা options এর মাধ্যমে ব্যবহারকারী থেকে মাধ্যমে ইনপুট সংগ্রহ করা সাধারণ পদ্ধতি. Laravel এটা খুব সুবিধাজনক করে তোলে ব্যাবহার কারী থেকে আশানরুপ ইনপুট খুজতে পারেন `signature` প্রপার্টি আনার command এ ্যাবহার করে . এই `signature` প্রপার্টি আপনাকে নাম সনাক্ত করনে বা সংজ্ঞায় সাহায্য করতে পারে আর্গুমেন্ট,অশন, একক, প্রকাশক, রুট মত সিনট্যাক্স কমান্ডের জন্য।
 
 <a name="arguments"></a>
 ### Arguments
