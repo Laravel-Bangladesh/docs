@@ -110,18 +110,18 @@
         return Auth::guard('guard-name');
     }
 
-#### Validation / Storage Customization
+#### শুদ্ধতা পরীক্ষা / স্টোরেজ নিজের মত করে নেওয়া 
 
-To modify the form fields that are required when a new user registers with your application, or to customize how new users are stored into your database, you may modify the `RegisterController` class. This class is responsible for validating and creating new users of your application.
+আপনার আপ্লিকেশনের মাধ্যমে নতুন ব্যবহারকারী তৈরির ফর্ম এর যে সকল আবশ্যক ফিল্ড আছে সেগুলো পরিবর্তন, অথবা নতুন ব্যবহারকারী কিভাবে আপনার ডাটাবেস এ স্টোর করবেন তা পরিবর্তন করতে, আপনি ইচ্ছে করলে `RegisterController` ক্লাস টি পরিবর্তন করতে পারেন । এই ক্লাস টি নতুন ব্যবহারকারীর তথ্য শুদ্ধতা পরীক্ষা এবং তৈরির কাজ করে আপনার আপ্লিকেশনে ।
 
-The `validator` method of the `RegisterController` contains the validation rules for new users of the application. You are free to modify this method as you wish.
+`RegisterController` এর `validator` মেথড টিতে আপনার আপ্লিকেশনে নতুন ব্যবহারকারীর শুদ্ধতা পরীক্ষার নিয়ম গুলো দেওয়া আছে । আপনি ইচ্ছা করলে এই মেথড টি আপনার মত করে পরিবর্তন করে নিতে পারেন।  
 
-The `create` method of the `RegisterController` is responsible for creating new `App\User` records in your database using the [Eloquent ORM](/docs/{{version}}/eloquent). You are free to modify this method according to the needs of your database.
+`RegisterController` এর `create` মেথড টির দায়িত্ব হলো আপনার ডেটাবেস এ `App\User` এর নতুন রেকর্ড তৈরি করা [Eloquent ORM](/docs/{{version}}/eloquent) ব্যবহার করে । আপনি ইচ্ছা করলে এই মেথড টি আপনার মত করে আপনার ডাটাবেস অনুযায়ী পরিবর্তন করে নিতে পারেন।
 
 <a name="retrieving-the-authenticated-user"></a>
-### Retrieving The Authenticated User
+### অথেন্টিকেইট ব্যবহারকারীর তথ্য নেওয়া  
 
-You may access the authenticated user via the `Auth` facade:
+আপনি ইচ্ছে করলে অথেন্টিকেইট ব্যবহারকারী এক্সেস করতে পারবেন `Auth` ফেছাদ এর মাধ্যমে 
 
     use Illuminate\Support\Facades\Auth;
 
@@ -131,7 +131,7 @@ You may access the authenticated user via the `Auth` facade:
     // Get the currently authenticated user's ID...
     $id = Auth::id();
 
-Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods:
+বিকল্পভাবে, একবার একটি ব্যবহারকারী যদি অথেন্টিকেইট হয়, তবে আপনি `Illuminate\Http\Request` ক্লাসের মাধ্যমে অথেন্টিকেইট ব্যবহারকারীকে এক্সেস করতে পারবেন। মনে রাখবেন, টাইপ হিন্টেড ক্লাস স্বয়ংক্রিয়ভাবে আপনার কন্ট্রোলার এর মেথডে ইনজেক হবে:
 
     <?php
 
@@ -153,9 +153,9 @@ Alternatively, once a user is authenticated, you may access the authenticated us
         }
     }
 
-#### Determining If The Current User Is Authenticated
+#### বর্তমান ব্যবহারকারী অথেন্টিকেট কিনা তা নির্ধারণ
 
-To determine if the user is already logged into your application, you may use the `check` method on the `Auth` facade, which will return `true` if the user is authenticated:
+ব্যবহারকারী আপনার এপ্লিকেশনে লগিন কি না তা নির্ধারণ করতে, আপনি ইচ্ছা করলে `Auth` ফেসাদের `check` মেথড ব্যবহার করতে পারেন, যেটা `true` রিটার্ন করবে যদি ব্যবহারকারী অথেন্টিকেট হয় ।
 
     use Illuminate\Support\Facades\Auth;
 
@@ -163,27 +163,27 @@ To determine if the user is already logged into your application, you may use th
         // The user is logged in...
     }
 
-> {tip} Even though it is possible to determine if a user is authenticated using the `check` method, you will typically use a middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on [protecting routes](/docs/{{version}}/authentication#protecting-routes).
+> {tip} যদিও এটা সম্ভব যে আপনি নির্ধারণ করতে পারবেন ব্যবহারকারী অথেন্টিকেট কি না `check` মেথড এর মাধ্যমে, কিন্তু সাধরনত আপনি মিডিলওয়ার ব্যবহার করবেন যাচাই করতে ব্যবহারকারী অথেন্টিকেট কিনা কিছু কন্ট্রোলার / রাউট এক্সেস করার পূর্বে। এই বিষয়ে আরও জানতে, [protecting routes](/docs/{{version}}/authentication#protecting-routes) এই ডকুমেন্টেশন দেখে আসতে পারেন।
 
 <a name="protecting-routes"></a>
-### Protecting Routes
+### রাউটগুলোকে সুরক্ষা দেওয়া 
 
-[Route middleware](/docs/{{version}}/middleware) can be used to only allow authenticated users to access a given route. Laravel ships with an `auth` middleware, which is defined at `Illuminate\Auth\Middleware\Authenticate`. Since this middleware is already registered in your HTTP kernel, all you need to do is attach the middleware to a route definition:
+[Route middleware](/docs/{{version}}/middleware) ব্যবহার হয় কিছু রাউট গুলো কে শুধুমাত্র অথেন্টিকেট ব্যবহারকারী দের এক্সেস দিতে। লারাভেল এসেছে একটি `auth` মিডিলওয়ার সাথে নিয়ে, যেটা ডিফাইন করা আছে `Illuminate\Auth\Middleware\Authenticate` এখানে। যদিও এই মিডলওয়্যার আপনার HTTP কার্নেল এ আগে থেকেই রেজিস্টার্ড করা আছে, আপনাকে যা করতে হবে তা হল রাউট ডিফাইন করার সময় এই মিডলওয়্যার সংযুক্ত করতে হবে: 
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
     })->middleware('auth');
 
-Of course, if you are using [controllers](/docs/{{version}}/controllers), you may call the `middleware` method from the controller's constructor instead of attaching it in the route definition directly:
+অবশ্য, যদি আপনি [controllers](/docs/{{version}}/controllers) ব্যবহার করে থাকেন, আপনি ইচ্ছে করলে `middleware` মেথড কল করতে পারবেন ঐ কন্ট্রোলার এর constructor মেথড এর মধ্যে, সরাসরি রাঊটের মধ্যে ডিফাইনের পরিবর্তে ।
 
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-#### Redirecting Unauthenticated Users
+#### Redirecting অননুমোদিত ব্যবহারকারীদের
 
-When the `auth` middleware detects an unauthorized user, it will redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes). You may modify this behavior by updating the `redirectTo` function in your `app/Http/Middleware/Authenticate.php` file:
+যখন `auth` মিডিলওয়ার ডিটেক্ট করে অননুমোদিত ব্যবহারকারী, এটা ঐ ব্যবহারকারী কে `login` [named route](/docs/{{version}}/routing#named-routes) রুটে রিডাইরেক্ট করবে। আপনি ইচ্ছা করলে পরিবর্তন করতে পারবেন এর কাজের ধারা `app/Http/Middleware/Authenticate.php` ফাইলের `redirectTo` মেথড পরিবর্তন করার মাধ্যমে। 
 
     /**
      * Get the path the user should be redirected to.
@@ -196,9 +196,9 @@ When the `auth` middleware detects an unauthorized user, it will redirect the us
         return route('login');
     }
 
-#### Specifying A Guard
+#### গার্ড নির্ধারিত করা 
 
-When attaching the `auth` middleware to a route, you may also specify which guard should be used to authenticate the user. The guard specified should correspond to one of the keys in the `guards` array of your `auth.php` configuration file:
+যখন একটি রাউটে `auth` মিডিলওয়ার আট্যাচ করা হয়, আপনি চাইলে এইটিও নির্ধারিত করে দিতে পারবেন, কোন গার্ড ব্যবহার করে ব্যবহারকারীকে অথেন্টিকেট করবে। গার্ড নির্ধারণ করতে `auth.php` কনফিগারেশন ফাইলে `guards` এরে তে কি আকারে দিতে হবে।
 
     public function __construct()
     {
