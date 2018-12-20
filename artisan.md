@@ -161,7 +161,7 @@ console commands লিখার সময়, arguments অথবা options এ�
 <a name="arguments"></a>
 ### Arguments
 
-All user supplied arguments and options are wrapped in curly braces. In the following example, the command defines one **required** argument: `user`:
+ব্যাবহার কারীর পাঠানো সব আর্গুমেন্ট এবং অপশন { } এর মদ্ধে আবদ্ধ করা থাকে।. নিম্নলিখিত উদাহরণে, কমান্ডটি **required** আর্গুমেন্ট দেখাচ্ছে: `user`:
 
     /**
      * The name and signature of the console command.
@@ -170,7 +170,7 @@ All user supplied arguments and options are wrapped in curly braces. In the foll
      */
     protected $signature = 'email:send {user}';
 
-You may also make arguments optional and define default values for arguments:
+আপনি আর্গুমেন্টগুলিকে ঐচ্ছিক অথবা আর্গুমেন্টগুলির জন্য ডিফল্ট মান নির্ধারণ করতে পারেন:
 
     // Optional argument...
     email:send {user?}
@@ -181,7 +181,7 @@ You may also make arguments optional and define default values for arguments:
 <a name="options"></a>
 ### Options
 
-Options, like arguments, are another form of user input. Options are prefixed by two hyphens (`--`) when they are specified on the command line. There are two types of options: those that receive a value and those that don't. Options that don't receive a value serve as a boolean "switch". Let's take a look at an example of this type of option:
+Options, arguments এর মতো, user input এর অন্যরকম ফর্মুলা. Options দুই হাইফেন দ্বারা prefixed হয় (`--`) যখন তারা কমান্ড লাইনে ডিফাইন করা হয়। অপশন দুই প্রকার: যারা মান গ্রহণ এবং যারা করে না. যেসব অপশন মান গ্রহন করে না,তারা boolean "switch" হিসেবে গ্রাহ্য করা হয়। আসুন এই ধরনের অপশন এর উদাহরন দেখিঃ
 
     /**
      * The name and signature of the console command.
@@ -190,7 +190,7 @@ Options, like arguments, are another form of user input. Options are prefixed by
      */
     protected $signature = 'email:send {user} {--queue}';
 
-In this example, the `--queue` switch may be specified when calling the Artisan command. If the `--queue` switch is passed, the value of the option will be `true`. Otherwise, the value will be `false`:
+এই উদাহরনে, `--queue` switch Artisan কমান্ড কল করার সময় বলে দিতে হয়। যদি`--queue` switch পাস করা হয়, অপশন এর মান তখন `true`হবে। নয়তো, মান হবে `false`:
 
     php artisan email:send 1 --queue
 
