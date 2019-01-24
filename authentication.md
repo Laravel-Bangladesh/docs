@@ -206,16 +206,17 @@
     }
 
 <a name="login-throttling"></a>
-### Login Throttling
+### লগইন থ্রোটলিং
 
-If you are using Laravel's built-in `LoginController` class, the `Illuminate\Foundation\Auth\ThrottlesLogins` trait will already be included in your controller. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address.
+আপনি যদি লারাভেলের তৈরিকৃত `LoginController` ক্লাস ব্যবহার করে থাকেন, তাহলে `Illuminate\Foundation\Auth\ThrottlesLogins` ট্রেইট আগে থেকেই আপনার কন্ট্রোলার এ ইনক্লুড করা আছে। ডিফল্টরূপে, ব্যবহারকারী যদি কয়েকবার একটানা তার লগিন ক্রেডেনশিয়াল ভুল করে, তবে সে ১ মিনিট লগিন করতে পারবে না। এই থ্রোটলিং ব্যবহারকারীকে তার ইউজারনেম/ইমেইল এবং আইপি এড্রেস দ্বারা চিনহিত করে। 
+
 
 <a name="authenticating-users"></a>
-## Manually Authenticating Users
+## ম্যানুয়ালি ইউজারকে লগইন করানো
 
-Of course, you are not required to use the authentication controllers included with Laravel. If you choose to remove these controllers, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
+অবশ্য, আপনার লারাভেলের সাথে দেওয়া অথেন্টিকেশন কন্ট্রোলার ব্যবহার করার কোন বাধ্যবাধকতা নাই । আপনি ইচ্ছে করলে এই কন্ট্রোলার গুলো মুছে ফেলতে পারেন, আপনি সরাসরি লারাভেলের অথেনটিকেশন ক্লাস ব্যবহার করেও ব্যবহারকারীর অথেনটিকেশন করতে পারেন। চিন্তার করবেন না, এটি খুবই সহজ। 
 
-We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method:
+আমরা লারাভেলের এর অথেনটিকেশন সার্ভিস `Auth` [facade](/docs/{{version}}/facades) ফেছাদ এর মাধ্যমে এক্সেস করতে পারবো, তো আমাদের ক্লাসে সবার উপরে `Auth` ফেছাদ টিকে ইম্পরট করতে হবে। এরপরে, চলুন `attempt` মেথড টি চেক করে দেখিঃ
 
     <?php
 
@@ -244,11 +245,11 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
         }
     }
 
-The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the `password` value passed to the method via the array. You should not hash the password specified as the `password` value, since the framework will automatically hash the value before comparing it to the hashed password in the database. If the two hashed passwords match an authenticated session will be started for the user.
+`attempt` মেথড টি তার প্রথম আর্গুমেন্ট হিসেবে কি/ভ্যলু আকারের array এক্সেপ্ট করে। এই ভ্যলুর দ্বারাই ডাটাবেস টেবিলে ব্যবহারকারী কে খুঁজা হবে। তো, উপরের উধাহরনে, ব্যবহারকারীকে `email` কলামের ভ্যলুর দ্বারা খুঁজে আনা হয়েছে। যদি ব্যবহারকারীকে খুঁজে পাওয়া যায়, তবে ডাটাবেসে সংরক্ষিত থাকা হ্যাস পাসওয়ার্ডের সাথে মেথডে পাঠানো array এর `password` এর ভ্যালুর সাথে মিলানো হয়। আপনার নিদিষ্ট করে `password` এর ভ্যালু কে হ্যাস করার দরকার নাই, ফ্রেমওয়ার্ক ডেটাবেসের মধ্যে থাকা হ্যাস্কৃত পাসওয়ার্ড এর সাথে মিলানোর পূর্বে সয়ংক্ক্রিত ভাবে হ্যাস করে নিবে। যদি দুটি হ্যাস কৃত পাসওয়ার্ড মিলে যায় তবে ওই ব্যবহারকারীর জন্য একটি অথেন্টিকেটেড সেশন চলতে শুরু করে । 
 
-The `attempt` method will return `true` if authentication was successful. Otherwise, `false` will be returned.
+`attempt` মেথড টি `true` রিটার্ন করে যদি এথেন্টিকেশন ঠিক ভাবে হয়। নাহলে এইটি `false` রিটার্ন করে। 
 
-The `intended` method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.
+রিডাইরেক্টরের `intended` মেথড ব্যবহারকারী ওই URL এ নিয়ে যাবে যেখানে যাওয়ার সময় অথেন্টিকেট মিদিলয়ার তাকে আটকে দিয়েছ। আপনি একটি বিকল্প URL ওই মেথডে দিতে পারেন যদি উদ্দেশ্যে গন্তব্য না থাকে। 
 
 #### Specifying Additional Conditions
 
