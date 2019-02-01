@@ -197,7 +197,7 @@ Options, arguments এর মতো, user input এর অন্যরকম ফ
 <a name="options-with-values"></a>
 #### Options With Values
 
-Next, let's take a look at an option that expects a value. If the user must specify a value for an option, suffix the option name with a `=` sign:
+এখন, চলুন ভেলু নেয় এমন একটা অপশন দেখি. ব্যবহারকারীর একটি বিকল্প জন্য একটি মান উল্লেখ করা আবশ্যক, অপশন যার সাথে `=` প্রতিকটা রয়েছে:
 
     /**
      * The name and signature of the console command.
@@ -206,18 +206,18 @@ Next, let's take a look at an option that expects a value. If the user must spec
      */
     protected $signature = 'email:send {user} {--queue=}';
 
-In this example, the user may pass a value for the option like so:
+এই উদাহরনে, ব্যবহারকারী এমন একটি মান পাস করতে হতে পারে:
 
     php artisan email:send 1 --queue=default
 
-You may assign default values to options by specifying the default value after the option name. If no option value is passed by the user, the default value will be used:
+আপনি বিকল্প নামের পরে ডিফল্ট মান উল্লেখ করে বিকল্পগুলিতে ডিফল্ট মান নির্ধারণ করতে পারেন. কোন বিকল্প মান ব্যবহারকারী দ্বারা পাঠানো না হয়, তখন নিচের ভেলু যাবে:
 
     email:send {user} {--queue=default}
 
 <a name="option-shortcuts"></a>
 #### Option Shortcuts
 
-To assign a shortcut when defining an option, you may specify it before the option name and use a | delimiter to separate the shortcut from the full option name:
+একটি বিকল্প সংজ্ঞায়িত করার সময় একটি শর্টকাট বরাদ্দ করতে, আপনি অপশন নাম এবং ব্যবহার করার আগে এটি উল্লেখ করতে পারেন | বিভেদক পূর্ণ বিকল্প নাম থেকে শর্টকাট আলাদা করতে:
 
     email:send {user} {--Q|queue}
 
