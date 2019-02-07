@@ -10,7 +10,7 @@
 <a name="installation"></a>
 ## Installation
 
-> {video}  লারাভেল  শিক্ষার্থী এর জন্য? Laracasts একটি প্রদান করে [বিনামূল্যে, লারাভেল এর সূচনা ](http://laravelfromscratch.com) ফ্রেমওয়ার্ক নতুনদের জন্য । এটি আপনার যাত্রা শুরু করার জন্য একটি ভালো জায়গা।
+> {video} লারাভেল সম্পর্কে নতুনদের জন্য  Laracasts [বিনামূল্যে প্রাথমিক ধারণা](http://laravelfromscratch.com) প্রধান করে। এটি যাত্রা শুরু করার জন্য একটি ভালো জায়গা।
 
 <a name="server-requirements"></a>
 ### Server Requirements
@@ -29,20 +29,20 @@
 - XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
-- BCMath PHP Extension 
+- BCMath PHP Extension
 </div>
 
 <a name="installing-laravel"></a>
 ### Installing Laravel
 লারাভেল প্যাকেজ dependencie  ম্যানেজার হিসাবে [কম্পোজার](https://getcomposer.org) ব্যবহার করে। সুতরাং, লারাভেল ব্যবহার করার আগে নিশ্চিত করুন যে আপনি আপনার মেশিনে কম্পোজার ইনস্টল করা আছে কিনা ।
 
-#### লারাভেল ইন্সটলারের মাধ্যমে
+#### Via Laravel Installer
 
 প্রথমে, কম্পোজার ব্যবহার করে Laravel ইন্সটলার ডাউনলোড করুন:
 
     composer global require laravel/installer
 
-আপনার `$ PATH`তে সুরকারের system-wide vendor bin ডিরেক্টরি স্থাপন করা নিশ্চিত করুন যাতে আপনার সিস্টেমের দ্বারা লরেভেল এক্সিকিউটেবলটি সনাক্ত করা যায়। আপনার অপারেটিং সিস্টেমের উপর ভিত্তি করে এটি বিভিন্ন স্থানে বিদ্যমান; তবে, কিছু সাধারণ অবস্থানে রয়েছে:
+আপনার `$PATH`তে সুরকারের system-wide vendor bin ডিরেক্টরি স্থাপন করা নিশ্চিত করুন যাতে আপনার সিস্টেমের দ্বারা লরেভেল এক্সিকিউটেবলটি সনাক্ত করা যায়। আপনার অপারেটিং সিস্টেমের উপর ভিত্তি করে এটি বিভিন্ন স্থানে বিদ্যমান; তবে, কিছু সাধারণ অবস্থানে রয়েছে:
 
 <div class="content-list" markdown="1">
 - macOS: `$HOME/.composer/vendor/bin`
@@ -53,7 +53,7 @@
 
     laravel new blog
 
-#### কম্পোজারের মাধ্যমে Create-Project
+#### Via Composer Create-Project
 
 অন্যথা, আপনি কম্পোজারের `create-project` আপনার টার্মিনালে কমান্ড মাধ্যমে লারাভেল ইনস্টল করতে পারেন:
 
@@ -69,21 +69,22 @@
 অবশ্যই, আরও শক্তিশালী স্থানীয় উন্নয়ন বিকল্পগুলি পাওয়া যাবে  [Homestead](/docs/{{version}}/homestead) এবং [Valet](/docs/{{version}}/valet) তে। 
 
 <a name="configuration"></a>
-### কনফিগারেশন
+### Configuration
 
-#### পাবলিক ডিরেক্টরি
+#### Public Directory
 
 লারাভেল ইনস্টল করার পর, আপনার ওয়েব সার্ভারের document / web root হিসাবে `public`  ডিরেক্টরি কে কনফিগার করা উচিত। এই ডিরেক্টরিতে `index.php` আপনার অ্যাপ্লিকেশনে প্রবেশের জন্য সমস্ত HTTP requests এর জন্য ফ্রন্ট কন্ট্রোলার হিসাবে কাজ করে।
 
-#### কনফিগারেশন ফাইলগুলি
+#### Configuration Files
 
 লারাভেল ফ্রেমওয়ার্কের জন্য সমস্ত কনফিগারেশন ফাইল `config` ডিরেক্টরির মধ্যে সংরক্ষণ করা হয়। প্রতিটি বিকল্প নথিভুক্ত করা হয়, তাই ফাইলগুলি দেখুন আপনার কাছে উপলব্ধ বিকল্পগুলির সাথে পরিচিত হন।
 
-#### ডিরেক্টরি permissions
+#### Directory Permissions
 
 লারাভেল ইনস্টল করার পর,আপনি কিছু permissions কনফিগার করতে হতে পারে। storage এবং bootstrap/cache ডিরেক্টরিগুলির মধ্যে থাকা ডিরেক্টরিগুলি আপনার ওয়েব সার্ভারের মাধ্যমে writable হওয়া উচিত অন্যথায় লারাভেল চলবে না। If আপনি ভার্চুয়াল মেশিন [Homestead](/docs/{{version}}/homestead)  ব্যবহার  করেন, এই অনুমতিগুলি ইতিমধ্যে দেয়া আছে ।
 
-#### এপ্লিকেশন কী
+
+#### Application Key
 
 লারাভেল ইনস্টল করার পর আপনি যা করতে হবে তা আপনার অ্যাপ্লিকেশন কী হিসাবে একটি random string এ সেট করা হয়। যদি আপনি কম্পোজার বা লারাভেল ইন্সটলার মাধ্যমে লারাভেল  ইনস্টল করেন, এই কীটি ইতিমধ্যে আপনার জন্য সেট করা হয়েছে  `php artisan key:generate` কমান্ড দ্বারা।
 
@@ -101,8 +102,9 @@
 - [Session](/docs/{{version}}/session#configuration)
 </div>
 
+
 <a name="web-server-configuration"></a>
-## ওয়েব সার্ভার কনফিগারেশন
+## Web Server Configuration
 
 <a name="pretty-urls"></a>
 ### Pretty URLs
