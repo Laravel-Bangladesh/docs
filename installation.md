@@ -40,7 +40,9 @@
 
 প্রথমে, কম্পোজার ব্যবহার করে Laravel ইন্সটলার ডাউনলোড করুন:
 
+
     composer global require laravel/installer
+    
 
 আপনার `$PATH`তে সুরকারের system-wide vendor bin ডিরেক্টরি স্থাপন করা নিশ্চিত করুন যাতে আপনার সিস্টেমের দ্বারা লরেভেল এক্সিকিউটেবলটি সনাক্ত করা যায়। আপনার অপারেটিং সিস্টেমের উপর ভিত্তি করে এটি বিভিন্ন স্থানে বিদ্যমান; তবে, কিছু সাধারণ অবস্থানে রয়েছে:
 
@@ -114,6 +116,7 @@
 
 লারাভেল - এ একটি  `public/.htaccess`  ফাইল অন্তর্ভুক্ত রয়েছে যা `index.php` path সামনে কন্ট্রোলার ছাড়া URL সরবরাহ করতে ব্যবহৃত হয়। অ্যাপাচি- র সাথে লারাভেল পরিসেবা ব্যবহার করার জন্য, `mod_rewrite` মডিউলটি সক্ষম করতে ভুলবেন না, তাই` .htaccess` ফাইলটি সার্ভার দ্বারা প্রস্থাপিত হবে।
 
+
 `.htaccess` যে ফাইলটি লারাভেল সঙ্গে প্রকল্প আপনার এ্যাপাচি ইন্সটলেশন এ কাজ করে না, এই বিকল্প চেষ্টা করুন:
 
     Options +FollowSymLinks
@@ -125,6 +128,7 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+    
 
 #### Nginx
 
@@ -133,5 +137,6 @@
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
+
 
 অবশ্যই, [Homestead](/docs/{{version}}/homestead) বা [Valet](/docs/{{version}}/valet) ব্যবহার করার সময়, সুন্দর URL স্বয়ংক্রিয়ভাবে কনফিগার করা যায়।
