@@ -109,7 +109,7 @@ When registering routes for single action controllers, you do not need to specif
     Route::get('user/{id}', 'ShowProfile');
 
 <a name="controller-middleware"></a>
-## কন্ট্রোলার মিডলওয়্যারঃ
+## Controller Middleware
 
 [Middleware](/docs/{{version}}/middleware) আপনার রাউট  ফাইলগুলিতে  কন্ট্রোলার এর রুটগুলিতে আরোপিত/বরাদ্দ করা যেতে পারে:
 
