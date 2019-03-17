@@ -224,15 +224,15 @@ Options, arguments এর মতো, user input এর অন্যরকম ফ
 <a name="input-arrays"></a>
 ### Input Arrays
 
-If you would like to define arguments or options to expect array inputs, you may use the `*` character. First, let's take a look at an example that specifies an array argument:
+আপনি অ্যারেতে ইনপুট আর্গুমেন্ট বা অপশন সংজ্ঞায়িত করতে চান, আপনি `*` চিনহ টা ব্যাবহার করতে পারেন. প্রথমে, আসুন একটি উদাহরণ দেখি যা একটি অ্যারে আর্গুমেন্ট ইনপুট নির্দিষ্ট করে:
 
     email:send {user*}
 
-When calling this method, the `user` arguments may be passed in order to the command line. For example, the following command will set the value of `user` to `['foo', 'bar']`:
+এই method কল করার সময়, `user` আর্গুমেন্ট কমান্ড লাইনে পাস হতে পারে। উদাহরণ স্বরূপ, নিম্নলিখিত কমান্ড মান নির্ধারণ করবে `user` এর `['foo', 'bar']` তে:
 
     php artisan email:send foo bar
 
-When defining an option that expects an array input, each option value passed to the command should be prefixed with the option name:
+যখন একটি অ্যারে ইনপুট প্রত্যাশা করে একটি অপশন,কমান্ডের পাশে প্রতিটি অপশন মান বিকল্প নাম দিয়ে prefixed করা উচিত:
 
     email:send {user} {--id=*}
 
@@ -241,8 +241,8 @@ When defining an option that expects an array input, each option value passed to
 <a name="input-descriptions"></a>
 ### Input Descriptions
 
-You may assign descriptions to input arguments and options by separating the parameter from the description using a colon. If you need a little extra room to define your command, feel free to spread the definition across multiple lines:
-
+আপনি একটি কোলন ব্যবহার করে বর্ণনা থেকে অপশন আলাদা করে আর্গুমেন্ট এবং অপশন ইনপুট করার জন্য বরাদ্দ করতে পারেন. আপনার আরও বেশি জায়গা
+প্রয়োজন হলে আপনি আরও লাইন ব্যাবহার করতে পারেন।
     /**
      * The name and signature of the console command.
      *
