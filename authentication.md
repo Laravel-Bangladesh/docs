@@ -251,62 +251,63 @@
 
 রিডাইরেক্টরের `intended` মেথড ব্যবহারকারী ওই URL এ নিয়ে যাবে যেখানে যাওয়ার সময় অথেন্টিকেট মিদিলয়ার তাকে আটকে দিয়েছ। আপনি একটি বিকল্প URL ওই মেথডে দিতে পারেন যদি উদ্দেশ্যে গন্তব্য না থাকে। 
 
-#### Specifying Additional Conditions
+#### অতিরিক্ত শর্ত উল্লেখ করা
 
-If you wish, you may also add extra conditions to the authentication query in addition to the user's e-mail and password. For example, we may verify that user is marked as "active":
+আপনি যদি চান তবে ব্যবহারকারীর ইমেইল এবং পাসওয়ার্ডের পাশাপাশি আপনি অতিরিক্ত শর্তাদি যোগ করতে পারেন। উদাহরণস্বরূপ, আমরা যাচাই করতে চাই ব্যবহারকারীটি "active" হিসাবে ও চিহ্নিত আছে:
 
     if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
         // The user is active, not suspended, and exists.
     }
 
-> {note} In these examples, `email` is not a required option, it is merely used as an example. You should use whatever column name corresponds to a "username" in your database.
+> {note} এই উদাহরণগুলিতে, 'ইমেল' কিন্তু অবশ্যক অপশন নয়, এটি কেবল উদাহরণ হিসাবে ব্যবহৃত হয়েছে। আপনি আপনার ডাটাবেসের যেকোনো কলামের নাম ব্যবহার করতে পারেন, যেটি আপনার ব্যবাহারকারির "username" হিসেবে ব্যবহার করা হয়েছে।
 
-#### Accessing Specific Guard Instances
+#### নির্দিষ্ট গার্ড এর ইন্সটেন্স অ্যাক্সেস করা
 
-You may specify which guard instance you would like to utilize using the `guard` method on the `Auth` facade. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.
+`Auth` ফেসাদের `guard` মেথড ব্যবহার করে আপনি কোন গার্ড ইনস্ট্যান্সটি ব্যবহার করতে চান তা নির্দিষ্ট করতে পারেন। এটি আপনাকে আপনার আপ্লিকেশনের আলাদা আলাদা পার্টের আলাদা অথেন্টিকেবল মডেল অথবা ব্যবহারকারী টেবিলের সাথে অথেনটিকেশনের সুযোগ করে দিবে। 
 
-The guard name passed to the `guard` method should correspond to one of the guards configured in your `auth.php` configuration file:
+`guard` মেথডে প্রেরিত গার্ড এর নামটি আপনার `auth.php` কনফিগারেশন ফাইলে কনফিগার করা গার্ড লিস্টের মধ্যে একটি হইতে হবে:
 
     if (Auth::guard('admin')->attempt($credentials)) {
         //
     }
 
-#### Logging Out
+#### লগ আউট করা
 
-To log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
+আপনার অ্যাপ্লিকেশন থেকে ব্যবহারকারীদের লগ আউট করতে, আপনি `Auth` ফেসাদের `logout` মেথড টি ব্যবহার করতে পারেন। এটি ব্যবহারকারীর সেশনের অথেনটিকেশনের তথ্য গুলো মুছে দিবে:
+
 
     Auth::logout();
 
 <a name="remembering-users"></a>
-### Remembering Users
+### ব্যবহারকারীদের মনে রাখা
 
-If you would like to provide "remember me" functionality in your application, you may pass a boolean value as the second argument to the `attempt` method, which will keep the user authenticated indefinitely, or until they manually logout. Of course, your `users` table must include the string `remember_token` column, which will be used to store the "remember me" token.
+আপনি যদি আপনার অ্যাপ্লিকেশনটিতে "remember me" ফাংশনালিটি তৈরি করতে চান, তবে আপনি `attempt` মেথডে দ্বিতীয় আর্গুমেন্ট হিসাবে একটি বুলিয়ান মান পাস করতে পারেন, যা ব্যবহারকারীকে অনির্দিষ্টকালের জন্য মনে রাখবে, কিংবা তারা নিজে লগআউট না করা পর্যন্ত। অবশ্যই, আপনার ব্যবহারকারীদের টেবিলে অবশ্যই `remember_token` কলামটি থাকতে হবে, যা "remember me" টোকেন সংরক্ষণ করতে ব্যবহার করা হবে।
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // The user is being remembered...
     }
 
-> {tip} If you are using the built-in `LoginController` that is shipped with Laravel, the proper logic to "remember" users is already implemented by the traits used by the controller.
+> {tip} আপনি যদি বিল্টইন `LoginController` ব্যবহার করেন যা লারভেলের সাথে দেওয়া হয়েছিল, তবে ব্যবহারকারীদের "মনে রাখার" সঠিক যুক্তিটি ইতিমধ্যে ট্রেইটের দ্বারা কন্ট্রোলারে ইমপ্লিমেন্ট করা আছে।
 
-If you are "remembering" users, you may use the `viaRemember` method to determine if the user was authenticated using the "remember me" cookie:
+আপনি যদি ব্যবহারকারীদের "মনে রাখেন", তবে ব্যবহারকারীটি "remember me" cookie ব্যবহার করে অথেন্টিকেইট হয়েছে কিনা তা নির্ধারণের জন্য আপনি 'via Remember` মেথড ব্যবহার করতে পারেন:
 
     if (Auth::viaRemember()) {
         //
     }
 
 <a name="other-authentication-methods"></a>
-### Other Authentication Methods
+### অন্যান্য অথেনটিকেশন মেথড
 
-#### Authenticate A User Instance
+#### একটি ইউজার ইন্সটেন্সকে অথেন্টিকেট করা
 
-If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). Of course, the `App\User` model included with Laravel already implements this interface:
+আপনার অ্যাপ্লিকেশনে বিদ্যমান ইউজার ইন্সটেন্স কে লগ ইন করতে হলে, আপনি ইউজার ইন্সটেন্স কে `login` মেথডের মধ্যে কল করতে পারেন। প্রদত্ত অব্জেক্টি তে `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts) ইন্টারফেইস টিতে ইমপ্লিমেন্টেট থাকতে হবে। অবশ্যই, লারাভেল এর সাথে অন্তর্ভুক্ত করা `App\User` মডেলটি ইতিমধ্যেই এই ইন্টারফেসটিতে ইমপ্লিমেন্ট করা আছে:
 
     Auth::login($user);
 
     // Login and "remember" the given user...
     Auth::login($user, true);
 
-Of course, you may specify the guard instance you would like to use:
+অবশ্যই, আপনি যে গার্ড ইনস্ট্যান্সটি ব্যবহার করতে চান তার উল্লেখ করতে পারেন
 
     Auth::guard('admin')->login($user);
 
