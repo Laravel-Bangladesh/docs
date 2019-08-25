@@ -311,18 +311,18 @@
 
     Auth::guard('admin')->login($user);
 
-#### Authenticate A User By ID
+#### ইউজার এর আইডি ব্যবহার করে অথেন্তিকেট করা।
 
-To log a user into the application by their ID, you may use the `loginUsingId` method. This method accepts the primary key of the user you wish to authenticate:
+ব্যবহারকারী কে আপনার আপ্লিকেশনে তাদের আইডি দিয়ে লগইন করানোর জন্য, `loginUsingId` মেথড টি ব্যবহার করতে পারেন। এই মেথড টি প্যরামিটার হিসেবে ইউজারের প্রাইমারি কি একসেপ্ট করবে যাকে আপনি অথেন্টিকেইট করতে চানঃ
 
     Auth::loginUsingId(1);
 
     // Login and "remember" the given user...
     Auth::loginUsingId(1, true);
 
-#### Authenticate A User Once
+#### ব্যবহারকারী কে একবারের জন্য অথেন্টিকেইট করা
 
-You may use the `once` method to log a user into the application for a single request. No sessions or cookies will be utilized, which means this method may be helpful when building a stateless API:
+আপনি ইচ্ছে করলে `once` মেথড ব্যবহার করে আপনার আপ্লিকেশনে ব্যবহারকারী কে শুধু মাত্র একবারের জন্য লগইন করাতে পারেন। এজন্য কোন রকম সেশন কিংবা কুকি ব্যবহার হবে না, তার মানে এই মেথড টি অনেক প্রয়োজনীয় হতে পারে যখন আপনি stateless API বানাবেনঃ 
 
     if (Auth::once($credentials)) {
         //
@@ -331,17 +331,17 @@ You may use the `once` method to log a user into the application for a single re
 <a name="http-basic-authentication"></a>
 ## HTTP Basic Authentication
 
-[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
+[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) আপনাকে খুবই দ্রুত আপনার আপ্লিকেশনে ব্যাবহারকারী দের লগইন করার সিস্টেম দিবে কোন প্রকার লগইন পেইজ তৈরি করা ছাড়া। এটি শুরু করতে হলে, আপনাকে রাউটে `auth.basic` [middleware](/docs/{{version}}/middleware) যুক্ত করতে হবে। `auth.basic` লারাভেল ফ্রেমওয়ার্ক এর সাথে দেওয়াই থাকে, তাই আপনার এটি আলাদা ভাবে ডিফাইন করার দরকার নাইঃ 
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
     })->middleware('auth.basic');
 
-Once the middleware has been attached to the route, you will automatically be prompted for credentials when accessing the route in your browser. By default, the `auth.basic` middleware will use the `email` column on the user record as the "username".
+মিডিলয়ার রাউটে যুক্ত করা হয়ে গেলে, আপনার কাছে স্বয়ংক্রিয় ভাবে লগইন এর তথ্য চাওয়া হবে যখন আপনি ব্রাউজারের মাধ্যমে এক্সেস করবেন। সাধারণত `auth.basic` মিডিলয়ার ব্যবহারকারীর তথ্যের `email` কলাম "ইউজারনেম" হিসেবে ব্যবহার করে।
 
 #### A Note On FastCGI
 
-If you are using PHP FastCGI, HTTP Basic authentication may not work correctly out of the box. The following lines should be added to your `.htaccess` file:
+আপনি যদি PHP FastCGI ব্যবহার করে থাকেন, HTTP Basic authentication তাহলে ঠিক ভাবে শুরুতে কাজ নাও করতে পারে। এজন্য নিচের লাইন গুলো আপনার `.htaccess` ফাইলে এড করতে হবেঃ 
 
     RewriteCond %{HTTP:Authorization} ^(.+)$
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -349,7 +349,7 @@ If you are using PHP FastCGI, HTTP Basic authentication may not work correctly o
 <a name="stateless-http-basic-authentication"></a>
 ### Stateless HTTP Basic Authentication
 
-You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, [define a middleware](/docs/{{version}}/middleware) that calls the `onceBasic` method. If no response is returned by the `onceBasic` method, the request may be passed further into the application:
+আপনি আরও HTTP Basic Authentication ব্যবহার করতে পারবেন একটি ব্যবহারকারীর আইডেন্টিফায়ার কুকি কোন রকম সেশনে সেট করা ছাড়াই, যেটা API authentication এর জন্য বেশ দরকারি। তো এটি করতে [একটি মিডিলয়ার ডিফাইন করতে হবে](/docs/{{version}}/middleware) যেটা `onceBasic` মেথডটি কল করবে। যদি কোন রেসপন্স পাওয়া না যায় `onceBasic` মেথড থেকে, তাহলে সেই রিকোয়েস্ট টি পরে আপ্লিকেশনে পাস হয়ে যাবেঃ
 
     <?php
 
@@ -373,25 +373,25 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
     }
 
-Next, [register the route middleware](/docs/{{version}}/middleware#registering-middleware) and attach it to a route:
+এর পরে, [রাউট মিডিলয়ারে রেজিস্টার করতে হবে](/docs/{{version}}/middleware#registering-middleware) এবং এটিকে রাউটে যুক্ত করে দিতে হবেঃ
 
     Route::get('api/user', function () {
         // Only authenticated users may enter...
     })->middleware('auth.basic.once');
 
 <a name="logging-out"></a>
-## Logging Out
+## লগআউট করা
 
-To manually log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
+আপনার আপ্লিকেশন থেকে ব্যবহারকারীকে ম্যনুয়ালি লগ আউট করতে চাইলে `Auth` ফেসাদের `logout` মেথড ব্যবহার করতে পারেন। এটি অথেনটিকেশন তথ্য ব্যবহারকারীর সেশন থেকে মুছে দিবেঃ 
 
     use Illuminate\Support\Facades\Auth;
 
     Auth::logout();
 
 <a name="invalidating-sessions-on-other-devices"></a>
-### Invalidating Sessions On Other Devices
+### অন্য ডিভাইসের সেশন নষ্ট করা
 
-Laravel also provides a mechanism for invalidating and "logging out" a user's sessions that are active on other devices without invalidating the session on their current device. Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is present and un-commented in your `app/Http/Kernel.php` class' `web` middleware group:
+লারাভেল এছাড়াও ব্যবহারকারীদের বর্তমান ডিভাইসে সেশন ঠিক রেখে অন্য ডিভাইসে সক্রিয় ব্যবহারকারীর সেশন নষ্ট এবং "লগ আউট" করার জন্য একটি মেথড  দিয়ে থেকে। শুরু করার আগে, আপনাকে অবশ্যই নিশ্চিত করতে হবে `Illuminate\Session\Middleware\AuthenticateSession` মিডলওয়্যার আছে এবং আপনার `app/Http/Kernel.php` ক্লাসে `web` মিডলওয়্যার গ্রুপে আন কমেন্ট করা আছেঃ 
 
     'web' => [
         // ...
@@ -399,18 +399,18 @@ Laravel also provides a mechanism for invalidating and "logging out" a user's se
         // ...
     ],
 
-Then, you may use the `logoutOtherDevices` method on the `Auth` facade. This method requires the user to provide their current password, which your application should accept through an input form:
+তারপর, আপনি ইচ্ছে করলে `Auth` ফেসাদের `logoutOtherDevices` মেথডটি ব্যবহার করতে পারেন। এই মেথড ব্যবহার করতে হলে ব্যবহারকারীর বর্তমান পাসওয়ার্ড টি দিতে হবে, যেটা আপনার এপ্লিকেশন এর ইনপুট ফর্ম থেকে নিতে পারেনঃ 
 
     use Illuminate\Support\Facades\Auth;
 
     Auth::logoutOtherDevices($password);
 
-> {note} When the `logoutOtherDevices` method is invoked, the user's other sessions will be invalidated entirely, meaning they will be "logged out" of all guards they were previously authenticated by.
+> {note} যখন `logoutOtherDevices` মেথডটি কল করা হয়, তখন ব্যবহারকারীদের অন্যান্য সেশন গুলো নষ্ট হয়ে যায়, তার মানে তাদের সকল গার্ড থেকে লগ আউট হয়ে যাবে যা তারা পূর্বে অথেন্টিকেইট করে রেখেছিল। 
 
 <a name="adding-custom-guards"></a>
-## Adding Custom Guards
+## কাস্টম গার্ড যোগ করা
 
-You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place this call to `extend` within a [service provider](/docs/{{version}}/providers). Since Laravel already ships with an `AuthServiceProvider`, we can place the code in that provider:
+আপনি ইচ্ছা করলে নিজস্ব গার্ড ডিফাইন করতে পারেন `Auth` ফেসাদের `extend` মেথড ব্যবহার করে। আপনার `extend` মেথডের কলিং এর কোড গুলো কোন এক [service provider](/docs/{{version}}/providers) এর মধ্যে রাখতে হবে। আর লারাভেল আগে থেকেই `AuthServiceProvider` সহ এসেছে, আমরা এই কোড গুলো এই প্রভাইডারের মধ্যে রাখতে পারিঃ
 
     <?php
 
@@ -439,7 +439,7 @@ You may define your own authentication guards using the `extend` method on the `
         }
     }
 
-As you can see in the example above, the callback passed to the `extend` method should return an implementation of `Illuminate\Contracts\Auth\Guard`. This interface contains a few methods you will need to implement to define a custom guard. Once your custom guard has been defined, you may use this guard in the `guards` configuration of your `auth.php` configuration file:
+আপনি উপরের উধাহরন থেকে দেখতে পারেন, যে কলব্যাক টি `extend` মেথডে পাস করা হয়েছে সেটি `Illuminate\Contracts\Auth\Guard` এর ইমপ্লিমেটেসন রিটার্ন করছে। এই ইন্টারফেসটি তে অনেকগুলো মেথড রয়েছে যেগুলো আপনাকে ডিফাইন করতে হবে কাস্টম গার্ড তৈরি করতে। আপনার কাস্টম গার্ড ডিফাইন করা হয়ে গেলে, আপনি ইচ্ছে করলে এই গার্ডটি `auth.php` কনফিগারেশন ফাইলে `guards` এ ব্যবহার করতে পারেনঃ 
 
     'guards' => [
         'api' => [
@@ -449,7 +449,9 @@ As you can see in the example above, the callback passed to the `extend` method 
     ],
 
 <a name="closure-request-guards"></a>
-### Closure Request Guards
+### ক্লোজার রিকুয়েস্ট গার্ড
+
+
 
 The simplest way to implement a custom, HTTP request based authentication system is by using the `Auth::viaRequest` method. This method allows you to quickly define your authentication process using a single Closure.
 
