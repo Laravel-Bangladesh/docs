@@ -11,8 +11,3 @@
 ## কান্ট্রিবিউশন গাইডলাইনস
 
 If you are submitting documentation for the **current stable release**, submit it to the corresponding branch. For example, documentation for Laravel 5.6 would be submitted to the `5.6` branch. Documentation intended for the next release of Laravel should be submitted to the `master` branch.
-
-
-
-## কি কারণে সম্ভব হয় নি 
-এই ওয়েবসাইট টি বাংলায় করা সম্ভব হয়নি। কারণ  আমার উচ্চা আকাঙ্খা এবং  [সফটওয়্যার](http://faculty.daffodilvarsity.edu.bd/teachers/swe.html) ডিপার্টমেন্ট এর জন্য। 
